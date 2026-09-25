@@ -16,6 +16,12 @@ Everything is computed on the device. No account, no server, no network needed f
   <img src="docs/screenshots/map.png" width="24%" />
 </p>
 
+## Film
+
+<a href="https://github.com/wienerlabs/rasad/releases/download/film-v1/rasad-film.mp4"><img src="docs/film/preview.gif" width="100%" alt="Rasad film preview" /></a>
+
+A 56 second, 1080p60 film rendered entirely from code. It uses the app's own star catalog, astrolabe math, Moon lighting and hilal data, with a procedural soundtrack in D Hicaz. [Watch the full film (MP4, 59 MB)](https://github.com/wienerlabs/rasad/releases/download/film-v1/rasad-film.mp4) or read [how it is made](film/README.md).
+
 ## What it does
 
 **Live sky**
