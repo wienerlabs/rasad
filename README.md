@@ -35,6 +35,9 @@ A 56 second, 1080p60 film rendered entirely from code. It uses the app's own sta
 - In compass mode the reticle names the constellation you are pointing at.
 
 **Finding things**
+
+<img src="docs/screenshots/guidance.jpg" width="100%" alt="Guided finding: path to an off-screen target, a below-horizon target with a time jump, the framed result, search and the constellation card" />
+
 - Search stars, planets and all 88 constellations by Turkish, Latin, classical Arabic or folk name: `simak` finds both Arcturus and Spica, `kepce` finds the Big Dipper, `Ülker` finds Taurus. Every result shows where it is right now, and an empty search opens with what is above the horizon at this moment.
 - Guided finding: a great circle path of flowing chevrons runs from the centre of the view to the target, an edge arrow tells how many degrees are left, and a guidance card spells out the turn (`Sola 42° · 18° yukarı`). The phone ticks when the target comes into view and confirms when it is centred.
 - A found constellation draws itself in along its lines, gets a frame, its Latin and classical Arabic names and its brightest stars labelled, while the rest of the sky steps back. Flights to a constellation zoom out until the whole figure fits.
