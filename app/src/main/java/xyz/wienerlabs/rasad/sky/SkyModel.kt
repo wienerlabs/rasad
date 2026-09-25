@@ -81,7 +81,7 @@ class PickBuffer(private val capacity: Int = 2048) {
 fun SkyObjectRef.direction(catalog: SkyCatalog, snapshot: SkySnapshot, qiblaAzimuth: Double): Vec3 = when (this) {
     is SkyObjectRef.Star -> snapshot.eqjToEnu.transform(catalog.stars.direction(index))
     is SkyObjectRef.Body -> snapshot.bodies.first { it.body == body }.direction
-    is SkyObjectRef.Constellation -> snapshot.eqjToEnu.transform(catalog.constellations[index].label)
+    is SkyObjectRef.Constellation -> snapshot.eqjToEnu.transform(catalog.shapes[index].centroid)
     SkyObjectRef.Qibla -> Vec3.fromAzimuthAltitude(qiblaAzimuth, 0.0)
 }
 

@@ -31,13 +31,18 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import xyz.wienerlabs.rasad.astro.Formats
 import xyz.wienerlabs.rasad.astro.SkyBody
+import xyz.wienerlabs.rasad.astro.SkySnapshot
 import xyz.wienerlabs.rasad.astro.TurkishLocale
+import xyz.wienerlabs.rasad.sky.ConstellationFigure
 import xyz.wienerlabs.rasad.sky.Constellations
 import xyz.wienerlabs.rasad.sky.SkyCatalog
 import xyz.wienerlabs.rasad.sky.SkyObjectRef
 import xyz.wienerlabs.rasad.sky.StarLoreBook
+import xyz.wienerlabs.rasad.sky.direction
 import xyz.wienerlabs.rasad.ui.RasadIcons
 import xyz.wienerlabs.rasad.ui.components.Hairline
 import xyz.wienerlabs.rasad.ui.components.RoundIconButton
@@ -46,6 +51,7 @@ import xyz.wienerlabs.rasad.ui.components.panel
 import xyz.wienerlabs.rasad.ui.components.pressable
 import xyz.wienerlabs.rasad.ui.theme.Palette
 import xyz.wienerlabs.rasad.ui.theme.RasadType
+import java.text.Collator
 import java.text.Normalizer
 
 data class SearchEntry(
@@ -55,6 +61,20 @@ data class SearchEntry(
     val keywords: String,
     val group: String,
 )
+
+data class SkyStatus(val altitude: Double, val azimuth: Double) {
+    val visible: Boolean get() = altitude > 0.0
+
+    val label: String
+        get() = if (visible) "${Formats.degrees(altitude)} · ${Formats.compassPoint(azimuth)}" else "ufkun altında"
+}
+
+private const val GROUP_NOW = "Şu an gökyüzünde"
+private const val NAKED_EYE_LIMIT = 6.5
+private const val GROUP_SOLAR = "Güneş sistemi"
+private const val GROUP_DIRECTION = "Yön"
+private const val GROUP_STARS = "Yıldızlar"
+private const val GROUP_CONSTELLATIONS = "Takımyıldızlar"
 
 private val combiningMarks = Regex("\\p{Mn}+")
 
@@ -70,10 +90,10 @@ fun buildSearchIndex(catalog: SkyCatalog): List<SearchEntry> {
             title = body.displayName,
             subtitle = listOfNotNull(if (body == SkyBody.Sun) "Yıldızımız" else if (body == SkyBody.Moon) "Uydu" else "Gezegen", body.classicalName).joinToString(" · "),
             keywords = fold("${body.displayName} ${body.classicalName.orEmpty()} ${body.name}"),
-            group = "Güneş sistemi",
+            group = GROUP_SOLAR,
         )
     }
-    val qibla = SearchEntry(SkyObjectRef.Qibla, "Kıble", "Kâbe yönü", fold("kible kabe mekke qibla"), "Yön")
+    val qibla = SearchEntry(SkyObjectRef.Qibla, "Kıble", "Kâbe yönü", fold("kible kabe mekke qibla"), GROUP_DIRECTION)
     val stars = catalog.namedStars
         .sortedBy { catalog.stars.magnitudes[it.index] }
         .map { meta ->
@@ -83,34 +103,84 @@ fun buildSearchIndex(catalog: SkyCatalog): List<SearchEntry> {
                 ref = SkyObjectRef.Star(meta.index),
                 title = meta.properName.orEmpty(),
                 subtitle = listOfNotNull(lore?.transliteration, constellation).joinToString(" · "),
-                keywords = fold("${meta.properName} ${lore?.transliteration.orEmpty()} ${lore?.meaning.orEmpty()} $constellation"),
-                group = "Yıldızlar",
+                keywords = fold("${meta.properName} ${lore?.transliteration.orEmpty()} ${lore?.meaning.orEmpty()} $constellation ${Constellations.latinName(meta.constellation)}"),
+                group = GROUP_STARS,
             )
         }
-    val constellations = catalog.constellations.mapIndexed { index, figure ->
-        SearchEntry(
-            ref = SkyObjectRef.Constellation(index),
-            title = Constellations.turkishName(figure.code),
-            subtitle = "Takımyıldız · ${figure.code}",
-            keywords = fold("${Constellations.turkishName(figure.code)} ${figure.code}"),
-            group = "Takımyıldızlar",
-        )
-    }.distinctBy { it.title }
+    val collator = Collator.getInstance(TurkishLocale)
+    val constellations = catalog.constellations.mapIndexed { index, figure -> index to figure }
+        .distinctBy { (_, figure) -> figure.code }
+        .sortedWith(compareBy<Pair<Int, ConstellationFigure>> { it.second.rank }.thenComparator { a, b ->
+            collator.compare(Constellations.turkishName(a.second.code), Constellations.turkishName(b.second.code))
+        })
+        .map { (index, figure) ->
+            val code = figure.code
+            SearchEntry(
+                ref = SkyObjectRef.Constellation(index),
+                title = Constellations.turkishName(code),
+                subtitle = listOfNotNull(Constellations.latinName(code), Constellations.classicalName(code)?.transliteration, Constellations.folkName(code)).joinToString(" · "),
+                keywords = fold(Constellations.searchText(code)),
+                group = GROUP_CONSTELLATIONS,
+            )
+        }
     return bodies + qibla + stars + constellations
 }
 
+fun skyStatuses(index: List<SearchEntry>, catalog: SkyCatalog, snapshot: SkySnapshot, qiblaAzimuth: Double): Map<SkyObjectRef, SkyStatus> =
+    index.associate { entry ->
+        val direction = entry.ref.direction(catalog, snapshot, qiblaAzimuth)
+        entry.ref to SkyStatus(direction.altitudeDegrees, direction.azimuthDegrees)
+    }
+
+fun skyHighlights(index: List<SearchEntry>, catalog: SkyCatalog, snapshot: SkySnapshot, statuses: Map<SkyObjectRef, SkyStatus>): List<SearchEntry> {
+    fun altitudeOf(entry: SearchEntry) = statuses[entry.ref]?.altitude ?: -90.0
+    val brightness = snapshot.bodies.associate { it.body to it.magnitude }
+    val bodies = index
+        .filter { it.ref is SkyObjectRef.Body && altitudeOf(it) > 3.0 && (brightness[(it.ref as SkyObjectRef.Body).body] ?: 99.0) <= NAKED_EYE_LIMIT }
+        .sortedBy { brightness[(it.ref as SkyObjectRef.Body).body] ?: 99.0 }
+    val constellations = index
+        .filter { entry ->
+            val ref = entry.ref as? SkyObjectRef.Constellation ?: return@filter false
+            catalog.constellations[ref.index].rank == 1 && altitudeOf(entry) > 20.0
+        }
+        .sortedByDescending(::altitudeOf)
+        .take(6)
+    val stars = index
+        .filter { entry ->
+            val ref = entry.ref as? SkyObjectRef.Star ?: return@filter false
+            catalog.stars.magnitudes[ref.index] < 1.6f && altitudeOf(entry) > 15.0
+        }
+        .take(5)
+    return (bodies + constellations + stars).map { it.copy(group = GROUP_NOW) }
+}
+
 @Composable
-fun SearchPanel(index: List<SearchEntry>, onSelect: (SkyObjectRef) -> Unit, onDismiss: () -> Unit, modifier: Modifier = Modifier) {
+fun SearchPanel(
+    index: List<SearchEntry>,
+    statuses: Map<SkyObjectRef, SkyStatus>,
+    highlights: List<SearchEntry>,
+    onSelect: (SkyObjectRef) -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     var query by remember { mutableStateOf("") }
     val focus = remember { FocusRequester() }
     LaunchedEffect(Unit) { focus.requestFocus() }
     val folded = fold(query.trim())
-    val results = remember(folded, index) {
+    val results = remember(folded, index, highlights, statuses) {
         if (folded.isEmpty()) {
-            val brightStars = index.filter { it.group == "Yıldızlar" }.take(40)
-            index.filter { it.group != "Yıldızlar" && it.group != "Takımyıldızlar" } + brightStars + index.filter { it.group == "Takımyıldızlar" }
+            val shown = highlights.mapTo(HashSet()) { it.ref }
+            val rest = index.filter { it.ref !in shown }
+            val brightStars = rest.filter { it.group == GROUP_STARS }.take(40)
+            highlights + rest.filter { it.group == GROUP_SOLAR || it.group == GROUP_DIRECTION } + rest.filter { it.group == GROUP_CONSTELLATIONS } + brightStars
         } else {
-            index.filter { it.keywords.contains(folded) }.sortedWith(compareBy({ it.group }, { if (fold(it.title).startsWith(folded)) 0 else 1 }))
+            index.filter { it.keywords.contains(folded) }.sortedWith(
+                compareBy(
+                    { it.group },
+                    { if (fold(it.title).startsWith(folded)) 0 else 1 },
+                    { if (statuses[it.ref]?.visible == true) 0 else 1 },
+                ),
+            )
         }
     }
     Column(
@@ -143,6 +213,14 @@ fun SearchPanel(index: List<SearchEntry>, onSelect: (SkyObjectRef) -> Unit, onDi
             Spacer(Modifier.width(10.dp))
             RoundIconButton(RasadIcons.Close, "Kapat", onDismiss)
         }
+        if (folded.isNotEmpty() && results.isEmpty()) {
+            Text(
+                "“${query.trim()}” için sonuç yok. Türkçe, Latince ya da Arapça adı deneyebilirsin.",
+                style = RasadType.body,
+                color = Palette.TextMuted,
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 18.dp),
+            )
+        }
         LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 32.dp)) {
             var lastGroup: String? = null
             results.forEachIndexed { position, entry ->
@@ -153,15 +231,25 @@ fun SearchPanel(index: List<SearchEntry>, onSelect: (SkyObjectRef) -> Unit, onDi
                     }
                     lastGroup = group
                 }
-                item(key = "entry-$position-${entry.title}") {
-                    Column(
+                item(key = "entry-$position-${entry.group}-${entry.title}") {
+                    val status = statuses[entry.ref]
+                    Row(
                         Modifier
                             .fillMaxWidth()
                             .pressable(onClick = { onSelect(entry.ref) })
                             .padding(horizontal = 20.dp, vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text(entry.title, style = RasadType.heading, color = Palette.Text)
-                        Text(entry.subtitle, style = RasadType.caption, color = Palette.TextMuted)
+                        Column(Modifier.weight(1f)) {
+                            Text(entry.title, style = RasadType.heading, color = Palette.Text)
+                            if (entry.subtitle.isNotEmpty()) {
+                                Text(entry.subtitle, style = RasadType.caption, color = Palette.TextMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            }
+                        }
+                        if (status != null && entry.ref != SkyObjectRef.Qibla) {
+                            Spacer(Modifier.width(12.dp))
+                            Text(status.label, style = RasadType.caption, color = if (status.visible) Palette.Text else Palette.TextFaint)
+                        }
                     }
                     Hairline(Modifier.padding(horizontal = 20.dp))
                 }

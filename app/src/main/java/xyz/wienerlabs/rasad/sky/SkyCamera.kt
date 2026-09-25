@@ -120,6 +120,24 @@ class SkyCamera {
         ).normalized()
     }
 
+    var safeLeft = 0f
+        private set
+    var safeTop = 0f
+        private set
+    var safeRight = 1f
+        private set
+    var safeBottom = 1f
+        private set
+
+    fun setSafeInsets(side: Float, top: Float, bottom: Float) {
+        safeLeft = side.coerceAtMost(width / 2f - 1f)
+        safeRight = (width - side).coerceAtLeast(width / 2f + 1f)
+        safeTop = top.coerceAtMost(centerY - 1f)
+        safeBottom = (height - bottom).coerceAtLeast(centerY + 1f)
+    }
+
+    fun inSafeArea(x: Float, y: Float): Boolean = x > safeLeft && x < safeRight && y > safeTop && y < safeBottom
+
     fun pixelsPerDegree(): Double = scale * Math.toRadians(1.0)
 
     fun isOnScreen(x: Float, y: Float, margin: Float): Boolean =

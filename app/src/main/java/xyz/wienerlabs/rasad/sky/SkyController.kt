@@ -11,6 +11,8 @@ import xyz.wienerlabs.rasad.astro.GeoPoint
 import xyz.wienerlabs.rasad.astro.Qibla
 import xyz.wienerlabs.rasad.astro.SkySnapshot
 import kotlin.math.abs
+import kotlin.math.acos
+import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.exp
 import kotlin.math.max
@@ -78,18 +80,22 @@ class SkyController(
         private set
     var sensorActive by mutableStateOf(false)
         private set
+    var guidance by mutableStateOf<GuidanceReadout?>(null)
+        private set
 
     var current: SkySnapshot = published
         private set
 
     var onQiblaAligned: (() -> Unit)? = null
     var onTargetCentered: (() -> Unit)? = null
+    var onTargetInView: (() -> Unit)? = null
 
     private var manualAzimuth = 180.0
     private var manualAltitude = 30.0
     private var velocityAzimuth = 0.0
     private var velocityAltitude = 0.0
     private var flight: Flight? = null
+    private val projected = FloatArray(2)
     private val sensorForward = DoubleArray(3)
     private val sensorUp = DoubleArray(3)
     private val smoothForward = DoubleArray(3)
@@ -101,6 +107,10 @@ class SkyController(
     private var lastPublishNanos = 0L
     private var readoutFrames = 0
     private var targetWasCentered = false
+    private var targetWasInView = false
+    private var trackedTarget: SkyObjectRef? = null
+    private var guidanceFrames = 0
+    private var pendingFlight = false
     private var seconds = 0.0
 
     val qiblaAzimuth: Double get() = Qibla.bearingDegrees(location)
@@ -126,6 +136,13 @@ class SkyController(
         }
         val minute = now / 60_000L
         if (minute != displayedMinute) displayedMinute = minute
+        if (pendingFlight) {
+            pendingFlight = false
+            targetWasInView = false
+            targetWasCentered = false
+            renderState.targetRevealStart = -1f
+            target?.let { flyTo(it) }
+        }
 
         updateCamera(frameNanos, dt, tracker)
         updateReadouts()
@@ -136,6 +153,7 @@ class SkyController(
         renderState.selected = selected
         renderState.target = target
         renderState.showReticle = mode == ViewMode.Sensor && sensorActive
+        renderState.sensorView = mode == ViewMode.Sensor && sensorActive
         renderState.seconds = seconds.toFloat()
         frame = frameNanos
     }
@@ -194,14 +212,51 @@ class SkyController(
         if (aligned != qiblaAligned) qiblaAligned = aligned
 
         val currentTarget = target
-        if (currentTarget != null) {
-            val direction = currentTarget.direction(catalog, current, qiblaAzimuth)
-            val centered = camera.depth(direction.x, direction.y, direction.z) > cos(Math.toRadians(2.5))
-            if (centered && !targetWasCentered) onTargetCentered?.invoke()
-            targetWasCentered = centered
-        } else {
+        if (currentTarget != trackedTarget) {
+            trackedTarget = currentTarget
             targetWasCentered = false
+            targetWasInView = false
+            renderState.targetRevealStart = -1f
+            guidanceFrames = 0
         }
+        if (currentTarget == null) {
+            if (guidance != null) guidance = null
+            return
+        }
+        val direction = currentTarget.direction(catalog, current, qiblaAzimuth)
+        val depth = camera.depth(direction.x, direction.y, direction.z)
+        val separation = Math.toDegrees(acos(depth.coerceIn(-1.0, 1.0)))
+        val found = currentTarget.foundThresholdDegrees(catalog)
+        val inView = depth > 0.2 && camera.project(direction, projected) && camera.inSafeArea(projected[0], projected[1])
+        if (inView && !targetWasInView) {
+            renderState.targetRevealStart = seconds.toFloat()
+            onTargetInView?.invoke()
+        }
+        targetWasInView = targetWasInView || inView
+        val centered = separation < found
+        if (centered && !targetWasCentered) onTargetCentered?.invoke()
+        targetWasCentered = centered
+        if (guidanceFrames++ % 6 == 0) {
+            val (screenX, screenY) = camera.screenDirection(direction)
+            guidance = Guidance.readout(
+                ref = currentTarget,
+                name = currentTarget.displayName(catalog),
+                direction = direction,
+                centerAzimuth = camera.centerAzimuth,
+                centerAltitude = camera.centerAltitude,
+                screenAngleDegrees = Math.toDegrees(atan2(screenY, screenX)),
+                onScreen = inView,
+                foundDegrees = found,
+                separationDegrees = separation,
+            )
+        }
+    }
+
+    fun jumpTo(millis: Long) {
+        clock.playing = false
+        clock.setAbsolute(millis)
+        refreshNow()
+        if (target != null && mode == ViewMode.Manual) pendingFlight = true
     }
 
     fun switchToManual() {
@@ -275,7 +330,10 @@ class SkyController(
             startAltitude = manualAltitude,
             endAltitude = endAltitude,
             startFov = camera.fovDegrees,
-            endFov = fov ?: camera.fovDegrees.coerceAtMost(70.0),
+            endFov = fov ?: when (ref) {
+                is SkyObjectRef.Constellation -> catalog.shapes[ref.index].framingFov()
+                else -> camera.fovDegrees.coerceAtMost(70.0)
+            },
         )
     }
 

@@ -35,6 +35,19 @@ object Formats {
     fun weekday(millis: Long, zone: ZoneId = ZoneId.systemDefault()): String =
         weekday.format(Instant.ofEpochMilli(millis).atZone(zone))
 
+    fun relativeTime(millis: Long, nowMillis: Long, zone: ZoneId = ZoneId.systemDefault()): String {
+        val then = Instant.ofEpochMilli(millis).atZone(zone)
+        val now = Instant.ofEpochMilli(nowMillis).atZone(zone)
+        val days = java.time.temporal.ChronoUnit.DAYS.between(now.toLocalDate(), then.toLocalDate())
+        val time = clock(millis, zone)
+        return when {
+            days == 0L -> if (then.hour >= 18 && now.hour < 18) "bu akşam $time" else time
+            days == 1L && then.hour < 6 && now.hour >= 12 -> "bu gece $time"
+            days == 1L -> "yarın $time"
+            else -> "${dayMonth(millis, zone)} $time"
+        }
+    }
+
     fun decimal(value: Double, digits: Int = 1): String = "%.${digits}f".format(TurkishLocale, value)
 
     fun degrees(value: Double, digits: Int = 0): String = "${decimal(value, digits)}°"

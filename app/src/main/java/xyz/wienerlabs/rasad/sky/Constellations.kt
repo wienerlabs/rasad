@@ -92,7 +92,109 @@ object Constellations {
         "Vul" to "Tilki",
     )
 
+    private val latinNames = mapOf(
+        "And" to "Andromeda", "Ant" to "Antlia", "Aps" to "Apus", "Aqr" to "Aquarius", "Aql" to "Aquila",
+        "Ara" to "Ara", "Ari" to "Aries", "Aur" to "Auriga", "Boo" to "Boötes", "Cae" to "Caelum",
+        "Cam" to "Camelopardalis", "Cnc" to "Cancer", "CVn" to "Canes Venatici", "CMa" to "Canis Major",
+        "CMi" to "Canis Minor", "Cap" to "Capricornus", "Car" to "Carina", "Cas" to "Cassiopeia",
+        "Cen" to "Centaurus", "Cep" to "Cepheus", "Cet" to "Cetus", "Cha" to "Chamaeleon", "Cir" to "Circinus",
+        "Col" to "Columba", "Com" to "Coma Berenices", "CrA" to "Corona Australis", "CrB" to "Corona Borealis",
+        "Crv" to "Corvus", "Crt" to "Crater", "Cru" to "Crux", "Cyg" to "Cygnus", "Del" to "Delphinus",
+        "Dor" to "Dorado", "Dra" to "Draco", "Equ" to "Equuleus", "Eri" to "Eridanus", "For" to "Fornax",
+        "Gem" to "Gemini", "Gru" to "Grus", "Her" to "Hercules", "Hor" to "Horologium", "Hya" to "Hydra",
+        "Hyi" to "Hydrus", "Ind" to "Indus", "Lac" to "Lacerta", "Leo" to "Leo", "LMi" to "Leo Minor",
+        "Lep" to "Lepus", "Lib" to "Libra", "Lup" to "Lupus", "Lyn" to "Lynx", "Lyr" to "Lyra", "Men" to "Mensa",
+        "Mic" to "Microscopium", "Mon" to "Monoceros", "Mus" to "Musca", "Nor" to "Norma", "Oct" to "Octans",
+        "Oph" to "Ophiuchus", "Ori" to "Orion", "Pav" to "Pavo", "Peg" to "Pegasus", "Per" to "Perseus",
+        "Phe" to "Phoenix", "Pic" to "Pictor", "Psc" to "Pisces", "PsA" to "Piscis Austrinus", "Pup" to "Puppis",
+        "Pyx" to "Pyxis", "Ret" to "Reticulum", "Sge" to "Sagitta", "Sgr" to "Sagittarius", "Sco" to "Scorpius",
+        "Scl" to "Sculptor", "Sct" to "Scutum", "Ser" to "Serpens", "Sex" to "Sextans", "Tau" to "Taurus",
+        "Tel" to "Telescopium", "Tri" to "Triangulum", "TrA" to "Triangulum Australe", "Tuc" to "Tucana",
+        "UMa" to "Ursa Major", "UMi" to "Ursa Minor", "Vel" to "Vela", "Vir" to "Virgo", "Vol" to "Volans",
+        "Vul" to "Vulpecula",
+    )
+
+    private val classicalNames = mapOf(
+        "UMa" to ClassicalName("الدب الأكبر", "ed-Dübbü'l-Ekber", "büyük ayı"),
+        "UMi" to ClassicalName("الدب الأصغر", "ed-Dübbü'l-Asgar", "küçük ayı"),
+        "Dra" to ClassicalName("التنين", "et-Tinnîn", "ejderha"),
+        "Boo" to ClassicalName("العواء", "el-Avvâ", "uluyan"),
+        "CrB" to ClassicalName("الإكليل الشمالي", "el-İklîlü'ş-Şimâlî", "kuzey tacı"),
+        "Her" to ClassicalName("الجاثي", "el-Câsî", "diz çöken"),
+        "Lyr" to ClassicalName("السلحفاة", "es-Sülahfât", "kaplumbağa"),
+        "Cyg" to ClassicalName("الدجاجة", "ed-Decâce", "tavuk"),
+        "Cas" to ClassicalName("ذات الكرسي", "Zâtü'l-Kürsî", "tahtlı kadın"),
+        "Per" to ClassicalName("حامل رأس الغول", "Hâmilü Re'si'l-Gûl", "gulyabaninin başını taşıyan"),
+        "Aur" to ClassicalName("ممسك الأعنة", "Mümsikü'l-E'inne", "dizginleri tutan"),
+        "Oph" to ClassicalName("الحواء", "el-Havvâ", "yılancı"),
+        "Ser" to ClassicalName("الحية", "el-Hayye", "yılan"),
+        "Sge" to ClassicalName("السهم", "es-Sehm", "ok"),
+        "Aql" to ClassicalName("العقاب", "el-Ukâb", "kartal"),
+        "Del" to ClassicalName("الدلفين", "ed-Delfîn", "yunus"),
+        "Equ" to ClassicalName("قطعة الفرس", "Kıt'atü'l-Feres", "atın parçası"),
+        "Peg" to ClassicalName("الفرس الأعظم", "el-Ferasü'l-A'zam", "büyük at"),
+        "And" to ClassicalName("المرأة المسلسلة", "el-Mer'etü'l-Müselsele", "zincire vurulmuş kadın"),
+        "Tri" to ClassicalName("المثلث", "el-Müselles", "üçgen"),
+        "Ari" to ClassicalName("الحمل", "el-Hamel", "kuzu"),
+        "Tau" to ClassicalName("الثور", "es-Sevr", "boğa"),
+        "Gem" to ClassicalName("التوأمان", "et-Tev'emân", "ikizler"),
+        "Cnc" to ClassicalName("السرطان", "es-Seratân", "yengeç"),
+        "Leo" to ClassicalName("الأسد", "el-Esed", "aslan"),
+        "Vir" to ClassicalName("العذراء", "el-Azrâ", "genç kız"),
+        "Lib" to ClassicalName("الميزان", "el-Mîzân", "terazi"),
+        "Sco" to ClassicalName("العقرب", "el-Akreb", "akrep"),
+        "Sgr" to ClassicalName("الرامي", "er-Râmî", "okçu"),
+        "Cap" to ClassicalName("الجدي", "el-Cedy", "oğlak"),
+        "Aqr" to ClassicalName("ساكب الماء", "Sâkibü'l-Mâ", "suyu döken"),
+        "Psc" to ClassicalName("السمكتان", "es-Semeketân", "iki balık"),
+        "Cet" to ClassicalName("قيطس", "Kaytus", "deniz canavarı"),
+        "Ori" to ClassicalName("الجبار", "el-Cebbâr", "dev"),
+        "Eri" to ClassicalName("النهر", "en-Nehr", "ırmak"),
+        "Lep" to ClassicalName("الأرنب", "el-Erneb", "tavşan"),
+        "CMa" to ClassicalName("الكلب الأكبر", "el-Kelbü'l-Ekber", "büyük köpek"),
+        "CMi" to ClassicalName("الكلب الأصغر", "el-Kelbü'l-Asgar", "küçük köpek"),
+        "Hya" to ClassicalName("الشجاع", "eş-Şücâ'", "yılan"),
+        "Crt" to ClassicalName("الباطية", "el-Bâtiye", "testi"),
+        "Crv" to ClassicalName("الغراب", "el-Gurâb", "karga"),
+        "Cen" to ClassicalName("قنطورس", "Kantûrus", "kentaur"),
+        "Lup" to ClassicalName("السبع", "es-Seb'", "yırtıcı hayvan"),
+        "Ara" to ClassicalName("المجمرة", "el-Micmere", "buhurdan"),
+        "CrA" to ClassicalName("الإكليل الجنوبي", "el-İklîlü'l-Cenûbî", "güney tacı"),
+        "PsA" to ClassicalName("الحوت الجنوبي", "el-Hûtü'l-Cenûbî", "güney balığı"),
+    )
+
+    private val folkNames = mapOf(
+        "UMa" to "Yedigen, Büyük Kepçe",
+        "UMi" to "Küçük Kepçe, Demirkazık",
+        "Tau" to "Ülker, Süreyya",
+        "Cyg" to "Kuzey Haçı",
+        "Sgr" to "Çaydanlık",
+        "Peg" to "Büyük Kare",
+        "Ori" to "Orion Kuşağı",
+    )
+
     fun turkishName(code: String): String = turkishNames[code] ?: code
 
+    fun latinName(code: String): String = latinNames[code] ?: code
+
+    fun classicalName(code: String): ClassicalName? = classicalNames[code]
+
+    fun folkName(code: String): String? = folkNames[code]
+
+    fun searchText(code: String): String = listOfNotNull(
+        turkishName(code),
+        latinName(code),
+        code,
+        classicalName(code)?.transliteration,
+        classicalName(code)?.meaning,
+        folkName(code),
+    ).joinToString(" ")
+
     val allCodes: Set<String> get() = turkishNames.keys
+
+    val classicalCodes: Set<String> get() = classicalNames.keys
+
+    val latinCodes: Set<String> get() = latinNames.keys
 }
+
+data class ClassicalName(val arabic: String, val transliteration: String, val meaning: String)

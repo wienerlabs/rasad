@@ -68,7 +68,9 @@ import xyz.wienerlabs.rasad.sky.SkyObjectRef
 import xyz.wienerlabs.rasad.sky.SkyRenderer
 import xyz.wienerlabs.rasad.sky.SkyTypefaces
 import xyz.wienerlabs.rasad.sky.ViewMode
-import xyz.wienerlabs.rasad.sky.displayName
+import xyz.wienerlabs.rasad.sky.ViewingPlan
+import xyz.wienerlabs.rasad.sky.VisibilityPlanner
+import xyz.wienerlabs.rasad.sky.equatorialDirection
 import xyz.wienerlabs.rasad.ui.RasadIcons
 import xyz.wienerlabs.rasad.ui.components.Pill
 import xyz.wienerlabs.rasad.ui.components.RoundIconButton
@@ -113,9 +115,11 @@ fun SkyScreen(
     DisposableEffect(controller, view) {
         controller.onQiblaAligned = { view.performHapticFeedback(HapticFeedbackConstants.CONFIRM) }
         controller.onTargetCentered = { view.performHapticFeedback(HapticFeedbackConstants.CONFIRM) }
+        controller.onTargetInView = { view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK) }
         onDispose {
             controller.onQiblaAligned = null
             controller.onTargetCentered = null
+            controller.onTargetInView = null
         }
     }
 
@@ -210,7 +214,7 @@ fun SkyScreen(
             Modifier.align(Alignment.BottomCenter).fillMaxWidth().navigationBarsPadding().padding(horizontal = 14.dp, vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            TargetPill(controller)
+            if (controller.selected == null) GuidancePanel(controller)
             PointingReadout(controller)
             Spacer(Modifier.height(10.dp))
             AnimatedVisibility(visible = timeOpen, enter = fadeIn() + slideInVertically { it / 3 }, exit = fadeOut() + slideOutVertically { it / 3 }) {
@@ -252,8 +256,15 @@ fun SkyScreen(
         }
 
         AnimatedVisibility(visible = searchOpen, enter = fadeIn(), exit = fadeOut()) {
+            val snapshot = controller.published
+            val statuses = remember(searchIndex, snapshot.millis / 60_000L, snapshot.location) {
+                skyStatuses(searchIndex, controller.catalog, snapshot, controller.qiblaAzimuth)
+            }
+            val highlights = remember(statuses) { skyHighlights(searchIndex, controller.catalog, snapshot, statuses) }
             SearchPanel(
                 index = searchIndex,
+                statuses = statuses,
+                highlights = highlights,
                 onSelect = { ref ->
                     searchOpen = false
                     controller.selected = ref
@@ -367,12 +378,25 @@ private fun QiblaBanner(controller: SkyController, modifier: Modifier = Modifier
 }
 
 @Composable
-private fun TargetPill(controller: SkyController) {
-    val target = controller.target ?: return
-    Pill(
-        text = "Hedef: ${target.displayName(controller.catalog)}   Kapat",
-        icon = RasadIcons.Target,
-        onClick = { controller.target = null },
+private fun GuidancePanel(controller: SkyController) {
+    val readout = controller.guidance ?: return
+    val target = readout.ref
+    val location = controller.location
+    val hourKey = controller.displayedMinute / 60L
+    val plan by produceState<ViewingPlan?>(null, target, location, hourKey) {
+        val snapshot = controller.published
+        value = withContext(Dispatchers.Default) {
+            runCatching {
+                target.equatorialDirection(controller.catalog, snapshot)?.let { VisibilityPlanner.plan(it, location, snapshot.millis) }
+            }.getOrNull()
+        }
+    }
+    GuidanceCard(
+        readout = readout,
+        plan = plan,
+        nowMillis = controller.displayedMinute * 60_000L,
+        onJump = { controller.jumpTo(it) },
+        onClose = { controller.target = null },
         modifier = Modifier.padding(bottom = 10.dp),
     )
 }
@@ -394,6 +418,14 @@ private fun SelectedObjectSheet(controller: SkyController) {
         onDismiss = { controller.selected = null },
         onTarget = {
             if (controller.target == selected) controller.target = null else controller.flyTo(selected)
+        },
+        onRelated = { ref ->
+            controller.selected = ref
+            controller.flyTo(ref)
+        },
+        onJump = { millis ->
+            controller.target = selected
+            controller.jumpTo(millis)
         },
     )
 }

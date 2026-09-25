@@ -64,7 +64,9 @@ fun SkyCatalog.resolve(name: String): SkyObjectRef? {
     }
     stars.indexOfName(name.trim())?.let { return SkyObjectRef.Star(it) }
     constellations.indexOfFirst {
-        it.code.lowercase() == query || Constellations.turkishName(it.code).lowercase(TurkishLocale) == query
+        it.code.lowercase() == query ||
+            Constellations.turkishName(it.code).lowercase(TurkishLocale) == query ||
+            Constellations.latinName(it.code).lowercase(TurkishLocale) == query
     }.takeIf { it >= 0 }?.let { return SkyObjectRef.Constellation(it) }
     return null
 }

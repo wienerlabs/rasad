@@ -93,6 +93,12 @@ class SkyCatalog(
 ) {
     val namedStars: List<StarMeta> by lazy { stars.meta.filter { it.properName != null } }
 
+    val shapes: List<ConstellationShape> by lazy { constellations.map(ConstellationShape::of) }
+
+    val namedStarsByConstellation: Map<String, List<Int>> by lazy {
+        namedStars.groupBy { it.constellation }.mapValues { (_, members) -> members.map { it.index }.sortedBy { stars.magnitudes[it] } }
+    }
+
     companion object {
         fun load(context: Context): SkyCatalog {
             val assets = context.assets

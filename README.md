@@ -31,8 +31,15 @@ A 56 second, 1080p60 film rendered entirely from code. It uses the app's own sta
 - Sun, Moon and all planets from Astronomy Engine; 89 constellation figures with Turkish names; an astrolabe style horizon ring with degree ticks and cardinal points.
 - Qibla marker on the horizon with a haptic tick when the phone points at it.
 - Time machine: jog dial with hour haptics, day and hour jumps, and a time-lapse mode.
-- Search by Latin, Turkish or Arabic names (`simak` finds both Arcturus and Spica), then fly to the object or get guided to it with an edge arrow in AR mode.
 - Night vision mode (full red color matrix) to keep dark adaptation.
+- In compass mode the reticle names the constellation you are pointing at.
+
+**Finding things**
+- Search stars, planets and all 88 constellations by Turkish, Latin, classical Arabic or folk name: `simak` finds both Arcturus and Spica, `kepce` finds the Big Dipper, `Ülker` finds Taurus. Every result shows where it is right now, and an empty search opens with what is above the horizon at this moment.
+- Guided finding: a great circle path of flowing chevrons runs from the centre of the view to the target, an edge arrow tells how many degrees are left, and a guidance card spells out the turn (`Sola 42° · 18° yukarı`). The phone ticks when the target comes into view and confirms when it is centred.
+- A found constellation draws itself in along its lines, gets a frame, its Latin and classical Arabic names and its brightest stars labelled, while the rest of the sky steps back. Flights to a constellation zoom out until the whole figure fits.
+- Knows when you cannot see it: a target below the horizon shows its rise time, one that never rises at your latitude says so, and one tap jumps the clock to the best dark moment in the next 24 hours.
+- Constellation cards: classical Arabic name with transliteration and meaning, rise, transit and set of the figure, best season, size, brightest star, and tappable member stars.
 
 **Star lore**
 - 126 star names with the original Arabic (or Persian and Latin) form set in Amiri, the Ottoman Turkish transliteration, the meaning and a short story: the Sirius verse in Surat an-Najm, the Alcor eyesight test, the daughters of Na'sh in the Big Dipper, Demirkazik for Polaris.

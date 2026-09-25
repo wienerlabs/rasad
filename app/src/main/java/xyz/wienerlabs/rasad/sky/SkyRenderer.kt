@@ -11,14 +11,19 @@ import android.graphics.RectF
 import android.graphics.Shader
 import android.graphics.Typeface
 import xyz.wienerlabs.rasad.astro.BodyState
+import xyz.wienerlabs.rasad.astro.transform
 import xyz.wienerlabs.rasad.astro.SkyBody
 import xyz.wienerlabs.rasad.astro.SkySnapshot
+import xyz.wienerlabs.rasad.astro.Vec3
 import kotlin.math.abs
+import kotlin.math.acos
 import kotlin.math.atan2
 import kotlin.math.cos
+import kotlin.math.hypot
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlin.math.sin
 
 class SkyTypefaces(val sans: Typeface, val display: Typeface)
@@ -30,6 +35,8 @@ class SkyRenderState {
     var selected: SkyObjectRef? = null
     var target: SkyObjectRef? = null
     var showReticle = false
+    var sensorView = false
+    var targetRevealStart = -1f
     var seconds = 0f
 }
 
@@ -183,6 +190,75 @@ class SkyRenderer(
         textAlign = Paint.Align.CENTER
     }
 
+    private val focusGlowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = white
+        strokeWidth = dp(6f)
+        strokeCap = Paint.Cap.ROUND
+    }
+    private val focusLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = white
+        strokeWidth = dp(1.7f)
+        strokeCap = Paint.Cap.ROUND
+    }
+    private val vertexPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = white
+        style = Paint.Style.FILL
+    }
+    private val framePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = white
+        style = Paint.Style.STROKE
+        strokeWidth = dp(1.5f)
+        strokeCap = Paint.Cap.ROUND
+    }
+    private val focusTitlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        typeface = typefaces.display
+        fontVariationSettings = "'wght' 560"
+        textSize = dp(19f)
+        color = white
+    }
+    private val focusSubtitlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        typeface = typefaces.sans
+        textSize = dp(11.5f)
+        color = white
+        letterSpacing = 0.02f
+    }
+    private val roadPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = white
+        style = Paint.Style.STROKE
+        strokeWidth = dp(1.2f)
+        strokeCap = Paint.Cap.ROUND
+    }
+    private val chevronPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = white
+        style = Paint.Style.STROKE
+        strokeWidth = dp(1.8f)
+        strokeCap = Paint.Cap.ROUND
+        strokeJoin = Paint.Join.ROUND
+    }
+    private val reticleLabelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        typeface = typefaces.sans
+        textSize = dp(11f)
+        color = white
+        textAlign = Paint.Align.CENTER
+        letterSpacing = 0.06f
+    }
+    private val focusX = FloatArray(MAX_FOCUS_VERTICES)
+    private val focusY = FloatArray(MAX_FOCUS_VERTICES)
+    private val focusVisible = BooleanArray(MAX_FOCUS_VERTICES)
+    private val roadX = FloatArray(ROAD_STEPS + 1)
+    private val roadY = FloatArray(ROAD_STEPS + 1)
+    private val focusTitles = Array(catalog.constellations.size) { Constellations.turkishName(catalog.constellations[it].code) }
+    private val focusSubtitles = Array(catalog.constellations.size) { index ->
+        val code = catalog.constellations[index].code
+        listOfNotNull(Constellations.latinName(code), Constellations.classicalName(code)?.transliteration).joinToString(" · ")
+    }
+    private val focusMembers = Array(catalog.constellations.size) { index ->
+        catalog.namedStarsByConstellation[catalog.constellations[index].code].orEmpty().take(6).toIntArray()
+    }
+    private val reticleForward = DoubleArray(3)
+    private var reticleMillis = Long.MIN_VALUE
+    private var reticleConstellation = -1
+
     private val path = Path()
     private val point = FloatArray(2)
     private val point2 = FloatArray(2)
@@ -192,6 +268,7 @@ class SkyRenderer(
     fun render(canvas: Canvas, camera: SkyCamera, snapshot: SkySnapshot, state: SkyRenderState, picks: PickBuffer) {
         picks.clear()
         labelCount = 0
+        camera.setSafeInsets(dp(20f), dp(132f), dp(300f))
         val layers = state.layers
         val limit = limitingMagnitude(snapshot)
         val milkyWayStrength = if (layers.milkyWay) ((limit - 3.2f) / 2.8f).coerceIn(0f, 1f) else 0f
@@ -203,17 +280,19 @@ class SkyRenderer(
 
         val darkness = (((2.0 - snapshot.sun.altitude) / 14.0).coerceIn(0.0, 1.0)).toFloat()
         val chromeFade = 0.3f + 0.7f * darkness
+        val focus = (state.target as? SkyObjectRef.Constellation)?.index ?: (state.selected as? SkyObjectRef.Constellation)?.index
         if (layers.grid) drawGrid(canvas, camera)
-        if (layers.constellationLines) drawConstellationLines(canvas, camera, snapshot, layers.ground, chromeFade)
+        if (layers.constellationLines) drawConstellationLines(canvas, camera, snapshot, layers.ground, chromeFade * if (focus != null) 0.55f else 1f)
         drawStars(canvas, camera, snapshot, limit, layers.ground, picks)
         drawHorizon(canvas, camera)
         if (layers.qibla) drawQibla(canvas, camera, state, picks)
         drawBodies(canvas, camera, snapshot, layers.ground, picks, moonRadius, sunRadius, limit, state)
+        focus?.let { drawFocusedConstellation(canvas, camera, snapshot, it, state, layers.ground) }
         if (layers.starNames) drawStarLabels(canvas, camera, snapshot, limit, layers.ground)
-        if (layers.constellationNames) drawConstellationNames(canvas, camera, snapshot, layers.ground, picks, chromeFade)
-        state.selected?.let { drawHighlight(canvas, camera, snapshot, it, state) }
+        if (layers.constellationNames) drawConstellationNames(canvas, camera, snapshot, layers.ground, picks, chromeFade, focus)
+        state.selected?.let { if (it !is SkyObjectRef.Constellation) drawHighlight(canvas, camera, snapshot, it, state) }
         state.target?.let { drawGuide(canvas, camera, snapshot, it, state) }
-        if (state.showReticle) drawReticle(canvas, camera)
+        if (state.showReticle) drawReticle(canvas, camera, snapshot, state)
     }
 
     private fun limitingMagnitude(snapshot: SkySnapshot): Float {
@@ -559,10 +638,11 @@ class SkyRenderer(
         }
     }
 
-    private fun drawConstellationNames(canvas: Canvas, camera: SkyCamera, snapshot: SkySnapshot, ground: Boolean, picks: PickBuffer, fade: Float) {
+    private fun drawConstellationNames(canvas: Canvas, camera: SkyCamera, snapshot: SkySnapshot, ground: Boolean, picks: PickBuffer, fade: Float, skip: Int?) {
         if (camera.fovDegrees > 120) return
         val m = snapshot.eqjToEnu
         catalog.constellations.forEachIndexed { index, figure ->
+            if (index == skip) return@forEachIndexed
             val label = figure.label
             val east = m[0] * label.x + m[1] * label.y + m[2] * label.z
             val north = m[3] * label.x + m[4] * label.y + m[5] * label.z
@@ -605,40 +685,220 @@ class SkyRenderer(
         }
     }
 
+    private fun drawFocusedConstellation(canvas: Canvas, camera: SkyCamera, snapshot: SkySnapshot, index: Int, state: SkyRenderState, ground: Boolean) {
+        val figure = catalog.constellations[index]
+        val shape = catalog.shapes[index]
+        val isTarget = (state.target as? SkyObjectRef.Constellation)?.index == index
+        val progress = when {
+            !isTarget -> 1f
+            state.targetRevealStart < 0f -> return
+            else -> ((state.seconds - state.targetRevealStart) / REVEAL_SECONDS).coerceIn(0f, 1f)
+        }
+        val eased = 1f - (1f - progress).pow(3)
+        val m = snapshot.eqjToEnu
+        val vertexCount = min(shape.vertexCount, MAX_FOCUS_VERTICES)
+        var minX = Float.MAX_VALUE
+        var minY = Float.MAX_VALUE
+        var maxX = -Float.MAX_VALUE
+        var maxY = -Float.MAX_VALUE
+        var visible = 0
+        val v = shape.vertices
+        for (i in 0 until vertexCount) {
+            val x = m[0] * v[i * 3] + m[1] * v[i * 3 + 1] + m[2] * v[i * 3 + 2]
+            val y = m[3] * v[i * 3] + m[4] * v[i * 3 + 1] + m[5] * v[i * 3 + 2]
+            val z = m[6] * v[i * 3] + m[7] * v[i * 3 + 1] + m[8] * v[i * 3 + 2]
+            focusVisible[i] = camera.depth(x, y, z) > 0.05 && camera.project(x, y, z, point)
+            if (!focusVisible[i]) continue
+            focusX[i] = point[0]
+            focusY[i] = point[1]
+            minX = min(minX, point[0]); maxX = max(maxX, point[0])
+            minY = min(minY, point[1]); maxY = max(maxY, point[1])
+            visible++
+        }
+        val s = figure.segments
+        val drawn = eased * figure.segmentCount
+        for (seg in 0 until figure.segmentCount) {
+            val local = (drawn - seg).coerceIn(0f, 1f)
+            if (local <= 0f) break
+            val o = seg * 6
+            val ax = m[0] * s[o] + m[1] * s[o + 1] + m[2] * s[o + 2]
+            val ay = m[3] * s[o] + m[4] * s[o + 1] + m[5] * s[o + 2]
+            val az = m[6] * s[o] + m[7] * s[o + 1] + m[8] * s[o + 2]
+            val bx = m[0] * s[o + 3] + m[1] * s[o + 4] + m[2] * s[o + 5]
+            val by = m[3] * s[o + 3] + m[4] * s[o + 4] + m[5] * s[o + 5]
+            val bz = m[6] * s[o + 3] + m[7] * s[o + 4] + m[8] * s[o + 5]
+            if (camera.depth(ax, ay, az) < 0.05 || camera.depth(bx, by, bz) < 0.05) continue
+            if (!camera.project(ax, ay, az, point) || !camera.project(bx, by, bz, point2)) continue
+            if (!segmentVisible(camera)) continue
+            val ex = point[0] + (point2[0] - point[0]) * local
+            val ey = point[1] + (point2[1] - point[1]) * local
+            val buried = if (ground && az < 0 && bz < 0) 0.35f else 1f
+            focusGlowPaint.alpha = (34 * buried).toInt()
+            canvas.drawLine(point[0], point[1], ex, ey, focusGlowPaint)
+            focusLinePaint.alpha = (235 * buried).toInt()
+            canvas.drawLine(point[0], point[1], ex, ey, focusLinePaint)
+        }
+        for (i in 0 until vertexCount) {
+            if (!focusVisible[i]) continue
+            val buried = if (ground && m[6] * v[i * 3] + m[7] * v[i * 3 + 1] + m[8] * v[i * 3 + 2] < 0) 0.35f else 1f
+            vertexPaint.alpha = (215 * eased * buried).toInt()
+            canvas.drawCircle(focusX[i], focusY[i], dp(2.2f), vertexPaint)
+        }
+        if (visible < 2) return
+        if (maxX < camera.safeLeft || minX > camera.safeRight || maxY < camera.safeTop || minY > camera.safeBottom) return
+        val pad = dp(22f) * (1f + 0.6f * (1f - eased))
+        val left = minX - pad
+        val top = minY - pad
+        val right = maxX + pad
+        val bottom = maxY + pad
+        val corner = min(dp(26f), min(right - left, bottom - top) / 4f)
+        framePaint.alpha = (200 * eased).toInt()
+        canvas.drawLine(left, top, left + corner, top, framePaint)
+        canvas.drawLine(left, top, left, top + corner, framePaint)
+        canvas.drawLine(right, top, right - corner, top, framePaint)
+        canvas.drawLine(right, top, right, top + corner, framePaint)
+        canvas.drawLine(left, bottom, left + corner, bottom, framePaint)
+        canvas.drawLine(left, bottom, left, bottom - corner, framePaint)
+        canvas.drawLine(right, bottom, right - corner, bottom, framePaint)
+        canvas.drawLine(right, bottom, right, bottom - corner, framePaint)
+        val title = focusTitles[index]
+        val subtitle = focusSubtitles[index]
+        val titleWidth = focusTitlePaint.measureText(title)
+        val subtitleWidth = focusSubtitlePaint.measureText(subtitle)
+        val blockWidth = max(titleWidth, subtitleWidth)
+        val minTop = camera.safeTop + dp(8f)
+        val maxBottom = camera.safeBottom
+        var titleBaseline = top - dp(26f)
+        if (titleBaseline - focusTitlePaint.textSize < minTop) titleBaseline = bottom + dp(26f)
+        if (titleBaseline + dp(20f) > maxBottom) titleBaseline = minTop + focusTitlePaint.textSize
+        val textLeft = left.coerceIn(dp(16f), max(dp(16f), camera.width - blockWidth - dp(16f)))
+        registerLabel(textLeft, titleBaseline - focusTitlePaint.textSize, textLeft + blockWidth, titleBaseline + dp(20f))
+        focusTitlePaint.alpha = (250 * eased).toInt()
+        canvas.drawText(title, textLeft, titleBaseline, focusTitlePaint)
+        focusSubtitlePaint.alpha = (175 * eased).toInt()
+        canvas.drawText(subtitle, textLeft, titleBaseline + dp(17f), focusSubtitlePaint)
+        for (starIndex in focusMembers[index]) {
+            val direction = snapshot.eqjToEnu.transform(stars.direction(starIndex))
+            if (camera.depth(direction.x, direction.y, direction.z) < 0.05 || !camera.project(direction, point)) continue
+            starLabelPaint.alpha = (225 * eased * if (ground && direction.z < 0) 0.45f else 1f).toInt()
+            if (!camera.isOnScreen(point[0], point[1], 0f)) continue
+            val label = stars.meta[starIndex].properName ?: continue
+            val width = starLabelPaint.measureText(label)
+            val labelLeft = if (point[0] + dp(7f) + width < camera.width - dp(6f)) point[0] + dp(7f) else point[0] - dp(7f) - width
+            val baseline = point[1] + starLabelPaint.textSize * 0.36f
+            if (registerLabel(labelLeft, baseline - starLabelPaint.textSize, labelLeft + width, baseline + dp(2f))) {
+                canvas.drawText(label, labelLeft, baseline, starLabelPaint)
+            }
+        }
+    }
+
     private fun drawGuide(canvas: Canvas, camera: SkyCamera, snapshot: SkySnapshot, target: SkyObjectRef, state: SkyRenderState) {
         val direction = target.direction(catalog, snapshot, state.qiblaAzimuth)
-        val inFront = camera.depth(direction.x, direction.y, direction.z) > 0.2
-        val projected = inFront && camera.project(direction, point)
-        val inset = dp(48f)
-        if (projected && point[0] > inset && point[1] > inset && point[0] < camera.width - inset && point[1] < camera.height - inset) {
+        val depth = camera.depth(direction.x, direction.y, direction.z)
+        val projected = depth > 0.2 && camera.project(direction, point)
+        if (projected && camera.inSafeArea(point[0], point[1])) {
+            if (target is SkyObjectRef.Constellation) return
             val pulse = sin(state.seconds * 3f) * 0.5f + 0.5f
             highlightPaint.alpha = (150 + 100 * pulse).toInt()
             canvas.drawCircle(point[0], point[1], dp(24f) + dp(5f) * pulse, highlightPaint)
             return
         }
+        val below = direction.z < -0.009
+        drawRoad(canvas, camera, direction, state, if (below) 0.55f else 1f)
         val (cx, cy) = camera.screenDirection(direction)
         val angle = atan2(-cy, cx)
         val dx = cos(angle).toFloat()
         val dy = sin(angle).toFloat()
-        val halfWidth = camera.width / 2f - inset
-        val halfHeight = camera.height / 2f - inset * 2.2f
-        val scaleX = if (abs(dx) > 1e-4f) halfWidth / abs(dx) else Float.MAX_VALUE
-        val scaleY = if (abs(dy) > 1e-4f) halfHeight / abs(dy) else Float.MAX_VALUE
-        val reach = min(scaleX, scaleY)
+        val margin = dp(26f)
+        val scaleX = when {
+            dx > 1e-4f -> (camera.safeRight - margin - camera.centerX) / dx
+            dx < -1e-4f -> (camera.safeLeft + margin - camera.centerX) / dx
+            else -> Float.MAX_VALUE
+        }
+        val scaleY = when {
+            dy > 1e-4f -> (camera.safeBottom - margin - camera.centerY) / dy
+            dy < -1e-4f -> (camera.safeTop + margin - camera.centerY) / dy
+            else -> Float.MAX_VALUE
+        }
+        val reach = min(scaleX, scaleY).coerceAtLeast(0f)
         val ax = camera.centerX + dx * reach
         val ay = camera.centerY + dy * reach
-        val size = dp(12f)
+        val pulse = sin(state.seconds * 4f) * 0.5f + 0.5f
+        val size = dp(14f) + dp(2f) * pulse
         path.reset()
         path.moveTo(ax - dx * size - dy * size * 0.8f, ay - dy * size + dx * size * 0.8f)
         path.lineTo(ax, ay)
         path.lineTo(ax - dx * size + dy * size * 0.8f, ay - dy * size - dx * size * 0.8f)
-        guidePaint.alpha = 245
+        guidePaint.alpha = if (below) 170 else 245
         canvas.drawPath(path, guidePaint)
         val name = target.displayName(catalog)
-        canvas.drawText(name, ax - dx * dp(30f), ay - dy * dp(30f) + guideLabelPaint.textSize * 0.35f, guideLabelPaint)
+        val separation = Math.toDegrees(acos(depth.coerceIn(-1.0, 1.0))).roundToInt()
+        val detail = if (below) "$separation° · ufkun altında" else "$separation°"
+        val labelX = ax - dx * dp(40f)
+        val labelY = ay - dy * dp(40f)
+        guideLabelPaint.alpha = 245
+        canvas.drawText(name, labelX, labelY, guideLabelPaint)
+        guideLabelPaint.alpha = 170
+        canvas.drawText(detail, labelX, labelY + guideLabelPaint.textSize * 1.25f, guideLabelPaint)
     }
 
-    private fun drawReticle(canvas: Canvas, camera: SkyCamera) {
+    private fun drawRoad(canvas: Canvas, camera: SkyCamera, target: Vec3, state: SkyRenderState, strength: Float) {
+        val fx = camera.forward[0]
+        val fy = camera.forward[1]
+        val fz = camera.forward[2]
+        val theta = acos((fx * target.x + fy * target.y + fz * target.z).coerceIn(-1.0, 1.0))
+        if (theta < Math.toRadians(3.0) || theta > Math.toRadians(172.0)) return
+        val sinTheta = sin(theta)
+        var count = 0
+        for (i in 0..ROAD_STEPS) {
+            val fraction = i.toDouble() / ROAD_STEPS
+            val a = sin((1.0 - fraction) * theta) / sinTheta
+            val b = sin(fraction * theta) / sinTheta
+            val x = a * fx + b * target.x
+            val y = a * fy + b * target.y
+            val z = a * fz + b * target.z
+            if (camera.depth(x, y, z) < 0.05 || !camera.project(x, y, z, point)) break
+            roadX[count] = point[0]
+            roadY[count] = point[1]
+            count++
+            if (!camera.inSafeArea(point[0], point[1])) break
+        }
+        if (count < 2) return
+        path.reset()
+        path.moveTo(roadX[0], roadY[0])
+        for (i in 1 until count) path.lineTo(roadX[i], roadY[i])
+        roadPaint.alpha = (60 * strength).toInt()
+        canvas.drawPath(path, roadPaint)
+        val spacing = dp(46f)
+        val start = dp(30f)
+        var next = start + spacing - (state.seconds * dp(38f)) % spacing
+        var travelled = 0f
+        for (i in 1 until count) {
+            val dx = roadX[i] - roadX[i - 1]
+            val dy = roadY[i] - roadY[i - 1]
+            val segment = hypot(dx, dy)
+            if (segment < 1e-3f) continue
+            while (travelled + segment >= next) {
+                val t = (next - travelled) / segment
+                val ramp = ((next - start) / dp(70f)).coerceIn(0f, 1f)
+                drawChevron(canvas, roadX[i - 1] + dx * t, roadY[i - 1] + dy * t, dx / segment, dy / segment, (215 * ramp * strength).toInt())
+                next += spacing
+            }
+            travelled += segment
+        }
+    }
+
+    private fun drawChevron(canvas: Canvas, x: Float, y: Float, ux: Float, uy: Float, alpha: Int) {
+        val size = dp(6.5f)
+        path.reset()
+        path.moveTo(x - ux * size - uy * size * 0.8f, y - uy * size + ux * size * 0.8f)
+        path.lineTo(x, y)
+        path.lineTo(x - ux * size + uy * size * 0.8f, y - uy * size - ux * size * 0.8f)
+        chevronPaint.alpha = alpha
+        canvas.drawPath(path, chevronPaint)
+    }
+
+    private fun drawReticle(canvas: Canvas, camera: SkyCamera, snapshot: SkySnapshot, state: SkyRenderState) {
         highlightPaint.alpha = 110
         val cx = camera.centerX
         val cy = camera.centerY
@@ -648,6 +908,31 @@ class SkyRenderer(
         canvas.drawLine(cx + gap, cy, cx + arm, cy, highlightPaint)
         canvas.drawLine(cx, cy - arm, cx, cy - gap, highlightPaint)
         canvas.drawLine(cx, cy + gap, cx, cy + arm, highlightPaint)
+        if (!state.sensorView) return
+        val forward = camera.forward
+        val drift = forward[0] * reticleForward[0] + forward[1] * reticleForward[1] + forward[2] * reticleForward[2]
+        if (drift < RETICLE_REFRESH_COSINE || abs(snapshot.millis - reticleMillis) > 60_000L) {
+            forward.copyInto(reticleForward)
+            reticleMillis = snapshot.millis
+            reticleConstellation = constellationAt(snapshot.equatorialDirection(Vec3(forward[0], forward[1], forward[2])))
+        }
+        val best = reticleConstellation
+        if (best < 0) return
+        reticleLabelPaint.alpha = 165
+        canvas.drawText(focusTitles[best], cx, cy + arm + dp(18f), reticleLabelPaint)
+    }
+
+    private fun constellationAt(center: Vec3): Int {
+        var best = -1
+        var bestScore = 1.0
+        catalog.shapes.forEachIndexed { index, shape ->
+            val score = shape.centroid.angleTo(center) / max(shape.radiusDegrees, 8.0)
+            if (score < bestScore) {
+                bestScore = score
+                best = index
+            }
+        }
+        return best
     }
 
     private fun registerLabel(left: Float, top: Float, right: Float, bottom: Float): Boolean {
@@ -680,6 +965,10 @@ class SkyRenderer(
         private val CARDINALS = arrayOf("K", "KD", "D", "GD", "G", "GB", "B", "KB")
         private val DEGREE_LABELS = Array(24) { (it * 15).toString() }
         private const val MAGNITUDE_BINS = 18
+        private const val MAX_FOCUS_VERTICES = 128
+        private const val ROAD_STEPS = 96
+        private const val REVEAL_SECONDS = 1.1f
+        private const val RETICLE_REFRESH_COSINE = 0.99996
         private const val BIN_START = -1.75f
         private const val BIN_WIDTH = 0.5f
 

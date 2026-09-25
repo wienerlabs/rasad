@@ -4,6 +4,8 @@ import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +34,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.background
 import xyz.wienerlabs.rasad.sky.ObjectDetails
+import xyz.wienerlabs.rasad.sky.SkyObjectRef
 import xyz.wienerlabs.rasad.ui.RasadIcons
 import xyz.wienerlabs.rasad.ui.components.FactGrid
 import xyz.wienerlabs.rasad.ui.components.Hairline
@@ -42,12 +45,15 @@ import xyz.wienerlabs.rasad.ui.components.panel
 import xyz.wienerlabs.rasad.ui.theme.Palette
 import xyz.wienerlabs.rasad.ui.theme.RasadType
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ObjectSheet(
     details: ObjectDetails?,
     isTarget: Boolean,
     onDismiss: () -> Unit,
     onTarget: () -> Unit,
+    onRelated: (SkyObjectRef) -> Unit,
+    onJump: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var dragOffset by remember { mutableFloatStateOf(0f) }
@@ -103,15 +109,28 @@ fun ObjectSheet(
                 Spacer(Modifier.height(6.dp))
                 Text(details.story, style = RasadType.body, color = Palette.TextMuted)
             }
+            if (details.related.isNotEmpty()) {
+                Spacer(Modifier.height(16.dp))
+                SectionLabel(details.relatedLabel ?: "İlgili")
+                Spacer(Modifier.height(8.dp))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    details.related.forEach { related -> Pill(related.label, onClick = { onRelated(related.ref) }) }
+                }
+            }
             if (details.facts.isNotEmpty()) {
                 Spacer(Modifier.height(14.dp))
                 Hairline()
                 FactGrid(details.facts)
             }
             Spacer(Modifier.height(12.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Pill(if (isTarget) "Hedef açık" else "Beni oraya yönlendir", icon = RasadIcons.Target, onClick = onTarget, inverted = isTarget)
-                details.footnote?.let { Text(it, style = RasadType.caption, color = Palette.TextFaint) }
+                val best = details.bestView
+                if (details.suggestJump && best != null) Pill("En iyi zamana git", icon = RasadIcons.Clock, onClick = { onJump(best) })
+            }
+            details.footnote?.let {
+                Spacer(Modifier.height(10.dp))
+                Text(it, style = RasadType.caption, color = Palette.TextFaint)
             }
         }
     }
