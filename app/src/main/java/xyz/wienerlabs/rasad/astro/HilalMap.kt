@@ -40,6 +40,18 @@ class VisibilityGrid(
     }
 }
 
+class QGrid(
+    val date: LocalDate,
+    val lonStart: Double,
+    val latStart: Double,
+    val step: Double,
+    val columns: Int,
+    val rows: Int,
+    val values: FloatArray,
+) {
+    fun valueAt(column: Int, row: Int): Float = values[row * columns + column]
+}
+
 object HilalMap {
     const val UNDETERMINED = -1
     const val MOON_SETS_FIRST = -2
@@ -82,6 +94,35 @@ object HilalMap {
             }
         }
         return VisibilityGrid(date, -180.0, latMin, step, columns, rows, categories)
+    }
+
+    fun computeQ(
+        date: LocalDate,
+        conjunctionMillis: Long,
+        step: Double = 1.0,
+        latMin: Double = -60.0,
+        latMax: Double = 60.0,
+    ): QGrid {
+        val samples = sample(date)
+        val columns = (360.0 / step).toInt() + 1
+        val rows = ((latMax - latMin) / step).toInt() + 1
+        val values = FloatArray(columns * rows)
+        val utcNoon = date.atTime(12, 0).toInstant(ZoneOffset.UTC).toEpochMilli()
+        for (row in 0 until rows) {
+            val latitude = latMin + row * step
+            for (column in 0 until columns) {
+                val longitude = -180.0 + column * step
+                val localNoon = utcNoon - (longitude / 15.0 * 3_600_000.0).toLong()
+                var q = Float.NaN
+                val code = evaluate(samples, latitude, longitude, localNoon, conjunctionMillis) { q = it.toFloat() }
+                values[row * columns + column] = when (code) {
+                    null -> Float.NaN
+                    MOON_SETS_FIRST -> Float.NEGATIVE_INFINITY
+                    else -> q
+                }
+            }
+        }
+        return QGrid(date, -180.0, latMin, step, columns, rows, values)
     }
 
     fun evaluateAt(date: LocalDate, conjunctionMillis: Long, location: GeoPoint): Pair<YallopCategory?, Double?> {

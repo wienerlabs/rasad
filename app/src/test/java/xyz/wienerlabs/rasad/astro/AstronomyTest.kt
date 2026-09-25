@@ -126,6 +126,24 @@ class AstronomyTest {
     }
 
     @Test
+    fun qGridAgreesWithCategoryGridCellByCell() {
+        val conjunction = Hilal.nextConjunction(utc("2026-09-25T00:00:00Z"))
+        val date = LocalDate.of(2026, 10, 11)
+        val categories = HilalMap.compute(date, conjunction, step = 6.0)
+        val q = HilalMap.computeQ(date, conjunction, step = 6.0)
+        assertEquals(categories.columns, q.columns)
+        assertEquals(categories.rows, q.rows)
+        for (row in 0 until q.rows) {
+            for (column in 0 until q.columns) {
+                val value = q.valueAt(column, row)
+                val expected = if (value.isNaN() || value == Float.NEGATIVE_INFINITY) null else YallopCategory.fromQ(value.toDouble())
+                assertEquals("cell $column,$row", expected, categories.categoryAt(column, row))
+                assertEquals(value == Float.NEGATIVE_INFINITY, categories.moonSetsFirstAt(column, row))
+            }
+        }
+    }
+
+    @Test
     fun visibilityGridCoversRequestedArea() {
         val conjunction = Hilal.nextConjunction(utc("2026-09-25T00:00:00Z"))
         val grid = HilalMap.compute(LocalDate.of(2026, 10, 11), conjunction, step = 4.0)
