@@ -1,0 +1,25 @@
+{
+  "name": "rasad-film",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "studio": "remotion studio",
+    "assets": "python3 tools/prepare.py",
+    "score": "python3 tools/score.py",
+    "render": "remotion render RasadSilent out/picture.mp4 && ffmpeg -y -v error -i out/picture.mp4 -i public/audio/score.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 320k -movflags +faststart out/rasad-film.mp4",
+    "stills": "node tools/stills.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.529",
+    "@remotion/motion-blur": "4.0.529",
+    "@remotion/noise": "4.0.529",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.529"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "typescript": "5.9.3"
+  }
+}
