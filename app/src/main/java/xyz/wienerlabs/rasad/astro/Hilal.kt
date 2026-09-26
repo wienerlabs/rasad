@@ -26,12 +26,12 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 enum class YallopCategory(val code: String, val title: String, val detail: String, val strength: Float) {
-    A("A", "Çıplak gözle kolayca görülür", "Hilal gün batımından sonra rahatça seçilir.", 1.0f),
-    B("B", "İdeal şartlarda çıplak gözle görülür", "Temiz ve açık bir batı ufku gerekir.", 0.72f),
-    C("C", "Önce dürbünle bulunmalı", "Yeri bulunduktan sonra gözle de seçilebilir.", 0.48f),
-    D("D", "Yalnızca dürbün ya da teleskopla", "Çıplak gözle görülmesi beklenmez.", 0.28f),
-    E("E", "Teleskopla bile görülmez", "Hilal Danjon sınırına çok yakın.", 0.12f),
-    F("F", "Görülemez", "Ay, görünürlük sınırının altında kalıyor.", 0.0f);
+    A("A", "Çıplak gözle kolayca görülmesi beklenir", "Hilalin gün batımından sonra rahatça seçilmesi beklenir.", 1.0f),
+    B("B", "İdeal şartlarda çıplak gözle görülmesi beklenir", "Temiz ve açık bir batı ufku gerekir.", 0.72f),
+    C("C", "Önce dürbünle aranmalı", "Yeri bulunduktan sonra gözle de seçilebilir.", 0.48f),
+    D("D", "Dürbün ya da teleskopla görülmesi beklenir", "Çıplak gözle görülmesi beklenmez.", 0.28f),
+    E("E", "Teleskopla bile görülmesi beklenmez", "Hilal Danjon sınırına çok yakın.", 0.12f),
+    F("F", "Görülmesi beklenmez", "Ay, hesaplanan görünürlük sınırının altında kalıyor.", 0.0f);
 
     val isNakedEye: Boolean get() = this == A || this == B
 

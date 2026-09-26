@@ -33,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
@@ -60,6 +61,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import xyz.wienerlabs.rasad.astro.Formats
+import xyz.wienerlabs.rasad.astro.Hilal
+import xyz.wienerlabs.rasad.astro.SkyBody
+import xyz.wienerlabs.rasad.islam.IslamicPreferences
 import xyz.wienerlabs.rasad.sky.ObjectDescriber
 import xyz.wienerlabs.rasad.sky.ObjectDetails
 import xyz.wienerlabs.rasad.sky.OrientationTracker
@@ -76,8 +80,14 @@ import xyz.wienerlabs.rasad.ui.components.Pill
 import xyz.wienerlabs.rasad.ui.components.RoundIconButton
 import xyz.wienerlabs.rasad.ui.components.panel
 import xyz.wienerlabs.rasad.ui.components.pressable
+import xyz.wienerlabs.rasad.ui.islam.HilalDuaCard
+import xyz.wienerlabs.rasad.ui.islam.PrayerStrip
+import xyz.wienerlabs.rasad.ui.islam.StarNotePanel
 import xyz.wienerlabs.rasad.ui.theme.Palette
 import xyz.wienerlabs.rasad.ui.theme.RasadType
+
+private const val YOUNG_CRESCENT_DAYS = 3.5
+private val MOON = SkyObjectRef.Body(SkyBody.Moon)
 
 @Composable
 fun SkyScreen(
@@ -87,7 +97,8 @@ fun SkyScreen(
     placeName: String?,
     nightVision: Boolean,
     onNightVisionChange: (Boolean) -> Unit,
-    onOpenHilal: () -> Unit,
+    islamicPreferences: IslamicPreferences,
+    onOpenCalendar: () -> Unit,
     showOnboarding: Boolean,
     onOnboardingSeen: () -> Unit,
 ) {
@@ -100,6 +111,7 @@ fun SkyScreen(
     var searchOpen by remember { mutableStateOf(false) }
     var layersOpen by remember { mutableStateOf(false) }
     var aboutOpen by remember { mutableStateOf(false) }
+    var starNoteOpen by remember { mutableStateOf(false) }
     val tapRadius = with(density) { 30.dp.toPx() }
     val tapWeight = with(density) { 2.dp.toPx() }
 
@@ -136,14 +148,16 @@ fun SkyScreen(
         }
     }
 
-    BackHandler(enabled = aboutOpen || searchOpen || layersOpen || timeOpen || controller.selected != null || controller.target != null) {
+    BackHandler(enabled = starNoteOpen || aboutOpen || searchOpen || layersOpen || timeOpen || controller.selected != null || controller.target != null || controller.dawnGuide) {
         when {
+            starNoteOpen -> starNoteOpen = false
             aboutOpen -> aboutOpen = false
             searchOpen -> searchOpen = false
             layersOpen -> layersOpen = false
             controller.selected != null -> controller.selected = null
             timeOpen -> timeOpen = false
-            else -> controller.target = null
+            controller.target != null -> controller.target = null
+            else -> controller.dismissDawnGuide()
         }
     }
 
@@ -210,15 +224,29 @@ fun SkyScreen(
 
         QiblaBanner(controller, Modifier.align(Alignment.TopCenter).statusBarsPadding().padding(top = 110.dp))
 
+        HilalDuaOverlay(controller, Modifier.align(Alignment.TopCenter).statusBarsPadding().padding(top = 96.dp, start = 14.dp, end = 14.dp))
+
         Column(
             Modifier.align(Alignment.BottomCenter).fillMaxWidth().navigationBarsPadding().padding(horizontal = 14.dp, vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             if (controller.selected == null) GuidancePanel(controller)
+            if (controller.dawnGuide) {
+                Pill("Şafak işaretlerini kapat", icon = RasadIcons.Close, onClick = { controller.dismissDawnGuide() }, modifier = Modifier.padding(bottom = 10.dp))
+            }
             PointingReadout(controller)
             Spacer(Modifier.height(10.dp))
             AnimatedVisibility(visible = timeOpen, enter = fadeIn() + slideInVertically { it / 3 }, exit = fadeOut() + slideOutVertically { it / 3 }) {
-                TimeDial(controller.clock, { controller.frame }, typefaces.sans, Modifier.padding(bottom = 10.dp))
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    PrayerStrip(
+                        millis = controller.displayedMinute * 60_000L,
+                        location = controller.location,
+                        preferences = islamicPreferences,
+                        onJump = { controller.jumpTo(it) },
+                        modifier = Modifier.padding(bottom = 10.dp),
+                    )
+                    TimeDial(controller.clock, { controller.frame }, typefaces.sans, Modifier.padding(bottom = 10.dp))
+                }
             }
             Dock(
                 mode = controller.mode,
@@ -234,7 +262,7 @@ fun SkyScreen(
                 },
                 onTime = { timeOpen = !timeOpen },
                 onSearch = { searchOpen = true },
-                onHilal = onOpenHilal,
+                onCalendar = onOpenCalendar,
             )
         }
 
@@ -244,7 +272,7 @@ fun SkyScreen(
             exit = slideOutVertically { it } + fadeOut(),
             modifier = Modifier.align(Alignment.BottomCenter),
         ) {
-            SelectedObjectSheet(controller)
+            SelectedObjectSheet(controller, onOpenStarNote = { starNoteOpen = true })
         }
 
         AnimatedVisibility(visible = showOnboarding && controller.mode == ViewMode.Sensor, enter = fadeIn(), exit = fadeOut(), modifier = Modifier.align(Alignment.Center)) {
@@ -252,7 +280,17 @@ fun SkyScreen(
         }
 
         AnimatedVisibility(visible = aboutOpen, enter = fadeIn(), exit = fadeOut()) {
-            AboutPanel(onDismiss = { aboutOpen = false })
+            AboutPanel(
+                onDismiss = { aboutOpen = false },
+                onOpenStarNote = {
+                    aboutOpen = false
+                    starNoteOpen = true
+                },
+            )
+        }
+
+        AnimatedVisibility(visible = starNoteOpen, enter = fadeIn(), exit = fadeOut()) {
+            StarNotePanel(onDismiss = { starNoteOpen = false })
         }
 
         AnimatedVisibility(visible = searchOpen, enter = fadeIn(), exit = fadeOut()) {
@@ -378,6 +416,27 @@ private fun QiblaBanner(controller: SkyController, modifier: Modifier = Modifier
 }
 
 @Composable
+private fun HilalDuaOverlay(controller: SkyController, modifier: Modifier = Modifier) {
+    val moonTarget by remember(controller) { derivedStateOf { controller.target == MOON } }
+    val hourKey by remember(controller) { derivedStateOf { controller.displayedMinute / 60L } }
+    val youngCrescent = produceState(false, moonTarget, hourKey) {
+        value = moonTarget && withContext(Dispatchers.Default) {
+            runCatching { Hilal.lunation(controller.published.millis).ageDays < YOUNG_CRESCENT_DAYS }.getOrDefault(false)
+        }
+    }
+    val visible by remember(controller) {
+        derivedStateOf {
+            val readout = controller.guidance
+            youngCrescent.value && readout != null && readout.centered && !readout.belowHorizon &&
+                controller.selected == null && controller.published.sun.altitude < 0.0
+        }
+    }
+    AnimatedVisibility(visible = visible, enter = fadeIn(), exit = fadeOut(), modifier = modifier) {
+        HilalDuaCard()
+    }
+}
+
+@Composable
 private fun GuidancePanel(controller: SkyController) {
     val readout = controller.guidance ?: return
     val target = readout.ref
@@ -402,7 +461,7 @@ private fun GuidancePanel(controller: SkyController) {
 }
 
 @Composable
-private fun SelectedObjectSheet(controller: SkyController) {
+private fun SelectedObjectSheet(controller: SkyController, onOpenStarNote: () -> Unit) {
     val selected = controller.selected ?: return
     val snapshot = controller.published
     val location = controller.location
@@ -427,6 +486,7 @@ private fun SelectedObjectSheet(controller: SkyController) {
             controller.target = selected
             controller.jumpTo(millis)
         },
+        onOpenStarNote = onOpenStarNote,
     )
 }
 
@@ -437,7 +497,7 @@ private fun Dock(
     onMode: () -> Unit,
     onTime: () -> Unit,
     onSearch: () -> Unit,
-    onHilal: () -> Unit,
+    onCalendar: () -> Unit,
 ) {
     Row(
         Modifier.widthIn(max = 420.dp).fillMaxWidth().panel(RoundedCornerShape(26.dp)).padding(horizontal = 6.dp, vertical = 6.dp),
@@ -451,7 +511,7 @@ private fun Dock(
         )
         DockItem(RasadIcons.Clock, "Zaman", timeOpen, onTime)
         DockItem(RasadIcons.Search, "Ara", false, onSearch)
-        DockItem(RasadIcons.Moon, "Hilal", false, onHilal)
+        DockItem(RasadIcons.Moon, "Takvim", false, onCalendar)
     }
 }
 

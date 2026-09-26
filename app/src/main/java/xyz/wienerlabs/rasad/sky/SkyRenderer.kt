@@ -36,6 +36,7 @@ class SkyRenderState {
     var target: SkyObjectRef? = null
     var showReticle = false
     var sensorView = false
+    var dawnGuide = false
     var targetRevealStart = -1f
     var seconds = 0f
 }
@@ -292,6 +293,7 @@ class SkyRenderer(
         if (layers.constellationNames) drawConstellationNames(canvas, camera, snapshot, layers.ground, picks, chromeFade, focus)
         state.selected?.let { if (it !is SkyObjectRef.Constellation) drawHighlight(canvas, camera, snapshot, it, state) }
         state.target?.let { drawGuide(canvas, camera, snapshot, it, state) }
+        if (state.dawnGuide) drawDawnGuide(canvas, camera, snapshot)
         if (state.showReticle) drawReticle(canvas, camera, snapshot, state)
     }
 
@@ -888,6 +890,45 @@ class SkyRenderer(
         }
     }
 
+    private fun drawDawnGuide(canvas: Canvas, camera: SkyCamera, snapshot: SkySnapshot) {
+        val sun = snapshot.sun
+        if (sun.altitude > -4.0 || sun.altitude < -32.0) return
+        val falseDawnStrength = 1f - smoothstep(FALSE_DAWN_FADE_START, FALSE_DAWN_FADE_END, sin(Math.toRadians(sun.altitude)).toFloat())
+        if (falseDawnStrength > 0.05f) {
+            val sunDirection = sun.direction
+            val pole = snapshot.eqjToEnu.transform(SkyShader.ECLIPTIC_POLE)
+            val raw = (pole cross sunDirection).normalized()
+            val along = if (raw.z >= 0.0) raw else raw * -1.0
+            val target = sin(Math.toRadians(DAWN_LABEL_ALTITUDE))
+            val reach = hypot(sunDirection.z, along.z)
+            val phase = atan2(along.z, sunDirection.z)
+            val elongation = if (reach > target) phase - acos((target / reach).coerceIn(-1.0, 1.0)) else phase
+            val angle = elongation.coerceIn(Math.toRadians(MIN_CONE_ELONGATION), Math.toRadians(MAX_CONE_ELONGATION))
+            val cone = sunDirection * cos(angle) + along * sin(angle)
+            if (cone.z > 0.03) drawDawnLabel(canvas, camera, cone, "Fecr-i kâzib", "burçlar ışığı, dikine uzanır", falseDawnStrength)
+        }
+        val trueDawnStrength = smoothstep(TRUE_DAWN_FADE_START, TRUE_DAWN_FADE_END, sun.altitude.toFloat())
+        if (trueDawnStrength > 0.05f) {
+            drawDawnLabel(canvas, camera, Vec3.fromAzimuthAltitude(sun.azimuth, 3.0), "Fecr-i sâdık", "ufka yatay yayılan aydınlık", trueDawnStrength)
+        }
+    }
+
+    private fun smoothstep(edge0: Float, edge1: Float, x: Float): Float {
+        val t = ((x - edge0) / (edge1 - edge0)).coerceIn(0f, 1f)
+        return t * t * (3f - 2f * t)
+    }
+
+    private fun drawDawnLabel(canvas: Canvas, camera: SkyCamera, direction: Vec3, title: String, detail: String, strength: Float) {
+        if (camera.depth(direction.x, direction.y, direction.z) < 0.2 || !camera.project(direction, point)) return
+        if (!camera.isOnScreen(point[0], point[1], -dp(24f))) return
+        vertexPaint.alpha = (220 * strength).toInt()
+        canvas.drawCircle(point[0], point[1], dp(3f), vertexPaint)
+        guideLabelPaint.alpha = (245 * strength).toInt()
+        canvas.drawText(title, point[0], point[1] - dp(26f), guideLabelPaint)
+        guideLabelPaint.alpha = (170 * strength).toInt()
+        canvas.drawText(detail, point[0], point[1] - dp(26f) + guideLabelPaint.textSize * 1.25f, guideLabelPaint)
+    }
+
     private fun drawChevron(canvas: Canvas, x: Float, y: Float, ux: Float, uy: Float, alpha: Int) {
         val size = dp(6.5f)
         path.reset()
@@ -969,6 +1010,13 @@ class SkyRenderer(
         private const val ROAD_STEPS = 96
         private const val REVEAL_SECONDS = 1.1f
         private const val RETICLE_REFRESH_COSINE = 0.99996
+        private const val DAWN_LABEL_ALTITUDE = 20.0
+        private const val MIN_CONE_ELONGATION = 30.0
+        private const val MAX_CONE_ELONGATION = 80.0
+        private const val FALSE_DAWN_FADE_START = -0.33f
+        private const val FALSE_DAWN_FADE_END = -0.21f
+        private const val TRUE_DAWN_FADE_START = -19.5f
+        private const val TRUE_DAWN_FADE_END = -17.5f
         private const val BIN_START = -1.75f
         private const val BIN_WIDTH = 0.5f
 

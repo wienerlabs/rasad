@@ -38,7 +38,9 @@ import xyz.wienerlabs.rasad.sky.SkyCatalog
 import xyz.wienerlabs.rasad.sky.SkyClock
 import xyz.wienerlabs.rasad.sky.SkyController
 import xyz.wienerlabs.rasad.sky.SkyTypefaces
-import xyz.wienerlabs.rasad.ui.hilal.HilalScreen
+import xyz.wienerlabs.rasad.islam.IslamicPreferences
+import xyz.wienerlabs.rasad.ui.islam.CalendarScreen
+import xyz.wienerlabs.rasad.ui.islam.CalendarTab
 import xyz.wienerlabs.rasad.ui.sky.SkyScreen
 import xyz.wienerlabs.rasad.ui.sky.SearchEntry
 import xyz.wienerlabs.rasad.ui.sky.buildSearchIndex
@@ -46,7 +48,7 @@ import xyz.wienerlabs.rasad.ui.theme.Palette
 import xyz.wienerlabs.rasad.ui.theme.RasadTheme
 import xyz.wienerlabs.rasad.ui.theme.RasadType
 
-private enum class Screen { Sky, Hilal }
+private enum class Screen { Sky, Calendar }
 
 private class LoadedAssets(val catalog: SkyCatalog, val typefaces: SkyTypefaces)
 
@@ -67,6 +69,7 @@ fun RasadApp(request: LaunchRequest?) {
     val context = LocalContext.current
     val locationSource = remember { LocationSource(context) }
     val preferences = remember { context.getSharedPreferences("rasad", Context.MODE_PRIVATE) }
+    val islamicPreferences = remember { IslamicPreferences(preferences) }
     val saved = remember { locationSource.saved() }
     var assets by remember { mutableStateOf<LoadedAssets?>(null) }
     var location by remember { mutableStateOf(saved ?: GeoPoint.Istanbul) }
@@ -76,7 +79,8 @@ fun RasadApp(request: LaunchRequest?) {
     var nightVision by remember { mutableStateOf(false) }
     var onboarding by remember { mutableStateOf(!preferences.getBoolean("onboarded", false)) }
     var locateRequests by remember { mutableIntStateOf(0) }
-    var hilalMillis by remember { mutableLongStateOf(System.currentTimeMillis()) }
+    var calendarMillis by remember { mutableLongStateOf(System.currentTimeMillis()) }
+    var calendarTab by remember { mutableStateOf(CalendarTab.Hilal) }
     var hilalEvening by remember { mutableStateOf<Int?>(null) }
 
     val permissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
@@ -148,10 +152,11 @@ fun RasadApp(request: LaunchRequest?) {
                 }
                 controller.selected = incoming.select?.let { loaded.resolve(it) }
                 controller.target = incoming.target?.let { loaded.resolve(it) }
-                if (incoming.screen == "hilal") {
-                    hilalMillis = clock.now()
+                if (incoming.screen == "hilal" || incoming.screen == "takvim") {
+                    calendarMillis = clock.now()
                     hilalEvening = incoming.evening
-                    screen = Screen.Hilal
+                    calendarTab = CalendarTab.fromKey(incoming.tab) ?: CalendarTab.Hilal
+                    screen = Screen.Calendar
                 } else if (incoming.screen == "sky") {
                     screen = Screen.Sky
                 }
@@ -166,10 +171,11 @@ fun RasadApp(request: LaunchRequest?) {
                         placeName = placeName,
                         nightVision = nightVision,
                         onNightVisionChange = { nightVision = it },
-                        onOpenHilal = {
-                            hilalMillis = clock.now()
+                        islamicPreferences = islamicPreferences,
+                        onOpenCalendar = {
+                            calendarMillis = System.currentTimeMillis()
                             hilalEvening = null
-                            screen = Screen.Hilal
+                            screen = Screen.Calendar
                         },
                         showOnboarding = onboarding,
                         onOnboardingSeen = {
@@ -177,13 +183,20 @@ fun RasadApp(request: LaunchRequest?) {
                             preferences.edit().putBoolean("onboarded", true).apply()
                         },
                     )
-                    Screen.Hilal -> HilalScreen(
-                        millis = hilalMillis,
+                    Screen.Calendar -> CalendarScreen(
+                        millis = calendarMillis,
                         location = location,
                         placeName = placeName,
                         catalog = loaded,
-                        onBack = { screen = Screen.Sky },
+                        preferences = islamicPreferences,
+                        tab = calendarTab,
+                        onTabChange = { calendarTab = it },
                         initialEvening = hilalEvening,
+                        onBack = { screen = Screen.Sky },
+                        onShowInSky = { presentation ->
+                            controller.present(presentation)
+                            screen = Screen.Sky
+                        },
                     )
                 }
             }

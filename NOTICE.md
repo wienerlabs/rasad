@@ -9,6 +9,9 @@
 | Astronomy Engine | Don Cross, https://github.com/cosinekitty/astronomy | MIT |
 | Funnel Display, Funnel Sans | NORD ID, https://github.com/google/fonts/tree/main/ofl | SIL Open Font License 1.1 |
 | Amiri | Khaled Hosny, https://github.com/google/fonts/tree/main/ofl/amiri | SIL Open Font License 1.1 |
+| Quran text | Tanzil Project, Simple script, https://tanzil.net | Verbatim use with attribution and a link to tanzil.net; the text must not be changed |
+| Quran meal | Diyanet İşleri Başkanlığı translation (tr.diyanet) via Tanzil | Non-commercial use; commercial use needs the publisher's permission |
+| Hadith texts | Arabic texts and numbering as published on https://sunnah.com; gradings from the collections and from Albani as listed on https://dorar.net | Classical texts; the Turkish translations are the app's own |
 
 Method reference: B. D. Yallop, "A Method for Predicting the First Sighting of the New Crescent Moon", NAO Technical Note No. 69, HM Nautical Almanac Office.
 

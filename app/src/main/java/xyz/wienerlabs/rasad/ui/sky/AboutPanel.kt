@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import xyz.wienerlabs.rasad.ui.RasadIcons
 import xyz.wienerlabs.rasad.ui.components.Hairline
+import xyz.wienerlabs.rasad.ui.components.Pill
 import xyz.wienerlabs.rasad.ui.components.RoundIconButton
 import xyz.wienerlabs.rasad.ui.components.SectionLabel
 import xyz.wienerlabs.rasad.ui.theme.Palette
@@ -34,11 +35,16 @@ private val credits = listOf(
     Credit("Dünya haritası", "Natural Earth, 1:110m kara poligonları. Kamu malı."),
     Credit("Yazı tipleri", "Funnel Display ve Funnel Sans (NORD ID), Amiri (Khaled Hosny). SIL Open Font License 1.1."),
     Credit("Hilal görünürlüğü", "B. D. Yallop, NAO Technical Note 69. En iyi gözlem anı gün batımı artı gecikmenin 4/9'u; q ölçütü A ile F arası."),
+    Credit("Kur'an metni", "Tanzil Projesi (tanzil.net), sade yazım. Harf ve harekeler değiştirilmeden kullanılır; durak işaretleri yalnızca ekranda önceki kelimenin üstüne alınır."),
+    Credit("Kur'an meali", "Diyanet İşleri Başkanlığı'nın Tanzil'de yayımlanan eski meali. Ticari olmayan kullanım içindir."),
+    Credit("Hadis metinleri", "Arapça metinler ve numaralar sunnah.com'dan birebir alınıp tek tek doğrulandı; Türkçe çeviriler Rasad'ındır. Buhârî ve Müslim dışındaki hadislerde, bulunduğu ölçüde eserin kendi hükmü, Elbânî'nin hükmü (dorar.net) ve sunnah.com'daki Dârüsselâm hükmü birlikte gösterilir."),
+    Credit("Namaz vakitleri", "Güneş'in bulunduğun yerdeki konumundan Astronomy Engine ile hesaplanır: Diyanet açıları (18° ve 17°) ya da Ümmü'l-Kurâ yöntemi. Resmî takvimlerdeki temkin payı eklenmez."),
+    Credit("Hicrî takvim", "Ümmü'l-Kurâ takvimi; buradaki tarihler tahmindir. Ay başı hilalin görülmesiyle belirlenir; bulunduğun yere göre bir gün öne ya da geriye alınabilir."),
     Credit("Yıldız adlarının kökeni", "Arapça adlar ve anlamları, Paul Kunitzsch ve Tim Smart'ın yıldız adları çalışmaları ile klasik İslam astronomisi kaynaklarından derlendi."),
 )
 
 @Composable
-fun AboutPanel(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
+fun AboutPanel(onDismiss: () -> Unit, onOpenStarNote: () -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier
             .fillMaxSize()
@@ -59,6 +65,8 @@ fun AboutPanel(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
                 style = RasadType.body,
                 color = Palette.TextMuted,
             )
+            Spacer(Modifier.height(14.dp))
+            Pill("Yıldızlar ve İslam", onClick = onOpenStarNote)
             Spacer(Modifier.height(18.dp))
             credits.forEachIndexed { index, credit ->
                 if (index > 0) Hairline()

@@ -22,6 +22,7 @@ data class LaunchRequest(
     val night: Boolean = false,
     val grid: Boolean = false,
     val evening: Int? = null,
+    val tab: String? = null,
     val quiet: Boolean = false,
     val play: Boolean = false,
     val id: Long = System.nanoTime(),
@@ -33,7 +34,7 @@ data class LaunchRequest(
             if (intent == null) return null
             val uri = intent.data
             fun read(key: String): String? = uri?.getQueryParameter(key) ?: intent.getStringExtra(key)
-            val keys = listOf("screen", "az", "alt", "fov", "time", "lat", "lon", "place", "select", "target", "night", "grid", "evening", "quiet", "play")
+            val keys = listOf("screen", "az", "alt", "fov", "time", "lat", "lon", "place", "select", "target", "night", "grid", "evening", "tab", "quiet", "play")
             if (uri?.host == null && keys.none { intent.hasExtra(it) }) return null
             return LaunchRequest(
                 screen = read("screen") ?: uri?.host,
@@ -49,6 +50,7 @@ data class LaunchRequest(
                 night = read("night") == "1",
                 grid = read("grid") == "1",
                 evening = read("evening")?.toIntOrNull(),
+                tab = read("tab"),
                 quiet = read("quiet") == "1",
                 play = read("play") == "1",
             )

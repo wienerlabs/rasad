@@ -51,6 +51,14 @@ class SkyClock {
     }
 }
 
+data class SkyPresentation(
+    val millis: Long,
+    val target: SkyObjectRef? = null,
+    val towardSunAltitude: Double? = null,
+    val fov: Double? = null,
+    val dawnGuide: Boolean = false,
+)
+
 @Stable
 class SkyController(
     val catalog: SkyCatalog,
@@ -82,6 +90,8 @@ class SkyController(
         private set
     var guidance by mutableStateOf<GuidanceReadout?>(null)
         private set
+    var dawnGuide by mutableStateOf(false)
+        private set
 
     var current: SkySnapshot = published
         private set
@@ -111,6 +121,8 @@ class SkyController(
     private var trackedTarget: SkyObjectRef? = null
     private var guidanceFrames = 0
     private var pendingFlight = false
+    private var pendingPresentation: SkyPresentation? = null
+    private var dawnGuideMillis = 0L
     private var seconds = 0.0
 
     val qiblaAzimuth: Double get() = Qibla.bearingDegrees(location)
@@ -143,6 +155,21 @@ class SkyController(
             renderState.targetRevealStart = -1f
             target?.let { flyTo(it) }
         }
+        pendingPresentation?.let { presentation ->
+            pendingPresentation = null
+            selected = null
+            val requested = presentation.target
+            if (requested != null) {
+                switchToManual()
+                flyTo(requested, presentation.fov)
+            } else {
+                target = null
+                val altitude = presentation.towardSunAltitude ?: camera.centerAltitude
+                val azimuth = if (presentation.towardSunAltitude != null) current.sun.azimuth else camera.centerAzimuth
+                flyToDirection(azimuth, altitude, presentation.fov)
+            }
+        }
+        if (dawnGuide && abs(now - dawnGuideMillis) > DAWN_GUIDE_SPAN_MILLIS) dawnGuide = false
 
         updateCamera(frameNanos, dt, tracker)
         updateReadouts()
@@ -154,6 +181,7 @@ class SkyController(
         renderState.target = target
         renderState.showReticle = mode == ViewMode.Sensor && sensorActive
         renderState.sensorView = mode == ViewMode.Sensor && sensorActive
+        renderState.dawnGuide = dawnGuide
         renderState.seconds = seconds.toFloat()
         frame = frameNanos
     }
@@ -250,6 +278,36 @@ class SkyController(
                 separationDegrees = separation,
             )
         }
+    }
+
+    fun present(presentation: SkyPresentation) {
+        clock.playing = false
+        clock.setAbsolute(presentation.millis)
+        dawnGuide = presentation.dawnGuide
+        dawnGuideMillis = presentation.millis
+        refreshNow()
+        pendingPresentation = presentation
+    }
+
+    fun dismissDawnGuide() {
+        dawnGuide = false
+    }
+
+    fun flyToDirection(azimuth: Double, altitude: Double, fov: Double? = null) {
+        switchToManual()
+        var delta = azimuth - manualAzimuth
+        if (delta > 180) delta -= 360
+        if (delta < -180) delta += 360
+        flight = Flight(
+            startNanos = if (lastFrameNanos == 0L) System.nanoTime() else lastFrameNanos,
+            durationSeconds = 1.1,
+            startAzimuth = manualAzimuth,
+            deltaAzimuth = delta,
+            startAltitude = manualAltitude,
+            endAltitude = altitude.coerceIn(-85.0, 89.5),
+            startFov = camera.fovDegrees,
+            endFov = fov ?: camera.fovDegrees,
+        )
     }
 
     fun jumpTo(millis: Long) {
@@ -354,6 +412,7 @@ class SkyController(
 
     companion object {
         private const val SNAPSHOT_INTERVAL_MILLIS = 15_000L
+        private const val DAWN_GUIDE_SPAN_MILLIS = 3L * 3_600_000L
         private const val SENSOR_SMOOTHING_SECONDS = 0.08
         private const val QIBLA_TOLERANCE_DEGREES = 2.0
 

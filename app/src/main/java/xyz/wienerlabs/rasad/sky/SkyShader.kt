@@ -5,6 +5,8 @@ import android.graphics.BitmapShader
 import android.graphics.RuntimeShader
 import android.graphics.Shader
 import xyz.wienerlabs.rasad.astro.SkySnapshot
+import xyz.wienerlabs.rasad.astro.Vec3
+import xyz.wienerlabs.rasad.astro.transform
 import kotlin.math.cos
 
 class SkyShader(milkyWay: Bitmap, moonTexture: Bitmap) {
@@ -56,6 +58,11 @@ class SkyShader(milkyWay: Bitmap, moonTexture: Bitmap) {
         shader.setFloatUniform("uDay", day.toFloat())
         shader.setFloatUniform("uTwilight", twilight.toFloat())
         shader.setFloatUniform("uMilkyWay", (milkyWayStrength * darkness).toFloat())
+        val pole = m.transform(ECLIPTIC_POLE)
+        shader.setFloatUniform("uEclipticPole", pole.x.toFloat(), pole.y.toFloat(), pole.z.toFloat())
+        val moonGlare = if (moon.z > 0.0) 0.85 * snapshot.moon.phaseFraction else 0.0
+        val zodiacal = (1.0 - smoothstep(-0.33, -0.21, sunHeight)) * (1.0 - moonGlare) * milkyWayStrength.coerceAtLeast(0.35f)
+        shader.setFloatUniform("uZodiacal", zodiacal.toFloat())
         setColor("uZenith", mixColor(mixColor(NIGHT_ZENITH, DUSK_ZENITH, twilight), DAY_ZENITH, day))
         setColor("uHorizon", mixColor(mixColor(NIGHT_HORIZON, DUSK_HORIZON, twilight), DAY_HORIZON, day))
     }
@@ -78,6 +85,7 @@ class SkyShader(milkyWay: Bitmap, moonTexture: Bitmap) {
         private val DUSK_HORIZON = doubleArrayOf(0.150, 0.130, 0.220)
         private val DAY_ZENITH = doubleArrayOf(0.120, 0.320, 0.700)
         private val DAY_HORIZON = doubleArrayOf(0.560, 0.700, 0.880)
+        val ECLIPTIC_POLE: Vec3 = Vec3.fromEquatorial(18.0, 66.560708)
 
         private val SOURCE = """
             uniform float2 uCenter;
@@ -100,6 +108,8 @@ class SkyShader(milkyWay: Bitmap, moonTexture: Bitmap) {
             uniform float uPixelAngle;
             uniform float uDay;
             uniform float uTwilight;
+            uniform float3 uEclipticPole;
+            uniform float uZodiacal;
             uniform float3 uZenith;
             uniform float3 uHorizon;
             uniform float2 uMilkySize;
@@ -140,6 +150,18 @@ class SkyShader(milkyWay: Bitmap, moonTexture: Bitmap) {
                 float2 uv = float2(ra / (2.0 * PI) * uMilkySize.x, (0.5 - dec / PI) * uMilkySize.y);
                 float value = milkyWay.eval(uv).r;
                 return float3(0.66, 0.70, 0.80) * value * value * 0.16 + float3(0.30, 0.32, 0.38) * value * 0.05;
+            }
+
+            float3 zodiacalLight(float3 dir) {
+                float elongation = acos(clamp(dot(dir, uSun), -1.0, 1.0));
+                if (elongation < 0.26 || elongation > 2.3) { return float3(0.0); }
+                float latitude = abs(asin(clamp(dot(dir, uEclipticPole), -1.0, 1.0)));
+                float width = 0.10 + 0.20 * clamp((elongation - 0.35) / 1.2, 0.0, 1.0);
+                float falloff = pow(0.52 / elongation, 2.2);
+                float band = exp(-latitude / width);
+                float extinction = smoothstep(-0.02, 0.16, dir.z);
+                float fadeIn = smoothstep(0.26, 0.45, elongation);
+                return float3(0.80, 0.78, 0.70) * band * falloff * extinction * fadeIn * 0.4;
             }
 
             float3 moonSurface(float3 dir, float3 background) {
@@ -207,6 +229,10 @@ class SkyShader(milkyWay: Bitmap, moonTexture: Bitmap) {
                 if (uMilkyWay > 0.001 && dir.z > -0.01) {
                     float horizonFade = smoothstep(-0.01, 0.22, dir.z);
                     color += milkyWayColor(dir) * uMilkyWay * horizonFade;
+                }
+
+                if (uZodiacal > 0.001 && dir.z > -0.02) {
+                    color += zodiacalLight(dir) * uZodiacal;
                 }
 
                 color = moonSurface(dir, color);

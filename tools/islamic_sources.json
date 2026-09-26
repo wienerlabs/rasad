@@ -1,0 +1,1294 @@
+{
+ "meta": {
+  "fetchedOn": "2026-09-26",
+  "ayatSource": "api.alquran.cloud, editions quran-simple (Tanzil simple script with tashkeel and waqf signs, not Uthmani) and tr.diyanet. Texts written to disk directly from the API responses, no retyping.",
+  "hadithSource": "sunnah.com pages loaded in a real browser (plain curl was served a Cloudflare challenge and was not used). Each text is the rendered text (innerText) of the page element. Every full Arabic and English text and every reference and grade row was checked byte for byte against the live page with SHA-256; excerpts and key statements are exact substrings of those verified texts.",
+  "gradingSource": "Items 19, 20 and 21 (grading) come from dorar.net (الموسوعة الحديثية, specialist tab of the search results), loaded in the same browser pane. Every recorded field (verdict, muhaddith, source, page or number, narrator, takhrij, hadith text where recorded) was checked byte for byte against the live page with SHA-256, and the three صحيح الترمذي verdicts were checked again on their own permalink pages.",
+  "hadithArabicEncoding": "sunnah.com Arabic contains U+200F (right-to-left mark) characters around quotation marks and full stops, and stores shadda before the short vowel (not Unicode NFC order). Both are kept exactly as on the page. NFC normalization does not change how the text renders; strip U+200F if the app does not want it."
+ },
+ "ayat": [
+  {
+   "ref": "2:144",
+   "surah": "Al-Baqara",
+   "surahArabic": "سُورَةُ البَقَرَةِ",
+   "arabic": "قَدْ نَرَىٰ تَقَلُّبَ وَجْهِكَ فِي السَّمَاءِ ۖ فَلَنُوَلِّيَنَّكَ قِبْلَةً تَرْضَاهَا ۚ فَوَلِّ وَجْهَكَ شَطْرَ الْمَسْجِدِ الْحَرَامِ ۚ وَحَيْثُ مَا كُنْتُمْ فَوَلُّوا وُجُوهَكُمْ شَطْرَهُ ۗ وَإِنَّ الَّذِينَ أُوتُوا الْكِتَابَ لَيَعْلَمُونَ أَنَّهُ الْحَقُّ مِنْ رَبِّهِمْ ۗ وَمَا اللَّهُ بِغَافِلٍ عَمَّا يَعْمَلُونَ",
+   "meal": "Yüzünü göğe çevirip durduğunu görüyoruz. Hoşnud olacağın kıbleye seni elbette çevireceğiz. Artık yüzünü Mescid-i Haram semtine çevir; bulunduğunuz yerde yüzlerinizi o yöne çevirin. Doğrusu Kitap verilenler, bunun Rab'lerinden bir gerçek olduğunu bilirler. Allah onların yaptıklarından gafil değildir.",
+   "url": "https://api.alquran.cloud/v1/ayah/2:144/editions/quran-simple,tr.diyanet",
+   "arabicEdition": "quran-simple (Simple)",
+   "mealEdition": "tr.diyanet (Diyanet İşleri)"
+  },
+  {
+   "ref": "2:185",
+   "surah": "Al-Baqara",
+   "surahArabic": "سُورَةُ البَقَرَةِ",
+   "arabic": "شَهْرُ رَمَضَانَ الَّذِي أُنْزِلَ فِيهِ الْقُرْآنُ هُدًى لِلنَّاسِ وَبَيِّنَاتٍ مِنَ الْهُدَىٰ وَالْفُرْقَانِ ۚ فَمَنْ شَهِدَ مِنْكُمُ الشَّهْرَ فَلْيَصُمْهُ ۖ وَمَنْ كَانَ مَرِيضًا أَوْ عَلَىٰ سَفَرٍ فَعِدَّةٌ مِنْ أَيَّامٍ أُخَرَ ۗ يُرِيدُ اللَّهُ بِكُمُ الْيُسْرَ وَلَا يُرِيدُ بِكُمُ الْعُسْرَ وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَىٰ مَا هَدَاكُمْ وَلَعَلَّكُمْ تَشْكُرُونَ",
+   "meal": "Ramazan ayı, ki onda Kuran, insanlara yol gösterici ve doğruyu yanlıştan ayırıcı belgeler olarak indirildi. Sizden bu ayı idrak eden, onda oruç tutsun; hasta veya yolculukta olan, tutamadığı günlerin sayısınca diğer günlerde tutsun. Allah size kolaylık ister, zorluk istemez. Bu kolaylıkları, sayıyı tamamlamanız ve size yol gösterdiğine karşılık O'nu ululamanız için meşru kılmıştır; ola ki şükredersiniz.",
+   "url": "https://api.alquran.cloud/v1/ayah/2:185/editions/quran-simple,tr.diyanet",
+   "arabicEdition": "quran-simple (Simple)",
+   "mealEdition": "tr.diyanet (Diyanet İşleri)"
+  },
+  {
+   "ref": "2:189",
+   "surah": "Al-Baqara",
+   "surahArabic": "سُورَةُ البَقَرَةِ",
+   "arabic": "۞ يَسْأَلُونَكَ عَنِ الْأَهِلَّةِ ۖ قُلْ هِيَ مَوَاقِيتُ لِلنَّاسِ وَالْحَجِّ ۗ وَلَيْسَ الْبِرُّ بِأَنْ تَأْتُوا الْبُيُوتَ مِنْ ظُهُورِهَا وَلَٰكِنَّ الْبِرَّ مَنِ اتَّقَىٰ ۗ وَأْتُوا الْبُيُوتَ مِنْ أَبْوَابِهَا ۚ وَاتَّقُوا اللَّهَ لَعَلَّكُمْ تُفْلِحُونَ",
+   "meal": "Sana hilal halindeki ayları sorarlar. De ki: \"Onlar, insanların ve hac vakitlerinin ölçüsüdür\". Evlere arkalarından girmeniz iyilik değildir; iyi kimse kötülükten sakınan kimsedir. Evlere kapılarından girin; Allah'tan sakının ki muradınıza erersiniz.",
+   "url": "https://api.alquran.cloud/v1/ayah/2:189/editions/quran-simple,tr.diyanet",
+   "arabicEdition": "quran-simple (Simple)",
+   "mealEdition": "tr.diyanet (Diyanet İşleri)"
+  },
+  {
+   "ref": "4:103",
+   "surah": "An-Nisaa",
+   "surahArabic": "سُورَةُ النِّسَاءِ",
+   "arabic": "فَإِذَا قَضَيْتُمُ الصَّلَاةَ فَاذْكُرُوا اللَّهَ قِيَامًا وَقُعُودًا وَعَلَىٰ جُنُوبِكُمْ ۚ فَإِذَا اطْمَأْنَنْتُمْ فَأَقِيمُوا الصَّلَاةَ ۚ إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَوْقُوتًا",
+   "meal": "Namazı kıldıktan başka, Allah'ı ayakta iken, otururken, yan yatarken de anın. Emniyete kavuştuğunuzda, namazı gereğince kılın. Namaz şüphesiz, inananlara belirli vakitlerde farz kılınmıştır.",
+   "url": "https://api.alquran.cloud/v1/ayah/4:103/editions/quran-simple,tr.diyanet",
+   "arabicEdition": "quran-simple (Simple)",
+   "mealEdition": "tr.diyanet (Diyanet İşleri)"
+  },
+  {
+   "ref": "6:97",
+   "surah": "Al-An'aam",
+   "surahArabic": "سُورَةُ الأَنۡعَامِ",
+   "arabic": "وَهُوَ الَّذِي جَعَلَ لَكُمُ النُّجُومَ لِتَهْتَدُوا بِهَا فِي ظُلُمَاتِ الْبَرِّ وَالْبَحْرِ ۗ قَدْ فَصَّلْنَا الْآيَاتِ لِقَوْمٍ يَعْلَمُونَ",
+   "meal": "O, yıldızları kara ve denizin karanlıklarında yol bulasınız diye sizin için var edendir. Bilen millet için ayetleri uzun uzadıya açıkladık.",
+   "url": "https://api.alquran.cloud/v1/ayah/6:97/editions/quran-simple,tr.diyanet",
+   "arabicEdition": "quran-simple (Simple)",
+   "mealEdition": "tr.diyanet (Diyanet İşleri)"
+  },
+  {
+   "ref": "9:36",
+   "surah": "At-Tawba",
+   "surahArabic": "سُورَةُ التَّوۡبَةِ",
+   "arabic": "إِنَّ عِدَّةَ الشُّهُورِ عِنْدَ اللَّهِ اثْنَا عَشَرَ شَهْرًا فِي كِتَابِ اللَّهِ يَوْمَ خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ مِنْهَا أَرْبَعَةٌ حُرُمٌ ۚ ذَٰلِكَ الدِّينُ الْقَيِّمُ ۚ فَلَا تَظْلِمُوا فِيهِنَّ أَنْفُسَكُمْ ۚ وَقَاتِلُوا الْمُشْرِكِينَ كَافَّةً كَمَا يُقَاتِلُونَكُمْ كَافَّةً ۚ وَاعْلَمُوا أَنَّ اللَّهَ مَعَ الْمُتَّقِينَ",
+   "meal": "Allah'ın gökleri ve yeri yarattığı günkü yazısında, Allah'a göre ayların sayısı onikidir. Bunlardan dördü hürmetli aydır. Bu dosdoğru bir nizamdır. Öyleyse o aylar içinde kendinize yazık etmeyin, topyekun sizinle savaşan putperestlerle siz de topyekun savaşın, Allah'ın sakınanlarla beraber olduğunu bilin.",
+   "url": "https://api.alquran.cloud/v1/ayah/9:36/editions/quran-simple,tr.diyanet",
+   "arabicEdition": "quran-simple (Simple)",
+   "mealEdition": "tr.diyanet (Diyanet İşleri)"
+  },
+  {
+   "ref": "10:5",
+   "surah": "Yunus",
+   "surahArabic": "سُورَةُ يُونُسَ",
+   "arabic": "هُوَ الَّذِي جَعَلَ الشَّمْسَ ضِيَاءً وَالْقَمَرَ نُورًا وَقَدَّرَهُ مَنَازِلَ لِتَعْلَمُوا عَدَدَ السِّنِينَ وَالْحِسَابَ ۚ مَا خَلَقَ اللَّهُ ذَٰلِكَ إِلَّا بِالْحَقِّ ۚ يُفَصِّلُ الْآيَاتِ لِقَوْمٍ يَعْلَمُونَ",
+   "meal": "Güneşi ışıklı ve ayı nurlu yapan; yılların sayısını ve hesabı bilmeniz için, aya konak yerleri düzenleyen O'dur. Allah bunları ancak gerçeğe göre yaratmıştır; bilen millete ayetleri uzun uzadıya açıklıyor.",
+   "url": "https://api.alquran.cloud/v1/ayah/10:5/editions/quran-simple,tr.diyanet",
+   "arabicEdition": "quran-simple (Simple)",
+   "mealEdition": "tr.diyanet (Diyanet İşleri)"
+  },
+  {
+   "ref": "16:16",
+   "surah": "An-Nahl",
+   "surahArabic": "سُورَةُ النَّحۡلِ",
+   "arabic": "وَعَلَامَاتٍ ۚ وَبِالنَّجْمِ هُمْ يَهْتَدُونَ",
+   "meal": "Yeryüzünde, sarsılmayasınız diye, sabit dağlar, nehirler ve belki yolunuzu bulursunuz diye yollar ve işaretler meydana getirmiştir. Onlar yıldızla da yollarını bulurlar.",
+   "url": "https://api.alquran.cloud/v1/ayah/16:16/editions/quran-simple,tr.diyanet",
+   "arabicEdition": "quran-simple (Simple)",
+   "mealEdition": "tr.diyanet (Diyanet İşleri)"
+  },
+  {
+   "ref": "53:49",
+   "surah": "An-Najm",
+   "surahArabic": "سُورَةُ النَّجۡمِ",
+   "arabic": "وَأَنَّهُ هُوَ رَبُّ الشِّعْرَىٰ",
+   "meal": "Doğrusu Şira yıldızının Rabbi O'dur.",
+   "url": "https://api.alquran.cloud/v1/ayah/53:49/editions/quran-simple,tr.diyanet",
+   "arabicEdition": "quran-simple (Simple)",
+   "mealEdition": "tr.diyanet (Diyanet İşleri)"
+  },
+  {
+   "ref": "67:5",
+   "surah": "Al-Mulk",
+   "surahArabic": "سُورَةُ المُلۡكِ",
+   "arabic": "وَلَقَدْ زَيَّنَّا السَّمَاءَ الدُّنْيَا بِمَصَابِيحَ وَجَعَلْنَاهَا رُجُومًا لِلشَّيَاطِينِ ۖ وَأَعْتَدْنَا لَهُمْ عَذَابَ السَّعِيرِ",
+   "meal": "And olsun ki, yakın göğü kandillerle donattık, onları şeytanlar için taşlamalar yaptık ve şeytanlara çılgın alev azabını hazırladık.",
+   "url": "https://api.alquran.cloud/v1/ayah/67:5/editions/quran-simple,tr.diyanet",
+   "arabicEdition": "quran-simple (Simple)",
+   "mealEdition": "tr.diyanet (Diyanet İşleri)"
+  }
+ ],
+ "hadith": [
+  {
+   "item": 1,
+   "entryType": "hadithText",
+   "id": "bukhari:1909",
+   "url": "https://sunnah.com/bukhari:1909",
+   "arabic": "حَدَّثَنَا آدَمُ، حَدَّثَنَا شُعْبَةُ، حَدَّثَنَا مُحَمَّدُ بْنُ زِيَادٍ، قَالَ سَمِعْتُ أَبَا هُرَيْرَةَ ـ رضى الله عنه ـ يَقُولُ قَالَ النَّبِيُّ صلى الله عليه وسلم أَوْ قَالَ قَالَ أَبُو الْقَاسِمِ صلى الله عليه وسلم ‏\"‏ صُومُوا لِرُؤْيَتِهِ، وَأَفْطِرُوا لِرُؤْيَتِهِ، فَإِنْ غُبِّيَ عَلَيْكُمْ فَأَكْمِلُوا عِدَّةَ شَعْبَانَ ثَلاَثِينَ ‏\"‏‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 224,
+   "prophetWordsStart": "صُومُوا",
+   "keyStatementArabic": "صُومُوا لِرُؤْيَتِهِ، وَأَفْطِرُوا لِرُؤْيَتِهِ، فَإِنْ غُبِّيَ عَلَيْكُمْ فَأَكْمِلُوا عِدَّةَ شَعْبَانَ ثَلاَثِينَ",
+   "reference": "Sahih al-Bukhari 1909",
+   "inBook": "Book 30, Hadith 19",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Vol. 3, Book 31, Hadith 133 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 1,
+   "entryType": "hadithText",
+   "id": "muslim:1081a",
+   "url": "https://sunnah.com/muslim:1081",
+   "arabic": "حَدَّثَنَا يَحْيَى بْنُ يَحْيَى، أَخْبَرَنَا إِبْرَاهِيمُ بْنُ سَعْدٍ، عَنِ ابْنِ شِهَابٍ، عَنْ سَعِيدِ بْنِ، الْمُسَيَّبِ عَنْ أَبِي هُرَيْرَةَ، - رضى الله عنه - قَالَ قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ إِذَا رَأَيْتُمُ الْهِلاَلَ فَصُومُوا وَإِذَا رَأَيْتُمُوهُ فَأَفْطِرُوا فَإِنْ غُمَّ عَلَيْكُمْ فَصُومُوا ثَلاَثِينَ يَوْمًا ‏\"‏ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 214,
+   "prophetWordsStart": "إِذَا رَأَيْتُمُ الْهِلاَلَ",
+   "keyStatementArabic": "إِذَا رَأَيْتُمُ الْهِلاَلَ فَصُومُوا وَإِذَا رَأَيْتُمُوهُ فَأَفْطِرُوا فَإِنْ غُمَّ عَلَيْكُمْ فَصُومُوا ثَلاَثِينَ يَوْمًا",
+   "reference": "Sahih Muslim 1081a",
+   "inBook": "Book 13, Hadith 20",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 6, Hadith 2378 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 2,
+   "entryType": "hadithText",
+   "id": "bukhari:846",
+   "url": "https://sunnah.com/bukhari:846",
+   "arabic": "حَدَّثَنَا عَبْدُ اللَّهِ بْنُ مَسْلَمَةَ، عَنْ مَالِكٍ، عَنْ صَالِحِ بْنِ كَيْسَانَ، عَنْ عُبَيْدِ اللَّهِ بْنِ عَبْدِ اللَّهِ بْنِ عُتْبَةَ بْنِ مَسْعُودٍ، عَنْ زَيْدِ بْنِ خَالِدٍ الْجُهَنِيِّ، أَنَّهُ قَالَ صَلَّى لَنَا رَسُولُ اللَّهِ صلى الله عليه وسلم صَلاَةَ الصُّبْحِ بِالْحُدَيْبِيَةِ عَلَى إِثْرِ سَمَاءٍ كَانَتْ مِنَ اللَّيْلَةِ، فَلَمَّا انْصَرَفَ أَقْبَلَ عَلَى النَّاسِ فَقَالَ ‏\"‏ هَلْ تَدْرُونَ مَاذَا قَالَ رَبُّكُمْ ‏\"‏‏.‏ قَالُوا اللَّهُ وَرَسُولُهُ أَعْلَمُ‏.‏ قَالَ ‏\"‏ أَصْبَحَ مِنْ عِبَادِي مُؤْمِنٌ بِي وَكَافِرٌ، فَأَمَّا مَنْ قَالَ مُطِرْنَا بِفَضْلِ اللَّهِ وَرَحْمَتِهِ فَذَلِكَ مُؤْمِنٌ بِي وَكَافِرٌ بِالْكَوْكَبِ، وَأَمَّا مَنْ قَالَ بِنَوْءِ كَذَا وَكَذَا فَذَلِكَ كَافِرٌ بِي وَمُؤْمِنٌ بِالْكَوْكَبِ ‏\"‏‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 397,
+   "prophetWordsStart": "هَلْ تَدْرُونَ",
+   "keyStatementArabic": "أَصْبَحَ مِنْ عِبَادِي مُؤْمِنٌ بِي وَكَافِرٌ، فَأَمَّا مَنْ قَالَ مُطِرْنَا بِفَضْلِ اللَّهِ وَرَحْمَتِهِ فَذَلِكَ مُؤْمِنٌ بِي وَكَافِرٌ بِالْكَوْكَبِ، وَأَمَّا مَنْ قَالَ بِنَوْءِ كَذَا وَكَذَا فَذَلِكَ كَافِرٌ بِي وَمُؤْمِنٌ بِالْكَوْكَبِ",
+   "reference": "Sahih al-Bukhari 846",
+   "inBook": "Book 10, Hadith 238",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Vol. 1, Book 12, Hadith 807 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 3,
+   "entryType": "chapterIntroText",
+   "id": "bukhari-book59-chapter3-intro",
+   "url": "https://sunnah.com/bukhari/59#C3.00",
+   "arabic": "وَقَالَ قَتَادَةُ: {وَلَقَدْ زَيَّنَّا السَّمَاءَ الدُّنْيَا بِمَصَابِيحَ} خَلَقَ هَذِهِ النُّجُومَ لِثَلاَثٍ، جَعَلَهَا زِينَةً لِلسَّمَاءِ، وَرُجُومًا لِلشَّيَاطِينِ، وَعَلاَمَاتٍ يُهْتَدَى بِهَا، فَمَنْ تَأَوَّلَ فِيهَا بِغَيْرِ ذَلِكَ أَخْطَأَ وَأَضَاعَ نَصِيبَهُ، وَتَكَلَّفَ مَا لاَ عِلْمَ لَهُ بِهِ.",
+   "isExcerpt": true,
+   "prophetWordsOffsetInFullArabic": null,
+   "prophetWordsStart": null,
+   "qatadaWordsOffset": 19,
+   "qatadaWordsStart": "{وَلَقَدْ",
+   "keyStatementArabic": "{وَلَقَدْ زَيَّنَّا السَّمَاءَ الدُّنْيَا بِمَصَابِيحَ} خَلَقَ هَذِهِ النُّجُومَ لِثَلاَثٍ، جَعَلَهَا زِينَةً لِلسَّمَاءِ، وَرُجُومًا لِلشَّيَاطِينِ، وَعَلاَمَاتٍ يُهْتَدَى بِهَا، فَمَنْ تَأَوَّلَ فِيهَا بِغَيْرِ ذَلِكَ أَخْطَأَ وَأَضَاعَ نَصِيبَهُ، وَتَكَلَّفَ مَا لاَ عِلْمَ لَهُ بِهِ.",
+   "reference": "Sahih al-Bukhari, Book 59 (Beginning of Creation), Chapter 3: (About the) Stars (بَابٌ في النُّجُومِ), chapter introduction",
+   "inBook": "Book 59, Chapter 3 introduction (no hadith number; it sits between Sahih al-Bukhari 3198 and 3199 on the book page)",
+   "otherReferences": [],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null,
+   "chapterTitleArabic": "بَابٌ في النُّجُومِ"
+  },
+  {
+   "item": 4,
+   "entryType": "hadithText",
+   "id": "tirmidhi:3451",
+   "url": "https://sunnah.com/tirmidhi:3451",
+   "arabic": "حَدَّثَنَا مُحَمَّدُ بْنُ بَشَّارٍ، حَدَّثَنَا أَبُو عَامِرٍ الْعَقَدِيُّ، حَدَّثَنَا سُلَيْمَانُ بْنُ سُفْيَانَ الْمَدَنِيُّ، حَدَّثَنِي بِلاَلُ بْنُ يَحْيَى بْنِ طَلْحَةَ بْنِ عُبَيْدِ اللَّهِ، عَنْ أَبِيهِ، عَنْ جَدِّهِ، طَلْحَةَ بْنِ عُبَيْدِ اللَّهِ أَنَّ النَّبِيَّ صلى الله عليه وسلم كَانَ إِذَا رَأَى الْهِلاَلَ قَالَ ‏\"‏ اللَّهُمَّ أَهْلِلْهُ عَلَيْنَا بِالْيُمْنِ وَالإِيمَانِ وَالسَّلاَمَةِ وَالإِسْلاَمِ رَبِّي وَرَبُّكَ اللَّهُ ‏\" ‏ ‏.‏ قَالَ أَبُو عِيسَى هَذَا حَدِيثٌ حَسَنٌ غَرِيبٌ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 330,
+   "prophetWordsStart": "اللَّهُمَّ أَهْلِلْهُ",
+   "keyStatementArabic": "اللَّهُمَّ أَهْلِلْهُ عَلَيْنَا بِالْيُمْنِ وَالإِيمَانِ وَالسَّلاَمَةِ وَالإِسْلاَمِ رَبِّي وَرَبُّكَ اللَّهُ",
+   "reference": "Jami` at-Tirmidhi 3451",
+   "inBook": "Book 48, Hadith 82",
+   "otherReferences": [
+    "English translation: Vol. 6, Book 45, Hadith 3451"
+   ],
+   "grade": "Da’if (Darussalam)",
+   "gradeArabic": null,
+   "gradeRowRaw": "Grade:\t Da’if (Darussalam)"
+  },
+  {
+   "item": 5,
+   "entryType": "hadithText",
+   "id": "bukhari:1044",
+   "url": "https://sunnah.com/bukhari:1044",
+   "arabic": "حَدَّثَنَا عَبْدُ اللَّهِ بْنُ مَسْلَمَةَ، عَنْ مَالِكٍ، عَنْ هِشَامِ بْنِ عُرْوَةَ، عَنْ أَبِيهِ، عَنْ عَائِشَةَ، أَنَّهَا قَالَتْ خَسَفَتِ الشَّمْسُ فِي عَهْدِ رَسُولِ اللَّهِ صلى الله عليه وسلم فَصَلَّى رَسُولُ اللَّهِ صلى الله عليه وسلم بِالنَّاسِ، فَقَامَ فَأَطَالَ الْقِيَامَ، ثُمَّ رَكَعَ فَأَطَالَ الرُّكُوعَ، ثُمَّ قَامَ فَأَطَالَ الْقِيَامَ وَهْوَ دُونَ الْقِيَامِ الأَوَّلِ، ثُمَّ رَكَعَ فَأَطَالَ الرُّكُوعَ، وَهْوَ دُونَ الرُّكُوعِ الأَوَّلِ، ثُمَّ سَجَدَ فَأَطَالَ السُّجُودَ، ثُمَّ فَعَلَ فِي الرَّكْعَةِ الثَّانِيَةِ مِثْلَ مَا فَعَلَ فِي الأُولَى، ثُمَّ انْصَرَفَ وَقَدِ انْجَلَتِ الشَّمْسُ، فَخَطَبَ النَّاسَ، فَحَمِدَ اللَّهَ، وَأَثْنَى عَلَيْهِ ثُمَّ قَالَ ‏\"‏ إِنَّ الشَّمْسَ وَالْقَمَرَ آيَتَانِ مِنْ آيَاتِ اللَّهِ، لاَ يَنْخَسِفَانِ لِمَوْتِ أَحَدٍ وَلاَ لِحَيَاتِهِ، فَإِذَا رَأَيْتُمْ ذَلِكَ فَادْعُوا اللَّهَ وَكَبِّرُوا، وَصَلُّوا وَتَصَدَّقُوا ‏\"‏‏.‏ ثُمَّ قَالَ ‏\"‏ يَا أُمَّةَ مُحَمَّدٍ، وَاللَّهِ مَا مِنْ أَحَدٍ أَغْيَرُ مِنَ اللَّهِ أَنْ يَزْنِيَ عَبْدُهُ أَوْ تَزْنِيَ أَمَتُهُ، يَا أُمَّةَ مُحَمَّدٍ، وَاللَّهِ لَوْ تَعْلَمُونَ مَا أَعْلَمُ لَضَحِكْتُمْ قَلِيلاً وَلَبَكَيْتُمْ كَثِيرًا ‏\"‏‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 681,
+   "prophetWordsStart": "إِنَّ الشَّمْسَ وَالْقَمَرَ",
+   "keyStatementArabic": "إِنَّ الشَّمْسَ وَالْقَمَرَ آيَتَانِ مِنْ آيَاتِ اللَّهِ، لاَ يَنْخَسِفَانِ لِمَوْتِ أَحَدٍ وَلاَ لِحَيَاتِهِ، فَإِذَا رَأَيْتُمْ ذَلِكَ فَادْعُوا اللَّهَ وَكَبِّرُوا، وَصَلُّوا وَتَصَدَّقُوا",
+   "reference": "Sahih al-Bukhari 1044",
+   "inBook": "Book 16, Hadith 5",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Vol. 2, Book 18, Hadith 154 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 6,
+   "entryType": "hadithText",
+   "id": "muslim:1094a",
+   "url": "https://sunnah.com/muslim:1094a",
+   "arabic": "حَدَّثَنَا شَيْبَانُ بْنُ فَرُّوخَ، حَدَّثَنَا عَبْدُ الْوَارِثِ، عَنْ عَبْدِ اللَّهِ بْنِ سَوَادَةَ الْقُشَيْرِيِّ، حَدَّثَنِي وَالِدِي، أَنَّهُ سَمِعَ سَمُرَةَ بْنَ جُنْدُبٍ، يَقُولُ سَمِعْتُ مُحَمَّدًا، صلى الله عليه وسلم يَقُولُ : \" لَا يَغُرَّنَّ أَحَدَكُمْ نِدَاءُ بِلَالٍ مِنَ السَّحُورِ ، وَلَا هَذَا الْبَيَاضُ حَتَّى يَسْتَطِيرَ \"",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 237,
+   "prophetWordsStart": "لَا يَغُرَّنَّ",
+   "keyStatementArabic": "لَا يَغُرَّنَّ أَحَدَكُمْ نِدَاءُ بِلَالٍ مِنَ السَّحُورِ ، وَلَا هَذَا الْبَيَاضُ حَتَّى يَسْتَطِيرَ",
+   "reference": "Sahih Muslim 1094a",
+   "inBook": "Book 13, Hadith 50",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 6, Hadith 2407 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 6,
+   "entryType": "hadithText",
+   "id": "muslim:1094b",
+   "url": "https://sunnah.com/muslim:1094b",
+   "arabic": "وَحَدَّثَنَا زُهَيْرُ بْنُ حَرْبٍ، حَدَّثَنَا إِسْمَاعِيلُ ابْنُ عُلَيَّةَ، حَدَّثَنِي عَبْدُ اللَّهِ بْنُ سَوَادَةَ، عَنْ أَبِيهِ، عَنْ سَمُرَةَ بْنِ جُنْدَبٍ، - رضى الله عنه - قَالَ قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ لاَ يَغُرَّنَّكُمْ أَذَانُ بِلاَلٍ وَلاَ هَذَا الْبَيَاضُ - لِعَمُودِ الصُّبْحِ - حَتَّى يَسْتَطِيرَ هَكَذَا ‏\"‏‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 229,
+   "prophetWordsStart": "لاَ يَغُرَّنَّكُمْ",
+   "keyStatementArabic": "لاَ يَغُرَّنَّكُمْ أَذَانُ بِلاَلٍ وَلاَ هَذَا الْبَيَاضُ - لِعَمُودِ الصُّبْحِ - حَتَّى يَسْتَطِيرَ هَكَذَا",
+   "reference": "Sahih Muslim 1094b",
+   "inBook": "Book 13, Hadith 51",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 6, Hadith 2408 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 6,
+   "entryType": "hadithText",
+   "id": "muslim:1094c",
+   "url": "https://sunnah.com/muslim:1094c",
+   "arabic": "وَحَدَّثَنِي أَبُو الرَّبِيعِ الزَّهْرَانِيُّ، حَدَّثَنَا حَمَّادٌ، - يَعْنِي ابْنَ زَيْدٍ - حَدَّثَنَا عَبْدُ اللَّهِ، بْنُ سَوَادَةَ الْقُشَيْرِيُّ عَنْ أَبِيهِ، عَنْ سَمُرَةَ بْنِ جُنْدَبٍ، - رضى الله عنه - قَالَ قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ لاَ يَغُرَّنَّكُمْ مِنْ سَحُورِكُمْ أَذَانُ بِلاَلٍ وَلاَ بَيَاضُ الأُفُقِ الْمُسْتَطِيلُ هَكَذَا حَتَّى يَسْتَطِيرَ هَكَذَا ‏\" ‏ ‏.‏ وَحَكَاهُ حَمَّادٌ بِيَدَيْهِ قَالَ يَعْنِي مُعْتَرِضًا ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 261,
+   "prophetWordsStart": "لاَ يَغُرَّنَّكُمْ",
+   "keyStatementArabic": "لاَ يَغُرَّنَّكُمْ مِنْ سَحُورِكُمْ أَذَانُ بِلاَلٍ وَلاَ بَيَاضُ الأُفُقِ الْمُسْتَطِيلُ هَكَذَا حَتَّى يَسْتَطِيرَ هَكَذَا",
+   "reference": "Sahih Muslim 1094c",
+   "inBook": "Book 13, Hadith 52",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 6, Hadith 2409 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 6,
+   "entryType": "hadithText",
+   "id": "muslim:1094d",
+   "url": "https://sunnah.com/muslim:1094d",
+   "arabic": "حَدَّثَنَا عُبَيْدُ اللَّهِ بْنُ مُعَاذٍ، حَدَّثَنَا أَبِي، حَدَّثَنَا شُعْبَةُ، عَنْ سَوَادَةَ، قَالَ سَمِعْتُ سَمُرَةَ، بْنَ جُنْدَبٍ - رضى الله عنه - وَهُوَ يَخْطُبُ يُحَدِّثُ عَنِ النَّبِيِّ صلى الله عليه وسلم أَنَّهُ قَالَ ‏\"‏ لاَ يَغُرَّنَّكُمْ نِدَاءُ بِلاَلٍ وَلاَ هَذَا الْبَيَاضُ حَتَّى يَبْدُوَ الْفَجْرُ - أَوْ قَالَ - حَتَّى يَنْفَجِرَ الْفَجْرُ ‏\" ‏ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 232,
+   "prophetWordsStart": "لاَ يَغُرَّنَّكُمْ",
+   "keyStatementArabic": "لاَ يَغُرَّنَّكُمْ نِدَاءُ بِلاَلٍ وَلاَ هَذَا الْبَيَاضُ حَتَّى يَبْدُوَ الْفَجْرُ - أَوْ قَالَ - حَتَّى يَنْفَجِرَ الْفَجْرُ",
+   "reference": "Sahih Muslim 1094d",
+   "inBook": "Book 13, Hadith 53",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 6, Hadith 2410 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 6,
+   "entryType": "hadithText",
+   "id": "muslim:1094e",
+   "url": "https://sunnah.com/muslim:1094e",
+   "arabic": "وَحَدَّثَنَاهُ ابْنُ الْمُثَنَّى، حَدَّثَنَا أَبُو دَاوُدَ، أَخْبَرَنَا شُعْبَةُ، أَخْبَرَنِي سَوَادَةُ بْنُ حَنْظَلَةَ، الْقُشَيْرِيُّ قَالَ سَمِعْتُ سَمُرَةَ بْنَ جُنْدَبٍ، - رضى الله عنه - يَقُولُ قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏.‏ فَذَكَرَ هَذَا ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": null,
+   "prophetWordsStart": null,
+   "keyStatementArabic": null,
+   "reference": "Sahih Muslim 1094e",
+   "inBook": "Book 13, Hadith 54",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 6, Hadith 2411 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 7,
+   "entryType": "hadithText",
+   "id": "muslim:1162a",
+   "url": "https://sunnah.com/muslim:1162a",
+   "arabic": "صِيَامُ يَوْمِ عَرَفَةَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ وَالسَّنَةَ الَّتِي بَعْدَهُ وَصِيَامُ يَوْمِ عَاشُورَاءَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ",
+   "isExcerpt": true,
+   "prophetWordsOffsetInFullArabic": 1149,
+   "prophetWordsStart": "ثَلاَثٌ مِنْ كُلِّ شَهْرٍ",
+   "keyStatementArabic": "صِيَامُ يَوْمِ عَرَفَةَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ وَالسَّنَةَ الَّتِي بَعْدَهُ وَصِيَامُ يَوْمِ عَاشُورَاءَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ",
+   "reference": "Sahih Muslim 1162a",
+   "inBook": "Book 13, Hadith 252",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 6, Hadith 2602 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null,
+   "arabicFull": "وَحَدَّثَنَا يَحْيَى بْنُ يَحْيَى التَّمِيمِيُّ، وَقُتَيْبَةُ بْنُ سَعِيدٍ، جَمِيعًا عَنْ حَمَّادٍ، - قَالَ يَحْيَى أَخْبَرَنَا حَمَّادُ بْنُ زَيْدٍ، - عَنْ غَيْلاَنَ، عَنْ عَبْدِ اللَّهِ بْنِ مَعْبَدٍ الزِّمَّانِيِّ، عَنْ أَبِي قَتَادَةَ، رَجُلٌ أَتَى النَّبِيَّ صلى الله عليه وسلم فَقَالَ كَيْفَ تَصُومُ فَغَضِبَ رَسُولُ اللَّهِ صلى الله عليه وسلم فَلَمَّا رَأَى عُمَرُ - رضى الله عنه - غَضَبَهُ قَالَ رَضِينَا بِاللَّهِ رَبًّا وَبِالإِسْلاَمِ دِينًا وَبِمُحَمَّدٍ نَبِيًّا نَعُوذُ بِاللَّهِ مِنْ غَضَبِ اللَّهِ وَغَضَبِ رَسُولِهِ ‏.‏ فَجَعَلَ عُمَرُ - رضى الله عنه - يُرَدِّدُ هَذَا الْكَلاَمَ حَتَّى سَكَنَ غَضَبُهُ فَقَالَ عُمَرُ يَا رَسُولَ اللَّهِ كَيْفَ بِمَنْ يَصُومُ الدَّهْرَ كُلَّهُ قَالَ ‏\"‏ لاَ صَامَ وَلاَ أَفْطَرَ - أَوْ قَالَ - لَمْ يَصُمْ وَلَمْ يُفْطِرْ ‏\"‏ ‏.‏ قَالَ كَيْفَ مَنْ يَصُومُ يَوْمَيْنِ وَيُفْطِرُ يَوْمًا قَالَ ‏\"‏ وَيُطِيقُ ذَلِكَ أَحَدٌ ‏\"‏ ‏.‏ قَالَ كَيْفَ مَنْ يَصُومُ يَوْمًا وَيُفْطِرُ يَوْمًا قَالَ ‏\"‏ ذَاكَ صَوْمُ دَاوُدَ عَلَيْهِ السَّلاَمُ ‏\"‏ ‏.‏ قَالَ كَيْفَ مَنْ يَصُومُ يَوْمًا وَيُفْطِرُ يَوْمَيْنِ قَالَ ‏\"‏ وَدِدْتُ أَنِّي طُوِّقْتُ ذَلِكَ ‏\"‏ ‏.‏ ثُمَّ قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ ثَلاَثٌ مِنْ كُلِّ شَهْرٍ وَرَمَضَانُ إِلَى رَمَضَانَ فَهَذَا صِيَامُ الدَّهْرِ كُلِّهِ صِيَامُ يَوْمِ عَرَفَةَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ وَالسَّنَةَ الَّتِي بَعْدَهُ وَصِيَامُ يَوْمِ عَاشُورَاءَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ ‏\"‏ ‏.‏"
+  },
+  {
+   "item": 8,
+   "entryType": "hadithText",
+   "id": "muslim:1134a",
+   "url": "https://sunnah.com/muslim:1134a",
+   "arabic": "وَحَدَّثَنَا الْحَسَنُ بْنُ عَلِيٍّ الْحُلْوَانِيُّ، حَدَّثَنَا ابْنُ أَبِي مَرْيَمَ، حَدَّثَنَا يَحْيَى بْنُ أَيُّوبَ، حَدَّثَنِي إِسْمَاعِيلُ بْنُ أُمَيَّةَ، أَنَّهُ سَمِعَ أَبَا غَطَفَانَ بْنَ طَرِيفٍ الْمُرِّيَّ، يَقُولُ سَمِعْتُ عَبْدَ اللَّهِ، بْنَ عَبَّاسٍ - رضى الله عنهما - يَقُولُ حِينَ صَامَ رَسُولُ اللَّهِ صلى الله عليه وسلم يَوْمَ عَاشُورَاءَ وَأَمَرَ بِصِيَامِهِ قَالُوا يَا رَسُولَ اللَّهِ إِنَّهُ يَوْمٌ تُعَظِّمُهُ الْيَهُودُ وَالنَّصَارَى ‏.‏ فَقَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ فَإِذَا كَانَ الْعَامُ الْمُقْبِلُ - إِنْ شَاءَ اللَّهُ - صُمْنَا الْيَوْمَ التَّاسِعَ ‏\" ‏ ‏.‏ قَالَ فَلَمْ يَأْتِ الْعَامُ الْمُقْبِلُ حَتَّى تُوُفِّيَ رَسُولُ اللَّهِ صلى الله عليه وسلم.",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 509,
+   "prophetWordsStart": "فَإِذَا كَانَ الْعَامُ",
+   "keyStatementArabic": "فَإِذَا كَانَ الْعَامُ الْمُقْبِلُ - إِنْ شَاءَ اللَّهُ - صُمْنَا الْيَوْمَ التَّاسِعَ",
+   "reference": "Sahih Muslim 1134a",
+   "inBook": "Book 13, Hadith 172",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 6, Hadith 2528 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 8,
+   "entryType": "hadithText",
+   "id": "muslim:1134b",
+   "url": "https://sunnah.com/muslim:1134b",
+   "arabic": "وَحَدَّثَنَا أَبُو بَكْرِ بْنُ أَبِي شَيْبَةَ، وَأَبُو كُرَيْبٍ قَالاَ حَدَّثَنَا وَكِيعٌ، عَنِ ابْنِ أَبِي ذِئْبٍ، عَنِ الْقَاسِمِ بْنِ عَبَّاسٍ، عَنْ عَبْدِ اللَّهِ بْنِ عُمَيْرٍ، - لَعَلَّهُ قَالَ عَنْ عَبْدِ اللَّهِ بْنِ عَبَّاسٍ، - رضى الله عنهما - قَالَ قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ لَئِنْ بَقِيتُ إِلَى قَابِلٍ لأَصُومَنَّ التَّاسِعَ ‏\" ‏ ‏.‏ وَفِي رِوَايَةِ أَبِي بَكْرٍ قَالَ يَعْنِي يَوْمَ عَاشُورَاءَ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 305,
+   "prophetWordsStart": "لَئِنْ بَقِيتُ",
+   "keyStatementArabic": "لَئِنْ بَقِيتُ إِلَى قَابِلٍ لأَصُومَنَّ التَّاسِعَ",
+   "reference": "Sahih Muslim 1134b",
+   "inBook": "Book 13, Hadith 173",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 6, Hadith 2529 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 9,
+   "entryType": "hadithText",
+   "id": "muslim:1164a",
+   "url": "https://sunnah.com/muslim:1164a",
+   "arabic": "حَدَّثَنَا يَحْيَى بْنُ أَيُّوبَ، وَقُتَيْبَةُ بْنُ سَعِيدٍ، وَعَلِيُّ بْنُ حُجْرٍ، جَمِيعًا عَنْ إِسْمَاعِيلَ، - قَالَ ابْنُ أَيُّوبَ حَدَّثَنَا إِسْمَاعِيلُ بْنُ جَعْفَرٍ، - أَخْبَرَنِي سَعْدُ بْنُ سَعِيدِ بْنِ قَيْسٍ، عَنْ عُمَرَ، بْنِ ثَابِتِ بْنِ الْحَارِثِ الْخَزْرَجِيِّ عَنْ أَبِي أَيُّوبَ الأَنْصَارِيِّ، - رضى الله عنه - أَنَّهُ حَدَّثَهُ أَنَّ رَسُولَ اللَّهِ صلى الله عليه وسلم قَالَ ‏ \"‏ مَنْ صَامَ رَمَضَانَ ثُمَّ أَتْبَعَهُ سِتًّا مِنْ شَوَّالٍ كَانَ كَصِيَامِ الدَّهْرِ ‏\" ‏ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 401,
+   "prophetWordsStart": "مَنْ صَامَ رَمَضَانَ",
+   "keyStatementArabic": "مَنْ صَامَ رَمَضَانَ ثُمَّ أَتْبَعَهُ سِتًّا مِنْ شَوَّالٍ كَانَ كَصِيَامِ الدَّهْرِ",
+   "reference": "Sahih Muslim 1164a",
+   "inBook": "Book 13, Hadith 264",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 6, Hadith 2614 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 10,
+   "entryType": "hadithText",
+   "id": "tirmidhi:761",
+   "url": "https://sunnah.com/tirmidhi:761",
+   "arabic": "حَدَّثَنَا مَحْمُودُ بْنُ غَيْلاَنَ، حَدَّثَنَا أَبُو دَاوُدَ، قَالَ أَنْبَأَنَا شُعْبَةُ، عَنِ الأَعْمَشِ، قَالَ سَمِعْتُ يَحْيَى بْنَ سَامٍ، يُحَدِّثُ عَنْ مُوسَى بْنِ طَلْحَةَ، قَالَ سَمِعْتُ أَبَا ذَرٍّ، يَقُولُ قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ يَا أَبَا ذَرٍّ إِذَا صُمْتَ مِنَ الشَّهْرِ ثَلاَثَةَ أَيَّامٍ فَصُمْ ثَلاَثَ عَشْرَةَ وَأَرْبَعَ عَشْرَةَ وَخَمْسَ عَشْرَةَ ‏\" ‏ ‏.‏ وَفِي الْبَابِ عَنْ أَبِي قَتَادَةَ وَعَبْدِ اللَّهِ بْنِ عَمْرٍو وَقُرَّةَ بْنِ إِيَاسٍ الْمُزَنِيِّ وَعَبْدِ اللَّهِ بْنِ مَسْعُودٍ وَأَبِي عَقْرَبٍ وَابْنِ عَبَّاسٍ وَعَائِشَةَ وَقَتَادَةَ بْنِ مِلْحَانَ وَعُثْمَانَ بْنِ أَبِي الْعَاصِي وَجَرِيرٍ ‏.‏ قَالَ أَبُو عِيسَى حَدِيثُ أَبِي ذَرٍّ حَدِيثٌ حَسَنٌ ‏.‏ وَقَدْ رُوِيَ فِي بَعْضِ الْحَدِيثِ أَنَّ ‏\"‏ مَنْ صَامَ ثَلاَثَةَ أَيَّامٍ مِنْ كُلِّ شَهْرٍ كَانَ كَمَنْ صَامَ الدَّهْرَ ‏\"‏ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 261,
+   "prophetWordsStart": "يَا أَبَا ذَرٍّ",
+   "keyStatementArabic": "يَا أَبَا ذَرٍّ إِذَا صُمْتَ مِنَ الشَّهْرِ ثَلاَثَةَ أَيَّامٍ فَصُمْ ثَلاَثَ عَشْرَةَ وَأَرْبَعَ عَشْرَةَ وَخَمْسَ عَشْرَةَ",
+   "reference": "Jami` at-Tirmidhi 761",
+   "inBook": "Book 8, Hadith 80",
+   "otherReferences": [
+    "English translation: Vol. 2, Book 3, Hadith 761"
+   ],
+   "grade": "Hasan (Darussalam)",
+   "gradeArabic": null,
+   "gradeRowRaw": "Grade:\t Hasan (Darussalam)"
+  },
+  {
+   "item": 11,
+   "entryType": "hadithText",
+   "id": "bukhari:969",
+   "url": "https://sunnah.com/bukhari:969",
+   "arabic": "حَدَّثَنَا مُحَمَّدُ بْنُ عَرْعَرَةَ، قَالَ حَدَّثَنَا شُعْبَةُ، عَنْ سُلَيْمَانَ، عَنْ مُسْلِمٍ الْبَطِينِ، عَنْ سَعِيدِ بْنِ جُبَيْرٍ، عَنِ ابْنِ عَبَّاسٍ، عَنِ النَّبِيِّ صلى الله عليه وسلم أَنَّهُ قَالَ ‏\"‏ مَا الْعَمَلُ فِي أَيَّامِ الْعَشْرِ أَفْضَلَ مِنَ الْعَمَلِ فِي هَذِهِ ‏\"‏‏.‏ قَالُوا وَلاَ الْجِهَادُ قَالَ ‏\"‏ وَلاَ الْجِهَادُ، إِلاَّ رَجُلٌ خَرَجَ يُخَاطِرُ بِنَفْسِهِ وَمَالِهِ فَلَمْ يَرْجِعْ بِشَىْءٍ ‏\"‏‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 211,
+   "prophetWordsStart": "مَا الْعَمَلُ",
+   "keyStatementArabic": "مَا الْعَمَلُ فِي أَيَّامِ الْعَشْرِ أَفْضَلَ مِنَ الْعَمَلِ فِي هَذِهِ",
+   "reference": "Sahih al-Bukhari 969",
+   "inBook": "Book 13, Hadith 18",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Vol. 2, Book 15, Hadith 86 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 12,
+   "entryType": "hadithText",
+   "id": "bukhari:2017",
+   "url": "https://sunnah.com/bukhari:2017",
+   "arabic": "حَدَّثَنَا قُتَيْبَةُ بْنُ سَعِيدٍ، حَدَّثَنَا إِسْمَاعِيلُ بْنُ جَعْفَرٍ، حَدَّثَنَا أَبُو سُهَيْلٍ، عَنْ أَبِيهِ، عَنْ عَائِشَةَ ـ رضى الله عنها ـ أَنَّ رَسُولَ اللَّهِ صلى الله عليه وسلم قَالَ ‏\"‏ تَحَرَّوْا لَيْلَةَ الْقَدْرِ فِي الْوِتْرِ مِنَ الْعَشْرِ الأَوَاخِرِ مِنْ رَمَضَانَ ‏\"‏‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 200,
+   "prophetWordsStart": "تَحَرَّوْا",
+   "keyStatementArabic": "تَحَرَّوْا لَيْلَةَ الْقَدْرِ فِي الْوِتْرِ مِنَ الْعَشْرِ الأَوَاخِرِ مِنْ رَمَضَانَ",
+   "reference": "Sahih al-Bukhari 2017",
+   "inBook": "Book 32, Hadith 4",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Vol. 3, Book 32, Hadith 234 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 13,
+   "entryType": "hadithText",
+   "id": "muslim:1141a",
+   "url": "https://sunnah.com/muslim:1141a",
+   "arabic": "وَحَدَّثَنَا سُرَيْجُ بْنُ يُونُسَ، حَدَّثَنَا هُشَيْمٌ، أَخْبَرَنَا خَالِدٌ، عَنْ أَبِي الْمَلِيحِ، عَنْ نُبَيْشَةَ، الْهُذَلِيِّ قَالَ قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ أَيَّامُ التَّشْرِيقِ أَيَّامُ أَكْلٍ وَشُرْبٍ ‏\" ‏ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 182,
+   "prophetWordsStart": "أَيَّامُ التَّشْرِيقِ",
+   "keyStatementArabic": "أَيَّامُ التَّشْرِيقِ أَيَّامُ أَكْلٍ وَشُرْبٍ",
+   "reference": "Sahih Muslim 1141a",
+   "inBook": "Book 13, Hadith 183",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 6, Hadith 2539 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 13,
+   "entryType": "hadithText",
+   "id": "muslim:1141b",
+   "url": "https://sunnah.com/muslim:1141b",
+   "arabic": "حَدَّثَنَا مُحَمَّدُ بْنُ عَبْدِ اللَّهِ بْنِ نُمَيْرٍ، حَدَّثَنَا إِسْمَاعِيلُ، - يَعْنِي ابْنَ عُلَيَّةَ - عَنْ خَالِدٍ الْحَذَّاءِ، حَدَّثَنِي أَبُو قِلاَبَةَ، عَنْ أَبِي الْمَلِيحِ، عَنْ نُبَيْشَةَ، قَالَ خَالِدٌ فَلَقِيتُ أَبَا الْمَلِيحِ فَسَأَلْتُهُ فَحَدَّثَنِي بِهِ، فَذَكَرَ عَنِ النَّبِيِّ صلى الله عليه وسلم بِمِثْلِ حَدِيثِ هُشَيْمٍ وَزَادَ فِيهِ ‏\"‏ وَذِكْرٍ لِلَّهِ ‏\"‏ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 364,
+   "prophetWordsStart": "وَذِكْرٍ لِلَّهِ",
+   "keyStatementArabic": "وَذِكْرٍ لِلَّهِ",
+   "reference": "Sahih Muslim 1141b",
+   "inBook": "Book 13, Hadith 184",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 6, Hadith 2540 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 14,
+   "entryType": "hadithText",
+   "id": "tirmidhi:149",
+   "url": "https://sunnah.com/tirmidhi:149",
+   "arabic": "أَمَّنِي جِبْرِيلُ عَلَيْهِ السَّلاَمُ عِنْدَ الْبَيْتِ مَرَّتَيْنِ فَصَلَّى الظُّهْرَ فِي الأُولَى مِنْهُمَا حِينَ كَانَ الْفَىْءُ مِثْلَ الشِّرَاكِ ثُمَّ صَلَّى الْعَصْرَ حِينَ كَانَ كُلُّ شَيْءٍ مِثْلَ ظِلِّهِ",
+   "isExcerpt": true,
+   "prophetWordsOffsetInFullArabic": 359,
+   "prophetWordsStart": "أَمَّنِي جِبْرِيلُ",
+   "keyStatementArabic": "أَمَّنِي جِبْرِيلُ عَلَيْهِ السَّلاَمُ عِنْدَ الْبَيْتِ مَرَّتَيْنِ فَصَلَّى الظُّهْرَ فِي الأُولَى مِنْهُمَا حِينَ كَانَ الْفَىْءُ مِثْلَ الشِّرَاكِ ثُمَّ صَلَّى الْعَصْرَ حِينَ كَانَ كُلُّ شَيْءٍ مِثْلَ ظِلِّهِ",
+   "reference": "Jami` at-Tirmidhi 149",
+   "inBook": "Book 2, Hadith 1",
+   "otherReferences": [
+    "English translation: Vol. 1, Book 2, Hadith 149"
+   ],
+   "grade": "Hasan (Darussalam)",
+   "gradeArabic": null,
+   "gradeRowRaw": "Grade:\t Hasan (Darussalam)",
+   "arabicFull": "حَدَّثَنَا هَنَّادُ بْنُ السَّرِيِّ، حَدَّثَنَا عَبْدُ الرَّحْمَنِ بْنُ أَبِي الزِّنَادِ، عَنْ عَبْدِ الرَّحْمَنِ بْنِ الْحَارِثِ بْنِ عَيَّاشِ بْنِ أَبِي رَبِيعَةَ، عَنْ حَكِيمِ بْنِ حَكِيمٍ، وَهُوَ ابْنُ عَبَّادِ بْنِ حُنَيْفٍ أَخْبَرَنِي نَافِعُ بْنُ جُبَيْرِ بْنِ مُطْعِمٍ، قَالَ أَخْبَرَنِي ابْنُ عَبَّاسٍ، أَنَّ النَّبِيَّ صلى الله عليه وسلم قَالَ ‏ \"‏ أَمَّنِي جِبْرِيلُ عَلَيْهِ السَّلاَمُ عِنْدَ الْبَيْتِ مَرَّتَيْنِ فَصَلَّى الظُّهْرَ فِي الأُولَى مِنْهُمَا حِينَ كَانَ الْفَىْءُ مِثْلَ الشِّرَاكِ ثُمَّ صَلَّى الْعَصْرَ حِينَ كَانَ كُلُّ شَيْءٍ مِثْلَ ظِلِّهِ ثُمَّ صَلَّى الْمَغْرِبَ حِينَ وَجَبَتِ الشَّمْسُ وَأَفْطَرَ الصَّائِمُ ثُمَّ صَلَّى الْعِشَاءَ حِينَ غَابَ الشَّفَقُ ثُمَّ صَلَّى الْفَجْرَ حِينَ بَرَقَ الْفَجْرُ وَحَرُمَ الطَّعَامُ عَلَى الصَّائِمِ ‏.‏ وَصَلَّى الْمَرَّةَ الثَّانِيَةَ الظُّهْرَ حِينَ كَانَ ظِلُّ كُلِّ شَيْءٍ مِثْلَهُ لِوَقْتِ الْعَصْرِ بِالأَمْسِ ثُمَّ صَلَّى الْعَصْرَ حِينَ كَانَ ظِلُّ كُلِّ شَيْءٍ مِثْلَيْهِ ثُمَّ صَلَّى الْمَغْرِبَ لِوَقْتِهِ الأَوَّلِ ثُمَّ صَلَّى الْعِشَاءَ الآخِرَةَ حِينَ ذَهَبَ ثُلُثُ اللَّيْلِ ثُمَّ صَلَّى الصُّبْحَ حِينَ أَسْفَرَتِ الأَرْضُ ثُمَّ الْتَفَتَ إِلَىَّ جِبْرِيلُ فَقَالَ يَا مُحَمَّدُ هَذَا وَقْتُ الأَنْبِيَاءِ مِنْ قَبْلِكَ ‏.‏ وَالْوَقْتُ فِيمَا بَيْنَ هَذَيْنِ الْوَقْتَيْنِ ‏\" ‏ ‏.‏ قَالَ أَبُو عِيسَى وَفِي الْبَابِ عَنْ أَبِي هُرَيْرَةَ وَبُرَيْدَةَ وَأَبِي مُوسَى وَأَبِي مَسْعُودٍ الأَنْصَارِيِّ وَأَبِي سَعِيدٍ وَجَابِرٍ وَعَمْرِو بْنِ حَزْمٍ وَالْبَرَاءِ وَأَنَسٍ ‏.‏"
+  },
+  {
+   "item": 15,
+   "entryType": "hadithText",
+   "id": "abudawud:1134",
+   "url": "https://sunnah.com/abudawud:1134",
+   "arabic": "حَدَّثَنَا مُوسَى بْنُ إِسْمَاعِيلَ، حَدَّثَنَا حَمَّادٌ، عَنْ حُمَيْدٍ، عَنْ أَنَسٍ، قَالَ قَدِمَ رَسُولُ اللَّهِ صلى الله عليه وسلم الْمَدِينَةَ وَلَهُمْ يَوْمَانِ يَلْعَبُونَ فِيهِمَا فَقَالَ ‏\"‏ مَا هَذَانِ الْيَوْمَانِ ‏\"‏ ‏.‏ قَالُوا كُنَّا نَلْعَبُ فِيهِمَا فِي الْجَاهِلِيَّةِ ‏.‏ فَقَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ إِنَّ اللَّهَ قَدْ أَبْدَلَكُمْ بِهِمَا خَيْرًا مِنْهُمَا يَوْمَ الأَضْحَى وَيَوْمَ الْفِطْرِ ‏\"‏ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 199,
+   "prophetWordsStart": "مَا هَذَانِ الْيَوْمَانِ",
+   "keyStatementArabic": "إِنَّ اللَّهَ قَدْ أَبْدَلَكُمْ بِهِمَا خَيْرًا مِنْهُمَا يَوْمَ الأَضْحَى وَيَوْمَ الْفِطْرِ",
+   "reference": "Sunan Abi Dawud 1134",
+   "inBook": "Book 2, Hadith 745",
+   "otherReferences": [
+    "English translation: Book 3, Hadith 1130"
+   ],
+   "grade": "Sahih (Al-Albani)",
+   "gradeArabic": "صحيح (الألباني)",
+   "gradeRowRaw": "Grade:\t Sahih (Al-Albani)\t  صحيح   (الألباني)\tحكم   :"
+  },
+  {
+   "item": 16,
+   "entryType": "hadithText",
+   "id": "bukhari:1990",
+   "url": "https://sunnah.com/bukhari:1990",
+   "arabic": "حَدَّثَنَا عَبْدُ اللَّهِ بْنُ يُوسُفَ، أَخْبَرَنَا مَالِكٌ، عَنِ ابْنِ شِهَابٍ، عَنْ أَبِي عُبَيْدٍ، مَوْلَى ابْنِ أَزْهَرَ قَالَ شَهِدْتُ الْعِيدَ مَعَ عُمَرَ بْنِ الْخَطَّابِ ـ رضى الله عنه ـ فَقَالَ هَذَانِ يَوْمَانِ نَهَى رَسُولُ اللَّهِ صلى الله عليه وسلم عَنْ صِيَامِهِمَا يَوْمُ فِطْرِكُمْ مِنْ صِيَامِكُمْ، وَالْيَوْمُ الآخَرُ تَأْكُلُونَ فِيهِ مِنْ نُسُكِكُمْ‏.‏\n\n\nقَالَ أَبُو عَبْد اللَّهِ قَالَ ابْنُ عُيَيْنَةَ مَنْ قَالَ مَوْلَى ابْنِ أَزْهَرَ فَقَدْ أَصَابَ وَمَنْ قَالَ مَوْلَى عَبْدِ الرَّحْمَنِ بْنِ عَوْفٍ فَقَدْ أَصَابَ",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 203,
+   "prophetWordsStart": "هَذَانِ يَوْمَانِ",
+   "keyStatementArabic": "هَذَانِ يَوْمَانِ نَهَى رَسُولُ اللَّهِ صلى الله عليه وسلم عَنْ صِيَامِهِمَا يَوْمُ فِطْرِكُمْ مِنْ صِيَامِكُمْ، وَالْيَوْمُ الآخَرُ تَأْكُلُونَ فِيهِ مِنْ نُسُكِكُمْ",
+   "reference": "Sahih al-Bukhari 1990",
+   "inBook": "Book 30, Hadith 97",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Vol. 3, Book 31, Hadith 211 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 17,
+   "entryType": "hadithText",
+   "id": "bukhari:3197",
+   "url": "https://sunnah.com/bukhari:3197",
+   "arabic": "حَدَّثَنَا مُحَمَّدُ بْنُ الْمُثَنَّى، حَدَّثَنَا عَبْدُ الْوَهَّابِ، حَدَّثَنَا أَيُّوبُ، عَنْ مُحَمَّدِ بْنِ سِيرِينَ، عَنِ ابْنِ أَبِي بَكْرَةَ، عَنْ أَبِي بَكْرَةَ ـ رضى الله عنه ـ عَنِ النَّبِيِّ صلى الله عليه وسلم قَالَ ‏\"‏ الزَّمَانُ قَدِ اسْتَدَارَ كَهَيْئَتِهِ يَوْمَ خَلَقَ السَّمَوَاتِ وَالأَرْضَ، السَّنَةُ اثْنَا عَشَرَ شَهْرًا، مِنْهَا أَرْبَعَةٌ حُرُمٌ، ثَلاَثَةٌ مُتَوَالِيَاتٌ ذُو الْقَعْدَةِ وَذُو الْحِجَّةِ وَالْمُحَرَّمُ، وَرَجَبُ مُضَرَ الَّذِي بَيْنَ جُمَادَى وَشَعْبَانَ ‏\"‏‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 230,
+   "prophetWordsStart": "الزَّمَانُ قَدِ اسْتَدَارَ",
+   "keyStatementArabic": "الزَّمَانُ قَدِ اسْتَدَارَ كَهَيْئَتِهِ يَوْمَ خَلَقَ السَّمَوَاتِ وَالأَرْضَ، السَّنَةُ اثْنَا عَشَرَ شَهْرًا، مِنْهَا أَرْبَعَةٌ حُرُمٌ، ثَلاَثَةٌ مُتَوَالِيَاتٌ ذُو الْقَعْدَةِ وَذُو الْحِجَّةِ وَالْمُحَرَّمُ، وَرَجَبُ مُضَرَ الَّذِي بَيْنَ جُمَادَى وَشَعْبَانَ",
+   "reference": "Sahih al-Bukhari 3197",
+   "inBook": "Book 59, Hadith 8",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Vol. 4, Book 54, Hadith 419 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 18,
+   "entryType": "hadithText",
+   "id": "tirmidhi:757",
+   "url": "https://sunnah.com/tirmidhi:757",
+   "arabic": "حَدَّثَنَا هَنَّادٌ، حَدَّثَنَا أَبُو مُعَاوِيَةَ، عَنِ الأَعْمَشِ، عَنْ مُسْلِمٍ، هُوَ الْبَطِينُ وَهُوَ ابْنُ عِمْرَانَ عَنْ سَعِيدِ بْنِ جُبَيْرٍ، عَنِ ابْنِ عَبَّاسٍ، قَالَ قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏ \"‏ مَا مِنْ أَيَّامٍ الْعَمَلُ الصَّالِحُ فِيهِنَّ أَحَبُّ إِلَى اللَّهِ مِنْ هَذِهِ الأَيَّامِ الْعَشْرِ ‏\"‏ ‏.‏ فَقَالُوا يَا رَسُولَ اللَّهِ وَلاَ الْجِهَادُ فِي سَبِيلِ اللَّهِ فَقَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ وَلاَ الْجِهَادُ فِي سَبِيلِ اللَّهِ إِلاَّ رَجُلٌ خَرَجَ بِنَفْسِهِ وَمَالِهِ فَلَمْ يَرْجِعْ مِنْ ذَلِكَ بِشَيْءٍ ‏\" ‏ ‏.‏ وَفِي الْبَابِ عَنِ ابْنِ عُمَرَ وَأَبِي هُرَيْرَةَ وَعَبْدِ اللَّهِ بْنِ عَمْرٍو وَجَابِرٍ ‏.‏ قَالَ أَبُو عِيسَى حَدِيثُ ابْنِ عَبَّاسٍ حَدِيثٌ حَسَنٌ صَحِيحٌ غَرِيبٌ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 223,
+   "prophetWordsStart": "مَا مِنْ أَيَّامٍ",
+   "keyStatementArabic": "مَا مِنْ أَيَّامٍ الْعَمَلُ الصَّالِحُ فِيهِنَّ أَحَبُّ إِلَى اللَّهِ مِنْ هَذِهِ الأَيَّامِ الْعَشْرِ",
+   "reference": "Jami` at-Tirmidhi 757",
+   "inBook": "Book 8, Hadith 76",
+   "otherReferences": [
+    "English translation: Vol. 2, Book 3, Hadith 757"
+   ],
+   "grade": "Sahih (Darussalam)",
+   "gradeArabic": null,
+   "gradeRowRaw": "Grade:\t Sahih (Darussalam)",
+   "narratorGlossArabic": null
+  },
+  {
+   "item": 18,
+   "entryType": "hadithText",
+   "id": "abudawud:2438",
+   "url": "https://sunnah.com/abudawud:2438",
+   "arabic": "حَدَّثَنَا عُثْمَانُ بْنُ أَبِي شَيْبَةَ، حَدَّثَنَا وَكِيعٌ، حَدَّثَنَا الأَعْمَشُ، عَنْ أَبِي صَالِحٍ، وَمُجَاهِدٍ، وَمُسْلِمٍ الْبَطِينِ، عَنْ سَعِيدِ بْنِ جُبَيْرٍ، عَنِ ابْنِ عَبَّاسٍ، قَالَ قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ مَا مِنْ أَيَّامٍ الْعَمَلُ الصَّالِحُ فِيهَا أَحَبُّ إِلَى اللَّهِ مِنْ هَذِهِ الأَيَّامِ ‏\"‏ ‏.‏ يَعْنِي أَيَّامَ الْعَشْرِ ‏.‏ قَالُوا يَا رَسُولَ اللَّهِ وَلاَ الْجِهَادُ فِي سَبِيلِ اللَّهِ قَالَ ‏\"‏ وَلاَ الْجِهَادُ فِي سَبِيلِ اللَّهِ إِلاَّ رَجُلٌ خَرَجَ بِنَفْسِهِ وَمَالِهِ فَلَمْ يَرْجِعْ مِنْ ذَلِكَ بِشَىْءٍ ‏\"‏ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 241,
+   "prophetWordsStart": "مَا مِنْ أَيَّامٍ",
+   "keyStatementArabic": "مَا مِنْ أَيَّامٍ الْعَمَلُ الصَّالِحُ فِيهَا أَحَبُّ إِلَى اللَّهِ مِنْ هَذِهِ الأَيَّامِ",
+   "reference": "Sunan Abi Dawud 2438",
+   "inBook": "Book 14, Hadith 126",
+   "otherReferences": [
+    "English translation: Book 13, Hadith 2432"
+   ],
+   "grade": "Sahih (Al-Albani)",
+   "gradeArabic": "صحيح (الألباني)",
+   "gradeRowRaw": "Grade:\t Sahih (Al-Albani)\t  صحيح   (الألباني)\tحكم   :",
+   "narratorGlossArabic": "يَعْنِي أَيَّامَ الْعَشْرِ"
+  },
+  {
+   "item": 19,
+   "entryType": "gradingLookup",
+   "id": "dorar:tirmidhi:3451",
+   "subject": "Albani's and other scholars' verdicts on dorar.net for the hilal du'a of Talha ibn Ubaydullah (Jami` at-Tirmidhi 3451)",
+   "url": "https://dorar.net/h/2GBWMtv6",
+   "albaniVerdictForTirmidhi": {
+    "muhaddith": "الألباني",
+    "source": "صحيح الترمذي",
+    "pageOrNumber": "3451",
+    "verdict": "صحيح",
+    "narrator": "طلحة بن عبيدالله",
+    "takhrij": "أخرجه الترمذي (3451)، وأحمد (1397)، والدارمي (1730) واللفظ لهم.",
+    "hadithTextOnDorar": "أنَّ النَّبيَّ صلَّى اللَّهُ علَيهِ وسلَّمَ كانَ إذا رَأى الهلالَ قالَ اللَّهمَّ أهلِلهُ علَينا باليُمنِ والإيمانِ والسَّلامَةِ والإسلامِ ربِّي وربُّكَ اللَّهُ",
+    "url": "https://dorar.net/h/2GBWMtv6",
+    "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+    "resultNumberInSearch": 2
+   },
+   "albaniVerdictPrimary": {
+    "muhaddith": "الألباني",
+    "source": "صحيح الترمذي",
+    "pageOrNumber": "3451",
+    "verdict": "صحيح",
+    "narrator": "طلحة بن عبيدالله",
+    "takhrij": "أخرجه الترمذي (3451)، وأحمد (1397)، والدارمي (1730) واللفظ لهم.",
+    "hadithTextOnDorar": "أنَّ النَّبيَّ صلَّى اللَّهُ علَيهِ وسلَّمَ كانَ إذا رَأى الهلالَ قالَ اللَّهمَّ أهلِلهُ علَينا باليُمنِ والإيمانِ والسَّلامَةِ والإسلامِ ربِّي وربُّكَ اللَّهُ",
+    "url": "https://dorar.net/h/2GBWMtv6",
+    "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+    "resultNumberInSearch": 2
+   },
+   "albaniVerdicts": [
+    {
+     "muhaddith": "الألباني",
+     "source": "صحيح الترمذي",
+     "pageOrNumber": "3451",
+     "verdict": "صحيح",
+     "narrator": "طلحة بن عبيدالله",
+     "takhrij": "أخرجه الترمذي (3451)، وأحمد (1397)، والدارمي (1730) واللفظ لهم.",
+     "hadithTextOnDorar": "أنَّ النَّبيَّ صلَّى اللَّهُ علَيهِ وسلَّمَ كانَ إذا رَأى الهلالَ قالَ اللَّهمَّ أهلِلهُ علَينا باليُمنِ والإيمانِ والسَّلامَةِ والإسلامِ ربِّي وربُّكَ اللَّهُ",
+     "url": "https://dorar.net/h/2GBWMtv6",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 2
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "صحيح الجامع",
+     "pageOrNumber": "4726",
+     "verdict": "حسن",
+     "narrator": "طلحة بن عبيدالله",
+     "takhrij": "أخرجه الترمذي (3451)، وأحمد (1397)، والطبراني في ((الدعاء)) (903)، واللفظ لهم.",
+     "hadithTextOnDorar": "كان إذا رأى الهلالَ قال : اللهم أَهِلَّه علينا باليُمنِ و الإيمانِ، و السلامةِ و الإسلامِ، ربي وربُّك اللهُ",
+     "url": "https://dorar.net/h/8n7T4dTA",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 3
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "السلسلة الصحيحة",
+     "pageOrNumber": "1816",
+     "verdict": "صحيح بمجموع طرقه",
+     "narrator": "طلحة بن عبيدالله",
+     "takhrij": "أخرجه الترمذي (3451)، وأحمد (1397)، والطبراني في ((الدعاء)) (903)، واللفظ لهم.",
+     "hadithTextOnDorar": "كان إذا رأى الهِلالَ قال : اللهمَّ أَهِلَّهُ عَلَيْنا بِاليُمْنِ و الإيمانِ، و السلامَةِ و الإسلامِ، ربِّي و رَبُّكَ اللهُ",
+     "url": "https://dorar.net/h/LkATSB3u",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 4
+    }
+   ],
+   "otherVerdicts": [
+    {
+     "muhaddith": "الترمذي",
+     "source": "سنن الترمذي",
+     "pageOrNumber": "3451",
+     "verdict": "حسن غريب",
+     "narrator": "طلحة بن عبيدالله",
+     "takhrij": "أخرجه أحمد (1397)، والدارمي (1730)، وأبو يعلى (661) واللفظ لهم.",
+     "hadithTextOnDorar": "أنَّ النبيَّ صلَّى اللهُ عليه وسلَّم كان إذا رأى الهلالَ قال : اللهم أهْلِلْهُ علينا باليُمنِ والإيمانِ والسلامةِ والإسلامِ ربي وربُّك اللهُ",
+     "url": "https://dorar.net/h/u2t2IZfy",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 1
+    },
+    {
+     "muhaddith": "ابن حجر العسقلاني",
+     "source": "فيض القدير",
+     "pageOrNumber": "5/ 136",
+     "verdict": "صححه الحاكم وغلط في ذلك؛ فإنَّ فيه سليمان بن سفيان ضعفوه وإنما حسنه الترمذي لشواهده",
+     "narrator": "طلحة بن عبيد الله",
+     "takhrij": "أخرجه الترمذي (3451)، وأحمد (1397)، وعبد بن حميد في ((المسند)) (103) واللفظ لهم.",
+     "hadithTextOnDorar": "كان إذا رأى الهِلالَ قال: اللهُمَّ أهِلَّه علينا باليُمنِ والإيمانِ، والسَّلامةِ والإسلامِ، رَبِّي ورَبُّكَ اللهُ",
+     "url": "https://dorar.net/h/3upv53Ka",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 1
+    },
+    {
+     "muhaddith": "زين الدين المناوي",
+     "source": "فيض القدير",
+     "pageOrNumber": "5/ 136",
+     "verdict": "رمز السيوطي لحسنه ونوزع بأن الحديث عد من منكرات سليمان بن سفيان وقد ضعفه المديني وأبو حاتم والدارقطني وقال: لين ليس ثقة وذكره ابن حبان في الثقات وقال: يخطئ",
+     "narrator": "طلحة بن عبيد الله",
+     "takhrij": "أخرجه الترمذي (3451)، وأحمد (1397)، وعبد بن حميد في ((المسند)) (103) واللفظ لهم.",
+     "hadithTextOnDorar": "كان إذا رأى الهِلالَ قال: اللهُمَّ أهِلَّه علينا باليُمنِ والإيمانِ، والسَّلامةِ والإسلامِ، رَبِّي ورَبُّكَ اللهُ",
+     "url": "https://dorar.net/h/VhnO95cm",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 2
+    },
+    {
+     "muhaddith": "الضياء المقدسي",
+     "source": "الأحاديث المختارة",
+     "pageOrNumber": "821",
+     "verdict": "[فيه] سليمان بن سفيان المديني، أبو سفيان، تكلم فيه يحيى بن معين، وأبو حاتم الرازي، والدارقطني",
+     "narrator": "طلحة بن عبيد الله",
+     "takhrij": "أخرجه أبو يعلى في ((المسند)) (662)، والطبراني في ((الدعاء)) (903) بلفظه.",
+     "hadithTextOnDorar": "«كانَ إذا رأى الهِلالَ قالَ: اللَّهُمَّ أَهِلَّه علينا باليُمْنِ والإيمانِ، والسَّلامةِ والإسْلامِ، رَبِّي ورَبُّك اللهُ».",
+     "url": "https://dorar.net/h/uamkI2BI",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 5
+    },
+    {
+     "muhaddith": "السيوطي",
+     "source": "الجامع الصغير",
+     "pageOrNumber": "6677",
+     "verdict": "صحيح",
+     "narrator": "طلحة بن عبيدالله",
+     "takhrij": "أخرجه الترمذي (3451)، وأحمد (1397)، والطبراني في ((الدعاء)) (903)، واللفظ لهم.",
+     "hadithTextOnDorar": "كانَ إذا رأى الهلالَ قالَ : اللهمَّ أهلَّهُ علينا باليمنِ و الإيمانِ، و السلامةِ و الإسلامِ، ربِّي وربُّكَ اللهُ",
+     "url": "https://dorar.net/h/vVG4fCeg",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 6
+    },
+    {
+     "muhaddith": "العقيلي",
+     "source": "الضعفاء الكبير",
+     "pageOrNumber": "2/136",
+     "verdict": "في الدعاء لرؤية الهلال أحاديث كان هذا عندي من أصلحها إسناداً كلها لينة الأسانيد",
+     "narrator": "طلحة بن عبيدالله",
+     "takhrij": "أخرجه الترمذي (3451)، وأحمد (1397)، والدارمي (1730) باختلاف يسير.",
+     "hadithTextOnDorar": "أنَّ النَّبيَّ صلَّى اللهُ عليه وسلَّم كان إذا رأَى الهلالَ قال: اللَّهمَّ أهِلَّهُ علينا باليُمنِ والإيمانِ، والسَّلامةِ والإسلامِ، ربِّي وربُّكَ اللهُ.",
+     "url": "https://dorar.net/h/p5KPgTGa",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 8
+    },
+    {
+     "muhaddith": "الضياء المقدسي",
+     "source": "الأحاديث المختارة",
+     "pageOrNumber": "820",
+     "verdict": "أورده في المختارة وقال [هذه أحاديث اخترتها مما ليس في البخاري ومُسلِم]",
+     "narrator": "طلحة بن عبيد الله",
+     "takhrij": "أخرجه أبو يعلى في ((المسند)) (662)، والطبراني في ((الدعاء)) (903) بلفظه.",
+     "hadithTextOnDorar": "«كانَ النَّبيُّ صلَّى اللهُ عليه وسلَّمَ إذا نَظَرَ إلى الهِلالِ قالَ: اللَّهُمَّ أَهِلَّه علينا باليُمْنِ والإيمانِ، والسَّلامةِ والإسْلامِ، رَبِّي ورَبُّك اللهُ».",
+     "url": "https://dorar.net/h/seciA5eK",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 9
+    },
+    {
+     "muhaddith": "شعيب الأرناؤوط",
+     "source": "تخريج المسند لشعيب",
+     "pageOrNumber": "1397",
+     "verdict": "حسن لشواهده",
+     "narrator": "طلحة بن عبيدالله",
+     "takhrij": "أخرجه الترمذي (3451)، وأحمد (1397) واللفظ له",
+     "hadithTextOnDorar": "أنَّ النَّبيَّ صلَّى اللهُ عليه وسلَّمَ كان إذا رأى الهِلالَ، قال: اللَّهمَّ أهِلَّهُ علينا باليُمنِ والإيمانِ، والسَّلامةِ والإسلامِ، رَبِّي ورَبُّكَ اللهُ.",
+     "url": "https://dorar.net/h/DfzWqCF4",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 10
+    },
+    {
+     "muhaddith": "أحمد شاكر",
+     "source": "تخريج المسند لشاكر",
+     "pageOrNumber": "2/366",
+     "verdict": "إسناده حسن",
+     "narrator": "طلحة بن عبيدالله",
+     "takhrij": "أخرجه الترمذي (3451)، والدارمي (1730)، وأبو يعلى (661) واللفظ لهم.",
+     "hadithTextOnDorar": "أنَّ النبيَّ صلَّى اللهُ عليهِ وسلَّمَ كان إذا رأى الهلالَ قال : اللهمَّ أهِلَّه علينا باليُمنِ والإيمانِ والسلامةِ والإسلامِ ربي وربُّك اللهُ",
+     "url": "https://dorar.net/h/pGKZVZMQ",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 11
+    },
+    {
+     "muhaddith": "شعيب الأرناووط",
+     "source": "تخريج شرح السنة",
+     "pageOrNumber": "1335",
+     "verdict": "له شاهد يصح به",
+     "narrator": "طلحة بن عبيدالله",
+     "takhrij": "أخرجه الترمذي (3451)، وأحمد (1397)، والدارمي (1730) واللفظ لهم.",
+     "hadithTextOnDorar": "أنَّ النَّبيَّ صلَّى اللهُ عليه وسلَّمَ كانَ إذا رَأى الهِلالَ، قالَ: اللَّهمَّ أَهِلَّهُ عليْنا باليُمنِ والإيمانِ، والسلامةِ والإسلامِ، ربِّي وربُّكَ اللهُ.",
+     "url": "https://dorar.net/h/ZpJLVShs",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 12
+    },
+    {
+     "muhaddith": "يحيى بن معين",
+     "source": "سؤالات ابن الجنيد",
+     "pageOrNumber": "134",
+     "verdict": "[فيه] سليمان المدني ليس بشيء",
+     "narrator": "طلحة بن عبيدالله",
+     "takhrij": "أخرجه الترمذي (3451)، وأحمد (1397)",
+     "hadithTextOnDorar": "حديثُ طلحةَ في رؤيةِ الهلالِ [يعني حديث: أنَّ النَّبيَّ صلَّى اللهُ عليه وسلَّمَ كانَ إذا رَأى الهِلالَ، قالَ: اللَّهمَّ أَهِلَّهُ عليْنا باليُمنِ والإيمانِ، والسلامةِ والإسلامِ، ربِّي وربُّكَ اللهُ.]",
+     "url": "https://dorar.net/h/ew7JGIHe",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 13
+    }
+   ],
+   "differentWordingResults": [
+    {
+     "muhaddith": "ابن عثيمين",
+     "source": "مجموع فتاوى ابن عثيمين",
+     "pageOrNumber": "38/19",
+     "verdict": "فيه مقال قليل",
+     "narrator": "-",
+     "takhrij": null,
+     "hadithTextOnDorar": "اللهُ أكبرُ، اللهمَّ أهلَّه علينا باليُمنِ والإيمانِ، والسلامةِ والإسلامِ، والتوفيقِ لما تُحبُّه وترضاه، ربِّي وربُّك اللهُ",
+     "url": "https://dorar.net/h/z8VijEAm",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A7%D9%84%D9%84%D9%87%D9%85+%D8%A3%D9%87%D9%84%D9%87+%D8%B9%D9%84%D9%8A%D9%86%D8%A7+%D8%A8%D8%A7%D9%84%D9%8A%D9%85%D9%86+%D9%88%D8%A7%D9%84%D8%A5%D9%8A%D9%85%D8%A7%D9%86",
+     "resultNumberInSearch": 7,
+     "flag": "differentWording"
+    }
+   ]
+  },
+  {
+   "item": 20,
+   "entryType": "gradingLookup",
+   "id": "dorar:tirmidhi:761",
+   "subject": "Albani's verdict on dorar.net for Jami` at-Tirmidhi 761 (Abu Dharr, fasting the 13th, 14th and 15th)",
+   "url": "https://dorar.net/h/BoErL87Q",
+   "albaniVerdictForTirmidhi": {
+    "muhaddith": "الألباني",
+    "source": "صحيح الترمذي",
+    "pageOrNumber": "761",
+    "verdict": "حسن صحيح",
+    "narrator": "أبو ذر الغفاري",
+    "takhrij": "أخرجه الترمذي (761) واللفظ له، والنسائي (2424)، وأحمد (21437)",
+    "hadithTextOnDorar": "يا أبا ذرٍّ إذا صُمتَ منَ الشَّهرِ ثلاثةَ أيَّامٍ، فصُم ثلاثَ عشرةَ، وأربعَ عشرةَ وخمسَ عشرةَ",
+    "url": "https://dorar.net/h/BoErL87Q",
+    "searchUrl": "https://dorar.net/hadith/search?q=%D8%A5%D8%B0%D8%A7+%D8%B5%D9%85%D8%AA+%D9%85%D9%86+%D8%A7%D9%84%D8%B4%D9%87%D8%B1+%D8%AB%D9%84%D8%A7%D8%AB%D8%A9+%D8%A3%D9%8A%D8%A7%D9%85+%D9%81%D8%B5%D9%85+%D8%AB%D9%84%D8%A7%D8%AB+%D8%B9%D8%B4%D8%B1%D8%A9",
+    "resultNumberInSearch": 8
+   },
+   "albaniVerdictPrimary": {
+    "muhaddith": "الألباني",
+    "source": "صحيح الترمذي",
+    "pageOrNumber": "761",
+    "verdict": "حسن صحيح",
+    "narrator": "أبو ذر الغفاري",
+    "takhrij": "أخرجه الترمذي (761) واللفظ له، والنسائي (2424)، وأحمد (21437)",
+    "hadithTextOnDorar": "يا أبا ذرٍّ إذا صُمتَ منَ الشَّهرِ ثلاثةَ أيَّامٍ، فصُم ثلاثَ عشرةَ، وأربعَ عشرةَ وخمسَ عشرةَ",
+    "url": "https://dorar.net/h/BoErL87Q",
+    "searchUrl": "https://dorar.net/hadith/search?q=%D8%A5%D8%B0%D8%A7+%D8%B5%D9%85%D8%AA+%D9%85%D9%86+%D8%A7%D9%84%D8%B4%D9%87%D8%B1+%D8%AB%D9%84%D8%A7%D8%AB%D8%A9+%D8%A3%D9%8A%D8%A7%D9%85+%D9%81%D8%B5%D9%85+%D8%AB%D9%84%D8%A7%D8%AB+%D8%B9%D8%B4%D8%B1%D8%A9",
+    "resultNumberInSearch": 8
+   },
+   "albaniVerdicts": [
+    {
+     "muhaddith": "الألباني",
+     "source": "هداية الرواة",
+     "pageOrNumber": "1999",
+     "verdict": "إسناده حسن",
+     "narrator": "أبو ذر الغفاري",
+     "takhrij": "أخرجه الترمذي (761)، والنسائي (2424)، وأحمد (21437) باختلاف يسير",
+     "hadithTextOnDorar": "يا أبا ذَرٍّ ! إذا صُمْتَ من الشهرِ ثلاثةَ أيامٍ؛ فصُمْ ثلاثةَ عَشْرَةَ، وأربعَ عَشْرَةَ، وخَمْسَ عَشْرَةَ",
+     "url": "https://dorar.net/h/gv7deGBn",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A5%D8%B0%D8%A7+%D8%B5%D9%85%D8%AA+%D9%85%D9%86+%D8%A7%D9%84%D8%B4%D9%87%D8%B1+%D8%AB%D9%84%D8%A7%D8%AB%D8%A9+%D8%A3%D9%8A%D8%A7%D9%85+%D9%81%D8%B5%D9%85+%D8%AB%D9%84%D8%A7%D8%AB+%D8%B9%D8%B4%D8%B1%D8%A9",
+     "resultNumberInSearch": 5
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "صحيح الجامع",
+     "pageOrNumber": "7817",
+     "verdict": "صحيح",
+     "narrator": "أبو ذر الغفاري",
+     "takhrij": "أخرجه الترمذي (761) واللفظ له، والنسائي (2424)، وأحمد (21437)",
+     "hadithTextOnDorar": "يا أبا ذَرٍّ ! إذا صُمْتَ من الشهرِ ثلاثةَ أيامٍ، فصُمْ ثلاثَ عَشْرةَ، وأَرْبَعَ عَشْرةَ، وخَمْسَ عَشْرةَ",
+     "url": "https://dorar.net/h/1Peezbqp",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A5%D8%B0%D8%A7+%D8%B5%D9%85%D8%AA+%D9%85%D9%86+%D8%A7%D9%84%D8%B4%D9%87%D8%B1+%D8%AB%D9%84%D8%A7%D8%AB%D8%A9+%D8%A3%D9%8A%D8%A7%D9%85+%D9%81%D8%B5%D9%85+%D8%AB%D9%84%D8%A7%D8%AB+%D8%B9%D8%B4%D8%B1%D8%A9",
+     "resultNumberInSearch": 6
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "صحيح الترمذي",
+     "pageOrNumber": "761",
+     "verdict": "حسن صحيح",
+     "narrator": "أبو ذر الغفاري",
+     "takhrij": "أخرجه الترمذي (761) واللفظ له، والنسائي (2424)، وأحمد (21437)",
+     "hadithTextOnDorar": "يا أبا ذرٍّ إذا صُمتَ منَ الشَّهرِ ثلاثةَ أيَّامٍ، فصُم ثلاثَ عشرةَ، وأربعَ عشرةَ وخمسَ عشرةَ",
+     "url": "https://dorar.net/h/BoErL87Q",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A5%D8%B0%D8%A7+%D8%B5%D9%85%D8%AA+%D9%85%D9%86+%D8%A7%D9%84%D8%B4%D9%87%D8%B1+%D8%AB%D9%84%D8%A7%D8%AB%D8%A9+%D8%A3%D9%8A%D8%A7%D9%85+%D9%81%D8%B5%D9%85+%D8%AB%D9%84%D8%A7%D8%AB+%D8%B9%D8%B4%D8%B1%D8%A9",
+     "resultNumberInSearch": 8
+    }
+   ],
+   "otherVerdicts": [
+    {
+     "muhaddith": "الترمذي",
+     "source": "سنن الترمذي",
+     "pageOrNumber": "761",
+     "verdict": "حسن",
+     "narrator": "أبو ذر الغفاري",
+     "takhrij": "أخرجه الترمذي (761) واللفظ له، والنسائي (2424)، وأحمد (21437)",
+     "hadithTextOnDorar": "يا أبا ذَرٍّ إذا صُمْتَ من الشهرِ ثلاثةَ أيامٍ، فصُمْ ثلاثَ عَشْرَةَ، وأَرْبَعَ عَشْرَةَ، وخَمْسَ عَشْرَةَ",
+     "url": "https://dorar.net/h/ZyhfVOKd",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A5%D8%B0%D8%A7+%D8%B5%D9%85%D8%AA+%D9%85%D9%86+%D8%A7%D9%84%D8%B4%D9%87%D8%B1+%D8%AB%D9%84%D8%A7%D8%AB%D8%A9+%D8%A3%D9%8A%D8%A7%D9%85+%D9%81%D8%B5%D9%85+%D8%AB%D9%84%D8%A7%D8%AB+%D8%B9%D8%B4%D8%B1%D8%A9",
+     "resultNumberInSearch": 1
+    },
+    {
+     "muhaddith": "ابن العربي",
+     "source": "عارضة الأحوذي",
+     "pageOrNumber": "2/213",
+     "verdict": "لم يصح",
+     "narrator": "أبو ذر الغفاري",
+     "takhrij": "أخرجه الترمذي (761) واللفظ له، والنسائي (2424)، وأحمد (21437)",
+     "hadithTextOnDorar": "يا أبا ذرٍّ إذا صُمْتَ من الشَّهرِ ثلاثةَ أيامٍ فصُمْ ثلاثَ عَشْرةَ وأربعَ عَشْرةَ وخمسَ عَشْرةَ",
+     "url": "https://dorar.net/h/4Je6DxRJ",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A5%D8%B0%D8%A7+%D8%B5%D9%85%D8%AA+%D9%85%D9%86+%D8%A7%D9%84%D8%B4%D9%87%D8%B1+%D8%AB%D9%84%D8%A7%D8%AB%D8%A9+%D8%A3%D9%8A%D8%A7%D9%85+%D9%81%D8%B5%D9%85+%D8%AB%D9%84%D8%A7%D8%AB+%D8%B9%D8%B4%D8%B1%D8%A9",
+     "resultNumberInSearch": 2
+    },
+    {
+     "muhaddith": "ابن الملقن",
+     "source": "تحفة المحتاج",
+     "pageOrNumber": "2/110",
+     "verdict": "صحيح أو حسن [كما اشترط على نفسه في المقدمة]",
+     "narrator": "أبو ذر الغفاري",
+     "takhrij": "أخرجه الترمذي (761) واللفظ له، والنسائي (2424)، وأحمد (21437)",
+     "hadithTextOnDorar": "يا أبا ذَرٍّ إذا صُمتَ من الشهرِ ثلاثةَ أيامِ فصُم ثلاثَ عشْرةَ وأربعَ عشْرةَ وخمسَ عشْرةَ",
+     "url": "https://dorar.net/h/0mnT9mNb",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A5%D8%B0%D8%A7+%D8%B5%D9%85%D8%AA+%D9%85%D9%86+%D8%A7%D9%84%D8%B4%D9%87%D8%B1+%D8%AB%D9%84%D8%A7%D8%AB%D8%A9+%D8%A3%D9%8A%D8%A7%D9%85+%D9%81%D8%B5%D9%85+%D8%AB%D9%84%D8%A7%D8%AB+%D8%B9%D8%B4%D8%B1%D8%A9",
+     "resultNumberInSearch": 3
+    },
+    {
+     "muhaddith": "ابن حجر العسقلاني",
+     "source": "هداية الرواة",
+     "pageOrNumber": "2/342",
+     "verdict": "[حسن كما قال في المقدمة]",
+     "narrator": "أبو ذر الغفاري",
+     "takhrij": "أخرجه الترمذي (761) واللفظ له، والنسائي (2424)، وأحمد (21437)",
+     "hadithTextOnDorar": "يا أبا ذَرٍّ إذا صُمتَ من الشهرِ ثلاثةَ أيامٍ فصمْ ثلاثَ عشرةَ وأربعَ عشرةَ وخمسَ عشرةَ",
+     "url": "https://dorar.net/h/bQ26AmRB",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A5%D8%B0%D8%A7+%D8%B5%D9%85%D8%AA+%D9%85%D9%86+%D8%A7%D9%84%D8%B4%D9%87%D8%B1+%D8%AB%D9%84%D8%A7%D8%AB%D8%A9+%D8%A3%D9%8A%D8%A7%D9%85+%D9%81%D8%B5%D9%85+%D8%AB%D9%84%D8%A7%D8%AB+%D8%B9%D8%B4%D8%B1%D8%A9",
+     "resultNumberInSearch": 4
+    },
+    {
+     "muhaddith": "موفق الدين ابن قدامة",
+     "source": "الكافي لابن قدامة",
+     "pageOrNumber": "1/362",
+     "verdict": "حسن",
+     "narrator": "أبو ذر الغفاري",
+     "takhrij": "أخرجه الترمذي (761) واللفظ له، والنسائي (2424)، وأحمد (21437)",
+     "hadithTextOnDorar": "يا أبا ذرٍّ إذا صُمتَ منَ الشَّهرِ ثلاثةَ أيَّامٍ فصُم ثلاثَ عشرةَ، وأربعَ عشرةَ، وخمسَ عشرةَ",
+     "url": "https://dorar.net/h/CE0Mw7gE",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A5%D8%B0%D8%A7+%D8%B5%D9%85%D8%AA+%D9%85%D9%86+%D8%A7%D9%84%D8%B4%D9%87%D8%B1+%D8%AB%D9%84%D8%A7%D8%AB%D8%A9+%D8%A3%D9%8A%D8%A7%D9%85+%D9%81%D8%B5%D9%85+%D8%AB%D9%84%D8%A7%D8%AB+%D8%B9%D8%B4%D8%B1%D8%A9",
+     "resultNumberInSearch": 7
+    }
+   ],
+   "differentWordingResults": [
+    {
+     "muhaddith": "ابن حجر العسقلاني",
+     "source": "التلخيص الحبير",
+     "pageOrNumber": "2/820",
+     "verdict": "صحح عن أبي زرعة وقفه",
+     "narrator": "أبو ذر الغفاري",
+     "takhrij": "أخرجه الترمذي (761)، والنسائي (2422)، وأحمد (21537) باختلاف يسير. والرواية: أخرجها الديلمي في ((الفردوس)) (8371)",
+     "hadithTextOnDorar": "أمَرَنا رسولُ اللهِ صلَّى اللهُ عليه وسلَّم أنْ نصومَ منَ الشَّهرِ ثلاثةَ أيامٍ البِيضِ: ثلاثةَ عشَرَ وأربعةَ عشَرَ وخمسةَ عشَرَ، وفي روايةٍ عنه قال لي رسولُ اللهِ صلَّى اللهُ عليه وسلَّم: إذا صُمتَ منَ الشهرِ ثلاثةَ أيامٍ، فصُمْ ثلاثةَ عشَرَ وأربعةَ عشَرَ وخمسَةَ عشَرَ",
+     "url": "https://dorar.net/h/pAhMibzi",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A5%D8%B0%D8%A7+%D8%B5%D9%85%D8%AA+%D9%85%D9%86+%D8%A7%D9%84%D8%B4%D9%87%D8%B1+%D8%AB%D9%84%D8%A7%D8%AB%D8%A9+%D8%A3%D9%8A%D8%A7%D9%85+%D9%81%D8%B5%D9%85+%D8%AB%D9%84%D8%A7%D8%AB+%D8%B9%D8%B4%D8%B1%D8%A9",
+     "resultNumberInSearch": 9,
+     "flag": "differentWording"
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "صحيح الترغيب",
+     "pageOrNumber": "1038",
+     "verdict": "صحيح",
+     "narrator": "أبو ذر الغفاري",
+     "takhrij": "أخرجه الترمذي (761، 762)",
+     "hadithTextOnDorar": "إذا صُمتَ من الشهر ثلاثًا فصُمْ ثلاثَ عشرةَ، و أربعَ عشرةَ، و خمسَ عشرةَ فأنزل اللهُ تصديقَ ذلك في كتابِه مَنْ جَاءَ بِالْحَسَنَةِ فَلَهُ عَشْرُ أَمْثَالِهَا فاليومُ بعشرةِ أيامٍ",
+     "url": "https://dorar.net/h/yUWrAxgp",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A5%D8%B0%D8%A7+%D8%B5%D9%85%D8%AA+%D9%85%D9%86+%D8%A7%D9%84%D8%B4%D9%87%D8%B1+%D8%AB%D9%84%D8%A7%D8%AB%D8%A9+%D8%A3%D9%8A%D8%A7%D9%85+%D9%81%D8%B5%D9%85+%D8%AB%D9%84%D8%A7%D8%AB+%D8%B9%D8%B4%D8%B1%D8%A9",
+     "resultNumberInSearch": 10,
+     "flag": "differentWording"
+    }
+   ]
+  },
+  {
+   "item": 20,
+   "entryType": "gradingLookup",
+   "id": "dorar:tirmidhi:149",
+   "subject": "Albani's verdict on dorar.net for Jami` at-Tirmidhi 149 (Ibn Abbas, Jibril leading the prayers at the House)",
+   "url": "https://dorar.net/h/ySO1XdB6",
+   "albaniVerdictForTirmidhi": {
+    "muhaddith": "الألباني",
+    "source": "صحيح الترمذي",
+    "pageOrNumber": "149",
+    "verdict": "حسن صحيح",
+    "narrator": "عبدالله بن عباس",
+    "takhrij": "أخرجه أبو داود (393) باختلاف يسير، والترمذي (149) واللفظ له، وأحمد (1/ 333) باختلاف يسير جدَّا عنده.",
+    "hadithTextOnDorar": null,
+    "url": "https://dorar.net/h/ySO1XdB6",
+    "searchUrl": "https://dorar.net/hadith/search?q=%D8%A3%D9%85%D9%86%D9%8A+%D8%AC%D8%A8%D8%B1%D9%8A%D9%84+%D8%B9%D9%86%D8%AF+%D8%A7%D9%84%D8%A8%D9%8A%D8%AA+%D9%85%D8%B1%D8%AA%D9%8A%D9%86",
+    "resultNumberInSearch": 23
+   },
+   "albaniVerdictPrimary": {
+    "muhaddith": "الألباني",
+    "source": "صحيح الترمذي",
+    "pageOrNumber": "149",
+    "verdict": "حسن صحيح",
+    "narrator": "عبدالله بن عباس",
+    "takhrij": "أخرجه أبو داود (393) باختلاف يسير، والترمذي (149) واللفظ له، وأحمد (1/ 333) باختلاف يسير جدَّا عنده.",
+    "hadithTextOnDorar": null,
+    "url": "https://dorar.net/h/ySO1XdB6",
+    "searchUrl": "https://dorar.net/hadith/search?q=%D8%A3%D9%85%D9%86%D9%8A+%D8%AC%D8%A8%D8%B1%D9%8A%D9%84+%D8%B9%D9%86%D8%AF+%D8%A7%D9%84%D8%A8%D9%8A%D8%AA+%D9%85%D8%B1%D8%AA%D9%8A%D9%86",
+    "resultNumberInSearch": 23
+   },
+   "albaniVerdicts": [
+    {
+     "muhaddith": "الألباني",
+     "source": "إرواء الغليل",
+     "pageOrNumber": "1/268",
+     "verdict": "صحيح بالمتابعة والشواهد",
+     "narrator": "عبدالله بن عباس",
+     "takhrij": "أخرجه أبو داود (393) واللفظ له، والترمذي (149) باختلاف يسير، وأحمد (1/ 354) باختلاف يسير.",
+     "hadithTextOnDorar": null,
+     "url": "https://dorar.net/h/QHaS6xD3",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A3%D9%85%D9%86%D9%8A+%D8%AC%D8%A8%D8%B1%D9%8A%D9%84+%D8%B9%D9%86%D8%AF+%D8%A7%D9%84%D8%A8%D9%8A%D8%AA+%D9%85%D8%B1%D8%AA%D9%8A%D9%86",
+     "resultNumberInSearch": 5
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "صحيح الجامع",
+     "pageOrNumber": "1402",
+     "verdict": "صحيح",
+     "narrator": "عبدالله بن عباس",
+     "takhrij": "أخرجه أبو داود (393) واللفظ له، والترمذي (149) باختلاف يسير، وأحمد (1/ 333) باختلاف يسير.",
+     "hadithTextOnDorar": null,
+     "url": "https://dorar.net/h/HbCQtTy4",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A3%D9%85%D9%86%D9%8A+%D8%AC%D8%A8%D8%B1%D9%8A%D9%84+%D8%B9%D9%86%D8%AF+%D8%A7%D9%84%D8%A8%D9%8A%D8%AA+%D9%85%D8%B1%D8%AA%D9%8A%D9%86",
+     "resultNumberInSearch": 21
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "صحيح الترمذي",
+     "pageOrNumber": "149",
+     "verdict": "حسن صحيح",
+     "narrator": "عبدالله بن عباس",
+     "takhrij": "أخرجه أبو داود (393) باختلاف يسير، والترمذي (149) واللفظ له، وأحمد (1/ 333) باختلاف يسير جدَّا عنده.",
+     "hadithTextOnDorar": null,
+     "url": "https://dorar.net/h/ySO1XdB6",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A3%D9%85%D9%86%D9%8A+%D8%AC%D8%A8%D8%B1%D9%8A%D9%84+%D8%B9%D9%86%D8%AF+%D8%A7%D9%84%D8%A8%D9%8A%D8%AA+%D9%85%D8%B1%D8%AA%D9%8A%D9%86",
+     "resultNumberInSearch": 23
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "صحيح أبي داود",
+     "pageOrNumber": "393",
+     "verdict": "حسن صحيح",
+     "narrator": "عبدالله بن عباس",
+     "takhrij": "أخرجه أبو داود (393) واللفظ له، والترمذي (149) باختلاف يسير، وأحمد (1/ 333) باختلاف يسير.",
+     "hadithTextOnDorar": null,
+     "url": "https://dorar.net/h/u6SbLkxA",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A3%D9%85%D9%86%D9%8A+%D8%AC%D8%A8%D8%B1%D9%8A%D9%84+%D8%B9%D9%86%D8%AF+%D8%A7%D9%84%D8%A8%D9%8A%D8%AA+%D9%85%D8%B1%D8%AA%D9%8A%D9%86",
+     "resultNumberInSearch": 24
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "هداية الرواة",
+     "pageOrNumber": "555",
+     "verdict": "إسناده حسن، صحيح لغيره",
+     "narrator": "عبدالله بن عباس",
+     "takhrij": "أخرجه أبو داود (393) باختلاف يسير، والترمذي (149) باختلاف يسير، وأحمد (1/ 333) باختلاف يسير.",
+     "hadithTextOnDorar": null,
+     "url": "https://dorar.net/h/mL0whfOu",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A3%D9%85%D9%86%D9%8A+%D8%AC%D8%A8%D8%B1%D9%8A%D9%84+%D8%B9%D9%86%D8%AF+%D8%A7%D9%84%D8%A8%D9%8A%D8%AA+%D9%85%D8%B1%D8%AA%D9%8A%D9%86&&all&page=2",
+     "resultNumberInSearch": 36
+    }
+   ],
+   "otherVerdicts": [
+    {
+     "muhaddith": "الترمذي",
+     "source": "سنن الترمذي",
+     "pageOrNumber": "149",
+     "verdict": "حسن صحيح",
+     "narrator": "عبدالله بن عباس",
+     "takhrij": "أخرجه أبو داود (393) باختلاف يسير، والترمذي (149) واللفظ له، وأحمد (1/ 333) باختلاف يسير.",
+     "hadithTextOnDorar": null,
+     "url": "https://dorar.net/h/vRRRAlHC",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A3%D9%85%D9%86%D9%8A+%D8%AC%D8%A8%D8%B1%D9%8A%D9%84+%D8%B9%D9%86%D8%AF+%D8%A7%D9%84%D8%A8%D9%8A%D8%AA+%D9%85%D8%B1%D8%AA%D9%8A%D9%86",
+     "resultNumberInSearch": 15
+    }
+   ],
+   "differentWordingResults": [
+    {
+     "muhaddith": "الألباني",
+     "source": "إرواء الغليل",
+     "pageOrNumber": "249",
+     "verdict": "صحيح",
+     "narrator": "جابر بن عبدالله وابن عباس وأبو هريرة وأبو مسعود الأنصاري",
+     "takhrij": null,
+     "hadithTextOnDorar": null,
+     "url": "https://dorar.net/h/9z5knIzj",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D8%A3%D9%85%D9%86%D9%8A+%D8%AC%D8%A8%D8%B1%D9%8A%D9%84+%D8%B9%D9%86%D8%AF+%D8%A7%D9%84%D8%A8%D9%8A%D8%AA+%D9%85%D8%B1%D8%AA%D9%8A%D9%86&&all&page=2",
+     "resultNumberInSearch": 38,
+     "flag": "combinedEntry"
+    }
+   ]
+  },
+  {
+   "item": 21,
+   "entryType": "hadithText",
+   "id": "abudawud:3905",
+   "url": "https://sunnah.com/abudawud:3905",
+   "arabic": "حَدَّثَنَا أَبُو بَكْرِ بْنُ أَبِي شَيْبَةَ، وَمُسَدَّدٌ، - الْمَعْنَى - قَالاَ حَدَّثَنَا يَحْيَى، عَنْ عُبَيْدِ اللَّهِ بْنِ الأَخْنَسِ، عَنِ الْوَلِيدِ بْنِ عَبْدِ اللَّهِ، عَنْ يُوسُفَ بْنِ مَاهَكَ، عَنِ ابْنِ عَبَّاسٍ، قَالَ قَالَ رَسُولُ اللَّهِ صلى الله عليه وسلم ‏\"‏ مَنِ اقْتَبَسَ عِلْمًا مِنَ النُّجُومِ اقْتَبَسَ شُعْبَةً مِنَ السِّحْرِ زَادَ مَا زَادَ ‏\"‏ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 275,
+   "prophetWordsStart": "مَنِ اقْتَبَسَ",
+   "keyStatementArabic": "مَنِ اقْتَبَسَ عِلْمًا مِنَ النُّجُومِ اقْتَبَسَ شُعْبَةً مِنَ السِّحْرِ زَادَ مَا زَادَ",
+   "reference": "Sunan Abi Dawud 3905",
+   "inBook": "Book 30, Hadith 2",
+   "otherReferences": [
+    "English translation: Book 29, Hadith 3896"
+   ],
+   "grade": "Hasan (Al-Albani)",
+   "gradeArabic": "حسن (الألباني)",
+   "gradeRowRaw": "Grade:\t Hasan (Al-Albani)\t  حسن   (الألباني)\tحكم   :"
+  },
+  {
+   "item": 21,
+   "entryType": "gradingLookup",
+   "id": "dorar:abudawud:3905",
+   "subject": "Albani's verdict on dorar.net for Sunan Abi Dawud 3905 (Ibn Abbas, acquiring knowledge from the stars)",
+   "url": "https://dorar.net/h/DFQhU4qL",
+   "albaniVerdictPrimary": {
+    "muhaddith": "الألباني",
+    "source": "صحيح أبي داود",
+    "pageOrNumber": "3905",
+    "verdict": "حسن",
+    "narrator": "عبدالله بن عباس",
+    "takhrij": "أخرجه أبو داود (3905)، وابن ماجه (3726) واللفظ لهما، وأحمد (2840) باختلاف يسير.",
+    "hadithTextOnDorar": "منِ اقتبسَ عِلمًا منَ النُّجوم، اقتبسَ شعبةً منَ السِّحرِ زادَ ما زادَ",
+    "url": "https://dorar.net/h/DFQhU4qL",
+    "searchUrl": "https://dorar.net/hadith/search?q=%D9%85%D9%86+%D8%A7%D9%82%D8%AA%D8%A8%D8%B3+%D8%B9%D9%84%D9%85%D8%A7+%D9%85%D9%86+%D8%A7%D9%84%D9%86%D8%AC%D9%88%D9%85",
+    "resultNumberInSearch": 26
+   },
+   "albaniVerdicts": [
+    {
+     "muhaddith": "الألباني",
+     "source": "صحيح الترغيب",
+     "pageOrNumber": "3051",
+     "verdict": "صحيح",
+     "narrator": "عبدالله بن عباس",
+     "takhrij": "أخرجه أبو داود (3905)، وابن ماجه (3726) واللفظ لهما، وأحمد (2840) باختلاف يسير.",
+     "hadithTextOnDorar": "من اقتبس علمًا من النُّجومِ؛ اقتبس شُعبةً من السحرِ زاد ما زاد.",
+     "url": "https://dorar.net/h/EjjhDYri",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D9%85%D9%86+%D8%A7%D9%82%D8%AA%D8%A8%D8%B3+%D8%B9%D9%84%D9%85%D8%A7+%D9%85%D9%86+%D8%A7%D9%84%D9%86%D8%AC%D9%88%D9%85",
+     "resultNumberInSearch": 5
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "صحيح الجامع",
+     "pageOrNumber": "6074",
+     "verdict": "صحيح",
+     "narrator": "عبدالله بن عباس",
+     "takhrij": "أخرجه أبو داود (3905)، وابن ماجه (3726) واللفظ لهما، وأحمد (2840) باختلاف يسير.",
+     "hadithTextOnDorar": "مَنِ اقْتبَسَ عِلمًا من النُّجومِ، اقتبسَ شُعبةً من السِّحرِ، زادَ ما زادَ",
+     "url": "https://dorar.net/h/xbLKupDB",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D9%85%D9%86+%D8%A7%D9%82%D8%AA%D8%A8%D8%B3+%D8%B9%D9%84%D9%85%D8%A7+%D9%85%D9%86+%D8%A7%D9%84%D9%86%D8%AC%D9%88%D9%85",
+     "resultNumberInSearch": 9
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "صحيح أبي داود",
+     "pageOrNumber": "3905",
+     "verdict": "حسن",
+     "narrator": "عبدالله بن عباس",
+     "takhrij": "أخرجه أبو داود (3905)، وابن ماجه (3726) واللفظ لهما، وأحمد (2840) باختلاف يسير.",
+     "hadithTextOnDorar": "منِ اقتبسَ عِلمًا منَ النُّجوم، اقتبسَ شعبةً منَ السِّحرِ زادَ ما زادَ",
+     "url": "https://dorar.net/h/DFQhU4qL",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D9%85%D9%86+%D8%A7%D9%82%D8%AA%D8%A8%D8%B3+%D8%B9%D9%84%D9%85%D8%A7+%D9%85%D9%86+%D8%A7%D9%84%D9%86%D8%AC%D9%88%D9%85",
+     "resultNumberInSearch": 26
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "هداية الرواة",
+     "pageOrNumber": "4522",
+     "verdict": "إسناده جيد",
+     "narrator": "عبدالله بن عباس",
+     "takhrij": "أخرجه أبو داود (3905)، وابن ماجه (3726) واللفظ لهما، وأحمد (2840) باختلاف يسير.",
+     "hadithTextOnDorar": "منِ اقتبس علمًا منَ النجومِ؛ اقتبسَ شعبةً منَ السحرِ... زادَ ما زادَ.",
+     "url": "https://dorar.net/h/n0QNw69p",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D9%85%D9%86+%D8%A7%D9%82%D8%AA%D8%A8%D8%B3+%D8%B9%D9%84%D9%85%D8%A7+%D9%85%D9%86+%D8%A7%D9%84%D9%86%D8%AC%D9%88%D9%85",
+     "resultNumberInSearch": 27
+    },
+    {
+     "muhaddith": "الألباني",
+     "source": "صحيح ابن ماجه",
+     "pageOrNumber": "3017",
+     "verdict": "صحيح",
+     "narrator": "عبدالله بن عباس",
+     "takhrij": "أخرجه أبو داود (3905)، وابن ماجه (3726) واللفظ لهما، وأحمد (2840) باختلاف يسير.",
+     "hadithTextOnDorar": "مَنِ اقتَبَس عِلْمًا مِن النُّجومِ اقتَبَس شُعبَةً مِن السِّحرِ، زادَ ما زادَ.",
+     "url": "https://dorar.net/h/pYrFhthv",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D9%85%D9%86+%D8%A7%D9%82%D8%AA%D8%A8%D8%B3+%D8%B9%D9%84%D9%85%D8%A7+%D9%85%D9%86+%D8%A7%D9%84%D9%86%D8%AC%D9%88%D9%85",
+     "resultNumberInSearch": 28
+    }
+   ],
+   "otherVerdicts": [
+    {
+     "muhaddith": "أبو داود",
+     "source": "سنن أبي داود",
+     "pageOrNumber": "3905",
+     "verdict": "سكت عنه [وقد قال في رسالته لأهل مكة كل ما سكت عنه فهو صالح]",
+     "narrator": "عبدالله بن عباس",
+     "takhrij": "أخرجه ابن ماجه (3726)، وابن أبي شيبة (25646)، واللفظ لهما، وأحمد (2840) باختلاف يسير.",
+     "hadithTextOnDorar": "مَن اقتبَس عِلْمًا مِن النُّجومِ، اقتبَس شُعبةً مِن السِّحْرِ، زادَ ما زادَ.",
+     "url": "https://dorar.net/h/p8YvQTaJ",
+     "searchUrl": "https://dorar.net/hadith/search?q=%D9%85%D9%86+%D8%A7%D9%82%D8%AA%D8%A8%D8%B3+%D8%B9%D9%84%D9%85%D8%A7+%D9%85%D9%86+%D8%A7%D9%84%D9%86%D8%AC%D9%88%D9%85",
+     "resultNumberInSearch": 18
+    }
+   ],
+   "differentWordingResults": []
+  },
+  {
+   "item": 22,
+   "entryType": "hadithText",
+   "id": "muslim:934",
+   "url": "https://sunnah.com/muslim:934",
+   "arabic": "حَدَّثَنَا أَبُو بَكْرِ بْنُ أَبِي شَيْبَةَ، حَدَّثَنَا عَفَّانُ، حَدَّثَنَا أَبَانُ بْنُ يَزِيدَ، ح وَحَدَّثَنِي إِسْحَاقُ، بْنُ مَنْصُورٍ - وَاللَّفْظُ لَهُ - أَخْبَرَنَا حَبَّانُ بْنُ هِلاَلٍ، حَدَّثَنَا أَبَانٌ، حَدَّثَنَا يَحْيَى، أَنَّ زَيْدًا، حَدَّثَهُ أَنَّ أَبَا سَلاَّمٍ حَدَّثَهُ أَنَّ أَبَا مَالِكٍ الأَشْعَرِيَّ حَدَّثَهُ أَنَّ النَّبِيَّ صلى الله عليه وسلم قَالَ ‏\"‏ أَرْبَعٌ فِي أُمَّتِي مِنْ أَمْرِ الْجَاهِلِيَّةِ لاَ يَتْرُكُونَهُنَّ الْفَخْرُ فِي الأَحْسَابِ وَالطَّعْنُ فِي الأَنْسَابِ وَالاِسْتِسْقَاءُ بِالنُّجُومِ وَالنِّيَاحَةُ ‏\"‏ ‏.‏ وَقَالَ ‏\"‏ النَّائِحَةُ إِذَا لَمْ تَتُبْ قَبْلَ مَوْتِهَا تُقَامُ يَوْمَ الْقِيَامَةِ وَعَلَيْهَا سِرْبَالٌ مِنْ قَطِرَانٍ وَدِرْعٌ مِنْ جَرَبٍ ‏\"‏ ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 382,
+   "prophetWordsStart": "أَرْبَعٌ فِي أُمَّتِي",
+   "keyStatementArabic": "أَرْبَعٌ فِي أُمَّتِي مِنْ أَمْرِ الْجَاهِلِيَّةِ لاَ يَتْرُكُونَهُنَّ الْفَخْرُ فِي الأَحْسَابِ وَالطَّعْنُ فِي الأَنْسَابِ وَالاِسْتِسْقَاءُ بِالنُّجُومِ وَالنِّيَاحَةُ",
+   "reference": "Sahih Muslim 934",
+   "inBook": "Book 11, Hadith 38",
+   "otherReferences": [
+    "USC-MSA web (English) reference: Book 4, Hadith 2033 (deprecated numbering scheme)"
+   ],
+   "grade": null,
+   "gradeArabic": null,
+   "gradeRowRaw": null
+  },
+  {
+   "item": 23,
+   "entryType": "hadithText",
+   "id": "tirmidhi:150",
+   "url": "https://sunnah.com/tirmidhi:150",
+   "arabic": "أَخْبَرَنِي أَحْمَدُ بْنُ مُحَمَّدِ بْنِ مُوسَى، أَخْبَرَنَا عَبْدُ اللَّهِ بْنُ الْمُبَارَكِ، أَخْبَرَنَا حُسَيْنُ بْنُ عَلِيِّ بْنِ حُسَيْنٍ، أَخْبَرَنِي وَهْبُ بْنُ كَيْسَانَ، عَنْ جَابِرِ بْنِ عَبْدِ اللَّهِ، عَنْ رَسُولِ اللَّهِ صلى الله عليه وسلم قَالَ ‏\"‏ أَمَّنِي جِبْرِيلُ ‏\"‏ ‏.‏ فَذَكَرَ نَحْوَ حَدِيثِ ابْنِ عَبَّاسٍ بِمَعْنَاهُ ‏.‏ وَلَمْ يَذْكُرْ فِيهِ ‏\"‏ لِوَقْتِ الْعَصْرِ بِالأَمْسِ ‏\"‏ ‏.‏ قَالَ أَبُو عِيسَى هَذَا حَدِيثٌ حَسَنٌ صَحِيحٌ غَرِيبٌ ‏.‏ وَحَدِيثُ ابْنِ عَبَّاسٍ حَدِيثٌ حَسَنٌ صَحِيحٌ ‏.‏ وَقَالَ مُحَمَّدٌ أَصَحُّ شَيْءٍ فِي الْمَوَاقِيتِ حَدِيثُ جَابِرٍ عَنِ النَّبِيِّ صلى الله عليه وسلم ‏.‏ قَالَ وَحَدِيثُ جَابِرٍ فِي الْمَوَاقِيتِ قَدْ رَوَاهُ عَطَاءُ بْنُ أَبِي رَبَاحٍ وَعَمْرُو بْنُ دِينَارٍ وَأَبُو الزُّبَيْرِ عَنْ جَابِرِ بْنِ عَبْدِ اللَّهِ عَنِ النَّبِيِّ صلى الله عليه وسلم نَحْوَ حَدِيثِ وَهْبِ بْنِ كَيْسَانَ عَنْ جَابِرٍ عَنِ النَّبِيِّ صلى الله عليه وسلم ‏.‏",
+   "isExcerpt": false,
+   "prophetWordsOffsetInFullArabic": 263,
+   "prophetWordsStart": "أَمَّنِي جِبْرِيلُ",
+   "keyStatementArabic": "وَحَدِيثُ ابْنِ عَبَّاسٍ حَدِيثٌ حَسَنٌ صَحِيحٌ",
+   "reference": "Jami` at-Tirmidhi 150",
+   "inBook": "Book 2, Hadith 2",
+   "otherReferences": [
+    "English translation: Vol. 1, Book 2, Hadith 150"
+   ],
+   "grade": "Hasan (Darussalam)",
+   "gradeArabic": null,
+   "gradeRowRaw": "Grade:\t Hasan (Darussalam)",
+   "tirmidhiRemarkOnJabirHadith": "هَذَا حَدِيثٌ حَسَنٌ صَحِيحٌ غَرِيبٌ",
+   "tirmidhiRemarkOnIbnAbbasHadith": "وَحَدِيثُ ابْنِ عَبَّاسٍ حَدِيثٌ حَسَنٌ صَحِيحٌ",
+   "quotedRemarkOfMuhammad": "وَقَالَ مُحَمَّدٌ أَصَحُّ شَيْءٍ فِي الْمَوَاقِيتِ حَدِيثُ جَابِرٍ"
+  },
+  {
+   "item": 24,
+   "entryType": "scholarQuote",
+   "id": "khattabi-on-ilm-al-nujum",
+   "scholar": "al-Khattabi",
+   "requestedBook": "Ma'alim al-Sunan",
+   "primaryBookReached": false,
+   "quoteArabic": "قال الخطابي : علم النجوم المنهي عنه هو ما يدل عليه أهل التنجيم من علم الكوائن والحوادث التي لم تقع كمجيء الأمطار وتغير الأسعار وأما ما يعلم به أوقات الصلاة وجهة القبلة فغير داخل فيما نهي عنه انتهى",
+   "quotedIn": "عون المعبود, الجزء 10, ص 319 (islamweb library page titled: عون المعبود - كتاب الطب - باب في النجوم- الجزء رقم10)",
+   "url": "https://www.islamweb.net/ar/library/content/55/6781/%D8%A8%D8%A7%D8%A8-%D9%81%D9%8A-%D8%A7%D9%84%D9%86%D8%AC%D9%88%D9%85",
+   "relatedQuoteArabic": "وفي شرح السنة المنهي من علوم النجوم ما يدعيه أهلها من معرفة الحوادث التي لم تقع وربما تقع في مستقبل الزمان مثل إخبارهم بوقت هبوب الرياح ومجيء ماء المطر ووقوع الثلج وظهور الحر والبرد وتغيير الأسعار ونحوها ويزعمون أنهم يستدركون معرفتها بسير الكواكب واجتماعها وافتراقها وهذا علم استأثر الله به لا يعلمه أحد غيره كما قال تعالى : إن الله عنده علم الساعة وينزل الغيث فأما ما يدرك من طريق المشاهدة من علم النجوم الذي يعرف به الزوال وجهة القبلة فإنه غير داخل فيما نهي عنه قال الله تعالى : وهو الذي جعل لكم النجوم لتهتدوا بها في ظلمات البر والبحر وقال تعالى : وبالنجم هم يهتدون فأخبر الله تعالى أن النجوم طرق لمعرفة الأوقات والمسالك ولولاها لم يهتد الناس إلى استقبال الكعبة",
+   "relatedQuoteAttributionOnPage": "شرح السنة"
+  },
+  {
+   "item": 24,
+   "entryType": "scholarQuote",
+   "id": "uthaymin-tasir-tasyir",
+   "scholar": "Ibn Uthaymin",
+   "requestedBook": "al-Qawl al-Mufid 'ala Kitab al-Tawhid, باب ما جاء في التنجيم",
+   "primaryBookReached": false,
+   "quoteArabic": "عِلمُ النُّجومِ ينقَسِمُ إلى قِسمَينِ:\n1- عِلمُ التأثيرِ.\n2- عِلمُ التسييرِ.",
+   "quoteTasyirArabic": "الثَّاني: عِلمُ التسييرِ. وهذا ينقَسِمُ إلى قِسمَين:\nالأوَّلُ: أن يستَدِلَّ بسَيرِها على المصالحِ الدِّينيَّةِ؛ فهذا مطلوبٌ، وإذا كان يُعِينُ على مصالحَ دينيَّةٍ واجبةٍ كان تعَلُّمُها واجِبًا، كما لو أراد أن يستَدِلَّ بالنُّجومِ على جِهةِ القِبلةِ؛ فالنّجمُ الفلانيُّ يكونُ ثُلُثَ اللَّيلِ قِبلةً، والنَّجمُ الفُلانيُّ يكونُ ربُعَ اللَّيلِ قِبلةً؛ فهذا فيه فائدةٌ عظيمةٌ.",
+   "quoteFullArabic": "عِلمُ النُّجومِ ينقَسِمُ إلى قِسمَينِ:\n1- عِلمُ التأثيرِ.\n2- عِلمُ التسييرِ.\nفالأوَّلُ: عِلمُ التأثيرِ. وهذا ينقَسِمُ إلى ثلاثةِ أقسامٍ:\nأ: أن يعتَقِدَ أنَّ هذه النجومَ مُؤَثِّرةٌ فاعِلةٌ، بمعنى أنَّها هي التي تخلُقُ الحوادِثَ والشُّرورَ؛ فهذا شركٌ أكبَرُ؛ لأنَّ من ادَّعى أنَّ مع الله خالِقًا، فهو مُشرِكٌ شِركًا أكبَرَ، فهذا جَعَل المخلوقَ المسخَّرَ خالِقًا مُسَخِّرًا.\nب: أن يجعَلَها سَبَبًا يدَّعي به عِلمَ الغَيبِ، فيستَدِلُّ بحَركاتِها وتنَقُّلاتِها وتغيُّراتِها على أنَّه سيكونُ كذا وكذا؛ لأنَّ النَّجمَ الفُلانيَّ صار كذا وكذا، مثل أن يقول: هذا الإنسانُ ستكونُ حياتُه شَقاءً؛ لأنَّه وُلِدَ في النَّجمِ الفُلاني، وهذا حياتُه ستكونُ سعيدةً؛ لأنَّه وُلِد في النَّجمِ الفُلانيِّ؛ فهذا اتخَذَ تعَلُّمَ النجومِ وسيلةً لادِّعاءِ عِلمِ الغَيبِ، ودعوى عِلمِ الغَيبِ كُفرٌ مُخرِجٌ عن المِلَّةِ؛ لأنَّ اللهَ يقولُ: قُلْ لَا يَعْلَمُ مَنْ فِي السَّمَوَاتِ وَالْأَرْضِ الْغَيْبَ إِلَّا اللَّهُ [سورة النمل: من الآية 65]، وهذا من أقوى أنواعِ الحَصرِ؛ لأنَّه بالنَّفيِ والإثباتِ، فإذا ادَّعى أحدٌ عِلمَ الغَيبِ فقد كَذَّب القُرآنَ.\nج: أن يعتَقِدَها سَبَبًا لحُدوثِ الخيرِ والشَّرِّ، أي: أنَّه إذا وقع شيءٌ نَسَبَه إلى النُّجومِ، ولا ينسُبُ إلى النُّجومِ شيئًا إلَّا بعد وُقوعِه؛ فهذا شِركٌ أصغَرُ.\nفإن قيل: ينتَقِضُ هذا بما ثبت عن النَّبيِّ صلَّى اللهُ عليه وسلَّم في قَوله في الكُسوفِ: ((إنَّ الشَّمسَ والقَمَرَ آيتانِ من آياتِ اللهِ يُخَوِّفُ اللهُ بهما عِبادَه ))؛ فمعنى ذلك أنَّهما علامةُ إنذارٍ.\nفالجوابُ من وَجهَينِ:\nالأوَّلُ: أنَّه لا يُسلَّمُ أنَّ للكُسوفِ تأثيرًا في الحوادِثِ والعُقوباتِ، من الجَدْبِ والقَحطِ والحُروبِ؛ ولذلك قال النَّبيُّ صلَّى اللهُ عليه وسلَّم: \"إنَّهما لا ينكَسِفانِ لموتِ أحَدٍ ولا لحياتِه\"، لا فيما مضى ولا في المستقبَلِ، وإنَّما يخَوِّفُ اللهُ بهما العِبادَ؛ لعَلَّهم يَرجِعون، وهذا أقرَبُ.\nالثَّاني: أنَّه لو سَلَّمْنا أنَّ لهما تأثيرا، فإنَّ النَّصَّ قد دَلَّ على ذلك، وما دَلَّ عليه النَّصُّ يجِبُ القَولُ به، لكِنْ يكونُ خاصًّا به.\nلكِنَّ الوَجهَ الأوَّلَ هو الأقرَبُ: أنَّنا لا نُسَلِّمُ أصلًا أنَّ لهما تأثيرًا في هذا؛ لأنَّ الحديثَ لا يقتضيه، فالحديثُ ينصُّ على التخويفِ، والمخَوِّفُ هو اللهُ تعالى، والمخَوَّفُ عقوبتُه، ولا أثَرَ للكُسوفِ في ذلك، وإنَّما هو علامةٌ فقط.\nالثَّاني: عِلمُ التسييرِ. وهذا ينقَسِمُ إلى قِسمَين:\nالأوَّلُ: أن يستَدِلَّ بسَيرِها على المصالحِ الدِّينيَّةِ؛ فهذا مطلوبٌ، وإذا كان يُعِينُ على مصالحَ دينيَّةٍ واجبةٍ كان تعَلُّمُها واجِبًا، كما لو أراد أن يستَدِلَّ بالنُّجومِ على جِهةِ القِبلةِ؛ فالنّجمُ الفلانيُّ يكونُ ثُلُثَ اللَّيلِ قِبلةً، والنَّجمُ الفُلانيُّ يكونُ ربُعَ اللَّيلِ قِبلةً؛ فهذا فيه فائدةٌ عظيمةٌ.\nالثَّاني: أن يستَدِلَّ بسَيرِها على المصالحِ الدُّنيويَّةِ؛ فهذا لا بأسَ به، وهو نوعان:\nالنَّوع الأوَّلُ: أن يستَدِلَّ بها على الجِهاتِ؛ كمعرفةِ أنَّ القُطبَ يقَعُ شمالًا، والجَدْيَ وهو قريبٌ منه يدورُ حولَه شمالًا، وهكذ؛; فهذا جائزٌ، قال تعالى: وَعَلامَاتٍ وَبِالنَّجْمِ هُمْ يَهْتَدُونَ [سورة النحل: الآية 16].\nالنَّوع الثَّاني: أن يستَدِلَّ بها على الفُصولِ، وهو ما يُعرَفُ بتعَلُّمِ مَنازِلِ القَمَرِ؛ فهذا كرهه بعضُ السَّلَفِ، وأباحه آخرون.\nوالذين كَرِهوه قالوا: يُخشى إذا قيل: طلع النجمُ الفُلانيُّ فهو وقتُ الشِّتاءِ أو الصَّيفِ، أنَّ بعضَ العامَّةِ يعتَقِدُ أنَّه هو الذي يأتي بالبَردِ أو بالحَرِّ أو بالرِّياحِ.\nوالصَّحيحُ عَدَمُ الكراهةِ... والصَّحيحُ أنَّه لا بأسَ بتعَلُّمِ منازِلِ القمَرِ؛ لأنَّه لا شِرْكَ فيها، إلَّا إن تعَلَّمَها ليُضيفَ إليها نُزولَ المطَرِ وحُصولَ البَردِ، وأنَّها هي الجالبةُ لذلك؛ فهذا نوعٌ من الشِّركِ، أمَّا مجَرَّدُ مَعرِفةِ الوَقتِ بها: هل هو الرَّبيعُ، أو الخريفُ، أو الشِّتاءُ؛ فهذا لا بأسَ به",
+   "citationOnPage": "يُنظر: ((القول المفيد)) (2/5).",
+   "quotedIn": "الدرر السنية, الموسوعة العقدية, الفرع الثالث: التنجيم",
+   "url": "https://dorar.net/aqeeda/2958/%D8%A7%D9%84%D9%81%D8%B1%D8%B9-%D8%A7%D9%84%D8%AB%D8%A7%D9%84%D8%AB-%D8%A7%D9%84%D8%AA%D9%86%D8%AC%D9%8A%D9%85"
+  }
+ ]
+}

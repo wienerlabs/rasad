@@ -1,8 +1,10 @@
 package xyz.wienerlabs.rasad.astro
 
-import android.icu.util.IslamicCalendar
-import android.icu.util.TimeZone
-import android.icu.util.ULocale
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.chrono.HijrahDate
+import java.time.temporal.ChronoField
 
 data class HijriDate(val day: Int, val monthIndex: Int, val year: Int) {
     val monthName: String get() = HijriCalendar.monthNames[monthIndex]
@@ -26,16 +28,25 @@ object HijriCalendar {
         "Zilhicce",
     )
 
-    fun at(millis: Long): HijriDate {
-        val calendar = IslamicCalendar(TimeZone.getDefault(), ULocale.forLanguageTag("tr-TR"))
-        calendar.calculationType = IslamicCalendar.CalculationType.ISLAMIC_UMALQURA
-        calendar.timeInMillis = millis
+    fun at(millis: Long, offsetDays: Int = 0, zone: ZoneId = ZoneId.systemDefault()): HijriDate =
+        of(Instant.ofEpochMilli(millis).atZone(zone).toLocalDate(), offsetDays)
+
+    fun of(date: LocalDate, offsetDays: Int = 0): HijriDate {
+        val hijrah = HijrahDate.from(date.plusDays(offsetDays.toLong()))
         return HijriDate(
-            day = calendar.get(IslamicCalendar.DAY_OF_MONTH),
-            monthIndex = calendar.get(IslamicCalendar.MONTH),
-            year = calendar.get(IslamicCalendar.YEAR),
+            day = hijrah.get(ChronoField.DAY_OF_MONTH),
+            monthIndex = hijrah.get(ChronoField.MONTH_OF_YEAR) - 1,
+            year = hijrah.get(ChronoField.YEAR_OF_ERA),
         )
     }
+
+    fun gregorian(year: Int, monthIndex: Int, day: Int, offsetDays: Int = 0): LocalDate {
+        val first = HijrahDate.of(year, monthIndex + 1, 1)
+        val clamped = day.coerceIn(1, first.lengthOfMonth())
+        return LocalDate.from(HijrahDate.of(year, monthIndex + 1, clamped)).minusDays(offsetDays.toLong())
+    }
+
+    fun monthLength(year: Int, monthIndex: Int): Int = HijrahDate.of(year, monthIndex + 1, 1).lengthOfMonth()
 
     fun monthStartingAfter(conjunctionMillis: Long): HijriDate = at(conjunctionMillis + 2L * 86_400_000L)
 }

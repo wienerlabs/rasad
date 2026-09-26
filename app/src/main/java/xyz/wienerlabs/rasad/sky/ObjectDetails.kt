@@ -14,6 +14,7 @@ import xyz.wienerlabs.rasad.astro.SkySnapshot
 import xyz.wienerlabs.rasad.astro.transform
 import xyz.wienerlabs.rasad.astro.TurkishLocale
 import xyz.wienerlabs.rasad.astro.Vec3
+import xyz.wienerlabs.rasad.islam.QiblaSun
 import java.time.format.TextStyle
 import java.time.Instant
 import java.time.LocalDate
@@ -40,18 +41,27 @@ data class ObjectDetails(
     val relatedLabel: String? = null,
     val bestView: Long? = null,
     val suggestJump: Boolean = false,
+    val jumpLabel: String? = null,
+    val texts: List<String> = emptyList(),
+    val textsLabel: String? = null,
+    val starNote: Boolean = false,
 ) {
     enum class Script { Arabic, Latin }
 }
 
 object ObjectDescriber {
     private const val KM_PER_AU = 149_597_870.7
+    private const val YOUNG_CRESCENT_DAYS = 3.5
+    private val STAR_TEXTS = mapOf(
+        "Sirius" to ("Kur'an'da Şi'râ" to listOf("53:49")),
+        "Sadalsuud" to ("Yağmur yıldızdan değildir" to listOf("bukhari:846")),
+    )
 
     fun describe(ref: SkyObjectRef, catalog: SkyCatalog, snapshot: SkySnapshot, location: GeoPoint): ObjectDetails = when (ref) {
         is SkyObjectRef.Star -> star(ref.index, catalog, snapshot, location)
         is SkyObjectRef.Body -> body(snapshot.bodies.first { it.body == ref.body }, snapshot, location)
         is SkyObjectRef.Constellation -> constellation(catalog, ref.index, snapshot, location)
-        SkyObjectRef.Qibla -> qibla(location)
+        SkyObjectRef.Qibla -> qibla(location, snapshot.millis)
     }
 
     private fun signed(value: Double, digits: Int = 2): String = Formats.decimal(value, digits).replace('-', '−')
@@ -137,12 +147,16 @@ object ObjectDescriber {
             relatedLabel = "Takımyıldızı",
             bestView = plan.bestTime,
             suggestJump = direction.altitudeDegrees < 10.0 && plan.bestTime != null,
+            texts = STAR_TEXTS[meta.properName]?.second.orEmpty(),
+            textsLabel = STAR_TEXTS[meta.properName]?.first,
+            starNote = true,
         )
     }
 
     private fun body(state: BodyState, snapshot: SkySnapshot, location: GeoPoint): ObjectDetails {
         val events = RiseSet.forBody(state.body, location, snapshot.millis)
         val constellation = Constellations.turkishName(state.constellationCode)
+        val lunation = if (state.body == SkyBody.Moon) Hilal.lunation(snapshot.millis) else null
         val facts = buildList {
             when (state.body) {
                 SkyBody.Sun -> {
@@ -154,10 +168,11 @@ object ObjectDescriber {
                     }
                 }
                 SkyBody.Moon -> {
-                    val lunation = Hilal.lunation(snapshot.millis)
-                    add(Fact("Evre", lunation.phaseName))
-                    add(Fact("Aydınlık", Formats.percent(state.phaseFraction)))
-                    add(Fact("Yaş", "${Formats.decimal(lunation.ageDays, 1)} gün"))
+                    lunation?.let {
+                        add(Fact("Evre", it.phaseName))
+                        add(Fact("Aydınlık", Formats.percent(state.phaseFraction)))
+                        add(Fact("Yaş", "${Formats.decimal(it.ageDays, 1)} gün"))
+                    }
                     add(Fact("Uzaklık", "${Formats.grouped(state.distanceKm)} km"))
                     addAll(positionFacts(state.azimuth, state.altitude))
                     addAll(timeFacts(events, state.altitude))
@@ -174,7 +189,7 @@ object ObjectDescriber {
         }
         val story = when (state.body) {
             SkyBody.Sun -> "Osmanlıca metinlerde Şems diye anılır. Namaz vakitleri doğrudan onun ufka göre yüksekliğinden hesaplanır."
-            SkyBody.Moon -> "Kamer; hicrî takvimin her ayı yeni hilalin görülmesiyle başlar. Hilal sekmesinde bir sonraki ayın görünürlüğünü bulabilirsin."
+            SkyBody.Moon -> "Kamer; hicrî takvimin her ayı yeni hilalin görülmesiyle başlar. Takvim'in Hilal sekmesinde bir sonraki hilalin görünürlüğünü bulabilirsin."
             SkyBody.Venus -> "Halk arasında Çoban Yıldızı; sabah ya da akşam ufkunda Ay'dan sonra gökteki en parlak cisimdir."
             SkyBody.Jupiter -> "Osmanlıca Müşterî. Küçük bir dürbünle dört büyük uydusu yan yana dizilmiş görülür."
             SkyBody.Saturn -> "Osmanlıca Zühal. Halkaları küçük bir teleskopla seçilir."
@@ -202,6 +217,8 @@ object ObjectDescriber {
             facts = if (plan == null) facts else facts + viewingFact(plan, snapshot.millis),
             bestView = plan?.bestTime,
             suggestJump = plan?.bestTime != null && state.altitude < 10.0,
+            texts = if (lunation != null && lunation.ageDays < YOUNG_CRESCENT_DAYS) listOf("tirmidhi:3451") else emptyList(),
+            textsLabel = "Hilali görünce",
         )
     }
 
@@ -247,9 +264,11 @@ object ObjectDescriber {
         )
     }
 
-    private fun qibla(location: GeoPoint): ObjectDetails {
+    private fun qibla(location: GeoPoint, millis: Long): ObjectDetails {
         val bearing = Qibla.bearingDegrees(location)
         val distance = Qibla.distanceKm(location)
+        val qiblaSun = runCatching { QiblaSun.next(millis) }.getOrNull()
+        val sunUsable = qiblaSun != null && QiblaSun.sunAt(qiblaSun.millis, location).altitude > 5.0
         return ObjectDetails(
             title = "Kıble",
             kind = "Kâbe yönü",
@@ -257,11 +276,22 @@ object ObjectDescriber {
             transliteration = "el-Kıble",
             meaning = "yönelinen taraf",
             story = "Ufuktaki işaret, Kâbe'ye giden en kısa yolun (büyük daire) başladığı yönü gösterir. Telefonu bu işarete çevirdiğinde hafif bir titreşim duyarsın.",
-            facts = listOf(
+            facts = listOfNotNull(
                 Fact("Açı", "${Formats.degrees(bearing, 1)} ${Formats.compassPoint(bearing)}"),
                 Fact("Kâbe'ye uzaklık", "${Formats.grouped(distance)} km"),
                 Fact("Konum", location.formatted()),
+                qiblaSun?.let { Fact("Kıble güneşi", "${Formats.dayMonth(it.millis)} ${Formats.clock(it.millis)}") },
             ),
+            footnote = when {
+                qiblaSun == null -> null
+                sunUsable -> "Kıble güneşi anında Güneş Kâbe'nin tam üstündedir; o an Güneş'e dönen kıbleye dönmüş olur."
+                else -> "Kıble güneşi anında Güneş senin ufkunun altında olacak; bu yöntem bulunduğun yerde kullanılamaz."
+            },
+            bestView = qiblaSun?.millis?.takeIf { sunUsable },
+            suggestJump = sunUsable,
+            jumpLabel = "Kıble güneşine git",
+            texts = listOf("2:144"),
+            textsLabel = "Kur'an'da kıble",
         )
     }
 }

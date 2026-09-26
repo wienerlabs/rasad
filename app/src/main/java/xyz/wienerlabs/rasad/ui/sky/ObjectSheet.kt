@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.background
+import xyz.wienerlabs.rasad.islam.IslamicTexts
 import xyz.wienerlabs.rasad.sky.ObjectDetails
 import xyz.wienerlabs.rasad.sky.SkyObjectRef
 import xyz.wienerlabs.rasad.ui.RasadIcons
@@ -42,6 +43,7 @@ import xyz.wienerlabs.rasad.ui.components.Pill
 import xyz.wienerlabs.rasad.ui.components.RoundIconButton
 import xyz.wienerlabs.rasad.ui.components.SectionLabel
 import xyz.wienerlabs.rasad.ui.components.panel
+import xyz.wienerlabs.rasad.ui.islam.SourceCard
 import xyz.wienerlabs.rasad.ui.theme.Palette
 import xyz.wienerlabs.rasad.ui.theme.RasadType
 
@@ -54,6 +56,7 @@ fun ObjectSheet(
     onTarget: () -> Unit,
     onRelated: (SkyObjectRef) -> Unit,
     onJump: (Long) -> Unit,
+    onOpenStarNote: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var dragOffset by remember { mutableFloatStateOf(0f) }
@@ -109,6 +112,16 @@ fun ObjectSheet(
                 Spacer(Modifier.height(6.dp))
                 Text(details.story, style = RasadType.body, color = Palette.TextMuted)
             }
+            val texts = details.texts.mapNotNull { IslamicTexts[it] }
+            if (texts.isNotEmpty()) {
+                Spacer(Modifier.height(16.dp))
+                SectionLabel(details.textsLabel ?: "Kaynak")
+                Spacer(Modifier.height(8.dp))
+                texts.forEach { source ->
+                    SourceCard(source)
+                    Spacer(Modifier.height(8.dp))
+                }
+            }
             if (details.related.isNotEmpty()) {
                 Spacer(Modifier.height(16.dp))
                 SectionLabel(details.relatedLabel ?: "İlgili")
@@ -126,7 +139,8 @@ fun ObjectSheet(
             FlowRow(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Pill(if (isTarget) "Hedef açık" else "Beni oraya yönlendir", icon = RasadIcons.Target, onClick = onTarget, inverted = isTarget)
                 val best = details.bestView
-                if (details.suggestJump && best != null) Pill("En iyi zamana git", icon = RasadIcons.Clock, onClick = { onJump(best) })
+                if (details.suggestJump && best != null) Pill(details.jumpLabel ?: "En iyi zamana git", icon = RasadIcons.Clock, onClick = { onJump(best) })
+                if (details.starNote) Pill("Yıldızlar ve İslam", onClick = onOpenStarNote)
             }
             details.footnote?.let {
                 Spacer(Modifier.height(10.dp))

@@ -15,11 +15,11 @@ object StarLoreBook {
     private val entries: Map<String, StarLore> = mapOf(
         "Sirius" to arabic(
             "الشعرى اليمانية", "eş-Şi'râ el-Yemâniye", "Yemen tarafındaki Şi'râ",
-            "Kur'ân'da adıyla anılan tek yıldız: Necm sûresinin 49. âyeti “Şi'râ'nın Rabbi de O'dur” der. Samanyolu'nu geçtiği için eş-Şi'râ el-Abûr, yani “geçen Şi'râ” diye de anılırdı. Batıdaki adı Yunanca “kavurucu” demektir.",
+            "Kur'an'da özel adıyla anılan yıldızdır (Necm 53:49, aşağıda). Samanyolu'nu geçtiği için eş-Şi'râ el-Abûr, yani “geçen Şi'râ” diye de anılırdı. Batıdaki adı Yunanca “kavurucu” demektir.",
         ),
         "Procyon" to arabic(
             "الشعرى الغميصاء", "eş-Şi'râ el-Gumeysâ", "gözü yaşlı Şi'râ",
-            "Anlatıya göre iki kız kardeşten biri Samanyolu'nu geçip gitti, bu ise geride kalıp ağlamaktan gözleri bulanıklaştı. Procyon Yunanca “köpekten önce” demektir; Sirius'tan az önce doğar.",
+            "Câhiliye Araplarının anlatısına göre iki kız kardeşten biri Samanyolu'nu geçip gitti, bu ise geride kalıp ağlamaktan gözleri bulanıklaştı. Procyon Yunanca “köpekten önce” demektir; Sirius'tan az önce doğar.",
         ),
         "Canopus" to arabic(
             "سهيل", "Süheyl", "anlamı kesin bilinmeyen eski bir özel ad",
@@ -47,7 +47,7 @@ object StarLoreBook {
         ),
         "Capella" to arabic(
             "العيوق", "el-Ayyûk", "engelleyen",
-            "Anlatıya göre Deberân (Aldebaran) Süreyya'ya kavuşmak ister, el-Ayyûk ise yolunu keserdi. Capella Latincede “küçük keçi” anlamına gelir.",
+            "Câhiliye Araplarının anlatısına göre Deberân (Aldebaran) Süreyya'ya kavuşmak ister, el-Ayyûk ise yolunu keserdi. Capella Latincede “küçük keçi” anlamına gelir.",
         ),
         "Rigel" to arabic(
             "رجل الجوزاء", "Ricl el-Cevzâ", "Cevzâ'nın ayağı",
@@ -373,8 +373,8 @@ object StarLoreBook {
             "Yay takımyıldızındaki okçunun dizini temsil eder.",
         ),
         "Nashira" to arabic(
-            "سعد ناشرة", "Sa'du Nâşira", "müjdecinin talihi",
-            "Oğlak'ta yer alır; talih yıldızları geleneğindeki uğurlu yıldızlardandır.",
+            "سعد ناشرة", "Sa'du Nâşira", "müjdeleyenin sa'dı",
+            "Oğlak'ta yer alır. Adı, Câhiliye Araplarının bazı yıldız gruplarına “sa'd” (uğur) deyip onlara talih bağladığı eski adlandırmadan kalmıştır. İslam uğuru da uğursuzluğu da yıldızlara bağlamayı reddeder; bu ad bugün yalnızca bir isim olarak yaşar.",
         ),
         "Deneb Algedi" to arabic(
             "ذنب الجدي", "Zenebü'l-Cedy", "oğlağın kuyruğu",
@@ -385,20 +385,20 @@ object StarLoreBook {
             "Adını takımyıldızın Arapçasından alır; çıplak gözle çift görünen bir yıldızdır.",
         ),
         "Dabih" to arabic(
-            "الذابح", "ez-Zâbih", "kurban kesen",
-            "Sa'dü'z-Zâbih, yani “kurban kesenin talihi” adlı Ay konağından gelir.",
+            "الذابح", "ez-Zâbih", "kesen",
+            "Adı, eski Arapların Sa'dü'z-Zâbih dediği Ay konağından gelir. Ay konakları, Ay'ın her gece hangi yıldızların yanında olduğunu izleyerek ayı ve mevsimi takip etmeye yarardı; onlara bağlanan uğur ve yağmur inancını ise İslam reddeder.",
         ),
         "Sadalmelik" to arabic(
-            "سعد الملك", "Sa'dü'l-Melik", "kralın talihi",
-            "Kova'nın en parlak yıldızlarından biridir ve talih yıldızları geleneğine aittir.",
+            "سعد الملك", "Sa'dü'l-Melik", "kralın sa'dı",
+            "Kova'nın en parlak yıldızlarından biridir. Adı, eski Arapların “sa'd” (uğur) diye andığı yıldız gruplarından birinden gelir; yıldızlara uğur bağlamak İslam'da kabul görmez.",
         ),
         "Sadalsuud" to arabic(
-            "سعد السعود", "Sa'dü's-Su'ûd", "talihlerin en uğurlusu",
-            "Güneş'in bu yıldızlara yaklaştığı günler kış sonunda yağmurların ve baharın müjdecisi sayılırdı.",
+            "سعد السعود", "Sa'dü's-Su'ûd", "sa'dların sa'dı",
+            "Kova'da yer alır. Güneş bu yıldızlara kış sonunda yaklaşır. Câhiliye Arapları yağmuru Ay konaklarının doğup batmasına (nev') bağlardı; aşağıdaki hadis-i kudsî bunu reddeder.",
         ),
         "Sadachbia" to arabic(
-            "سعد الأخبية", "Sa'dü'l-Ahbiye", "çadırların talihi",
-            "Bu yıldızlar doğduğunda çölde çadırların kurulma mevsiminin geldiğine inanılırdı.",
+            "سعد الأخبية", "Sa'dü'l-Ahbiye", "çadırların sa'dı",
+            "Bu yıldızların doğuşu, çölde çadır kurma mevsiminin geldiğini haber veren bir takvim işaretiydi. Adındaki “sa'd” eski uğur adlandırmasından kalmadır; İslam yıldızlara talih bağlamayı reddeder.",
         ),
         "Skat" to arabic(
             "الساق", "es-Sâk", "incik",

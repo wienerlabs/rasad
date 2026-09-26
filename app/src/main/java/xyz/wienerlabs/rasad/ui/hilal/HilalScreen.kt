@@ -1,28 +1,20 @@
 package xyz.wienerlabs.rasad.ui.hilal
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -43,13 +35,17 @@ import xyz.wienerlabs.rasad.astro.CrescentStatus
 import xyz.wienerlabs.rasad.astro.Formats
 import xyz.wienerlabs.rasad.astro.GeoPoint
 import xyz.wienerlabs.rasad.astro.Hilal
+import xyz.wienerlabs.rasad.astro.HijriCalendar
+import xyz.wienerlabs.rasad.astro.HijriDate
 import xyz.wienerlabs.rasad.astro.HilalMap
+import xyz.wienerlabs.rasad.islam.IslamicTexts
+import xyz.wienerlabs.rasad.ui.islam.NoteBlock
+import xyz.wienerlabs.rasad.ui.islam.SourceCard
+import xyz.wienerlabs.rasad.ui.islam.SourceChips
 import xyz.wienerlabs.rasad.astro.VisibilityGrid
 import xyz.wienerlabs.rasad.astro.YallopCategory
 import xyz.wienerlabs.rasad.sky.SkyCatalog
-import xyz.wienerlabs.rasad.ui.RasadIcons
 import xyz.wienerlabs.rasad.ui.components.Hairline
-import xyz.wienerlabs.rasad.ui.components.RoundIconButton
 import xyz.wienerlabs.rasad.ui.components.SectionLabel
 import xyz.wienerlabs.rasad.ui.components.panel
 import xyz.wienerlabs.rasad.ui.components.pressable
@@ -61,15 +57,13 @@ import java.time.format.DateTimeFormatter
 private val eveningFormatter = DateTimeFormatter.ofPattern("d MMMM EEEE", xyz.wienerlabs.rasad.astro.TurkishLocale)
 
 @Composable
-fun HilalScreen(
+fun HilalTab(
     millis: Long,
     location: GeoPoint,
-    placeName: String?,
     catalog: SkyCatalog,
-    onBack: () -> Unit,
+    hijriOffset: Int,
     initialEvening: Int? = null,
 ) {
-    BackHandler(onBack = onBack)
     val hourKey = millis / 3_600_000L
     val overview by produceState<HilalOverview?>(null, hourKey, location) {
         value = withContext(Dispatchers.Default) { runCatching { HilalModel.overview(millis, location) }.getOrNull() }
@@ -86,39 +80,12 @@ fun HilalScreen(
         val start = current?.conjunction ?: return@produceState
         value = withContext(Dispatchers.Default) { runCatching { HilalModel.upcomingMonths(start, location, 12) }.getOrNull() }
     }
-
-    Box(Modifier.fillMaxSize().background(Palette.Ink)) {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .statusBarsPadding()
-            .navigationBarsPadding()
-            .padding(horizontal = 20.dp),
-    ) {
-        Row(Modifier.fillMaxWidth().padding(top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-            RoundIconButton(RasadIcons.Back, "Geri", onBack)
-            Spacer(Modifier.width(14.dp))
-            Column(Modifier.weight(1f)) {
-                Text("Hilal", style = RasadType.title, color = Palette.Text)
-                Text(placeName ?: location.formatted(), style = RasadType.caption, color = Palette.TextFaint)
-            }
+    if (current == null) {
+        Box(Modifier.fillMaxWidth().height(420.dp), contentAlignment = Alignment.Center) {
+            Text("Ay'ın yolu hesaplanıyor…", style = RasadType.body, color = Palette.TextMuted)
         }
-
-        if (current == null) {
-            Box(Modifier.fillMaxWidth().height(420.dp), contentAlignment = Alignment.Center) {
-                Text("Ay'ın yolu hesaplanıyor…", style = RasadType.body, color = Palette.TextMuted)
-            }
-        } else {
-            HilalBody(current, evening, selected, { selected = it }, grid, months, catalog, location)
-        }
-    }
-    Box(
-        Modifier
-            .fillMaxWidth()
-            .windowInsetsTopHeight(WindowInsets.statusBars)
-            .background(Palette.Ink.copy(alpha = 0.92f)),
-    )
+    } else {
+        HilalBody(current, evening, selected, { selected = it }, grid, months, catalog, location, HijriCalendar.at(millis, hijriOffset))
     }
 }
 
@@ -132,9 +99,10 @@ private fun HilalBody(
     months: List<UpcomingMonth>?,
     catalog: SkyCatalog,
     location: GeoPoint,
+    hijriToday: HijriDate,
 ) {
     Column {
-        Hero(current, catalog)
+        Hero(current, catalog, hijriToday)
         Spacer(Modifier.height(28.dp))
         Hairline()
         Spacer(Modifier.height(22.dp))
@@ -178,10 +146,17 @@ private fun HilalBody(
             }
         }
 
+        IslamicTexts["tirmidhi:3451"]?.let { dua ->
+            Spacer(Modifier.height(28.dp))
+            SectionLabel("Hilali görünce")
+            Spacer(Modifier.height(8.dp))
+            SourceCard(dua)
+        }
+
         Spacer(Modifier.height(28.dp))
         Hairline()
         Spacer(Modifier.height(22.dp))
-        SectionLabel("Önümüzdeki aylar")
+        SectionLabel("Önümüzdeki aylar · hilali arama akşamları")
         Spacer(Modifier.height(8.dp))
         val list = months
         if (list == null) {
@@ -194,17 +169,23 @@ private fun HilalBody(
         }
 
         Spacer(Modifier.height(28.dp))
+        NoteBlock(
+            "Hicrî ay, hilalin görülmesiyle başlar",
+            "Buradaki hesaplar hilali nerede ve ne zaman arayacağını gösterir; ayın başladığına hüküm vermez. Hilal görülünce ay başlar, görülmezse içinde bulunulan ay otuza tamamlanır. Hicrî tarihler Ümmü'l-Kurâ takvimine göre tahminidir ve Günler sekmesinden yerel rü'yete göre bir gün ileri ya da geri alınabilir.",
+        )
+        Spacer(Modifier.height(10.dp))
+        SourceChips(listOf("bukhari:1909", "2:189", "10:5"))
+        Spacer(Modifier.height(14.dp))
         Text(
-            "Görünürlük, Yallop (1997) q ölçütüyle ve gün batımı ile ay batımı arasındaki sürenin 4/9'u kadar sonrasındaki en iyi gözlem anı için hesaplanır. Hicrî tarihler Ümmü'l-Kurâ takvimine göredir. Resmî ay başları için Diyanet İşleri Başkanlığı'nın ilanlarını esas alın.",
+            "Görünürlük, Yallop (1997) q ölçütüyle ve gün batımı ile ay batımı arasındaki sürenin 4/9'u kadar sonrasındaki en iyi gözlem anı için hesaplanır.",
             style = RasadType.caption,
             color = Palette.TextFaint,
         )
-        Spacer(Modifier.height(32.dp))
     }
 }
 
 @Composable
-private fun Hero(overview: HilalOverview, catalog: SkyCatalog) {
+private fun Hero(overview: HilalOverview, catalog: SkyCatalog, hijriToday: HijriDate) {
     val lunation = overview.lunation
     Column(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         MoonGlobe(catalog.moonTexture, overview.heroPose, Modifier.size(260.dp))
@@ -216,7 +197,7 @@ private fun Hero(overview: HilalOverview, catalog: SkyCatalog) {
             color = Palette.TextMuted,
         )
         Spacer(Modifier.height(2.dp))
-        Text(overview.hijriToday.formatted(), style = RasadType.caption, color = Palette.TextFaint)
+        Text("${hijriToday.formatted()} · tahmini", style = RasadType.caption, color = Palette.TextFaint)
         Spacer(Modifier.height(18.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             lunation.nextQuarters.forEach { (quarter, time) ->
