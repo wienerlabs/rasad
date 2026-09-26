@@ -1,3 +1,4 @@
+import java.util.Properties
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -5,6 +6,19 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
 }
+
+val uploadKey = Properties().apply {
+    rootProject.file("keystore.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
+}
+
+val uploadPassword: String? = System.getenv("RASAD_UPLOAD_PASSWORD") ?: uploadKey.getProperty("keychainService")?.let { service ->
+    providers.exec {
+        commandLine("security", "find-generic-password", "-s", service, "-a", uploadKey.getProperty("keychainAccount"), "-w")
+        isIgnoreExitValue = true
+    }.standardOutput.asText.get().trim().ifEmpty { null }
+}
+
+val hasUploadKey = uploadPassword != null && uploadKey.getProperty("storeFile")?.let { file(it).exists() } == true
 
 android {
     namespace = "xyz.wienerlabs.rasad"
@@ -18,12 +32,23 @@ android {
         versionName = "1.0.0"
     }
 
+    signingConfigs {
+        if (hasUploadKey) {
+            create("upload") {
+                storeFile = file(uploadKey.getProperty("storeFile"))
+                storePassword = uploadPassword
+                keyAlias = uploadKey.getProperty("keyAlias")
+                keyPassword = uploadPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName(if (hasUploadKey) "upload" else "debug")
         }
     }
 

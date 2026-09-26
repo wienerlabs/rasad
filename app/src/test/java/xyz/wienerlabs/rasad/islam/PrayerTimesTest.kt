@@ -20,7 +20,7 @@ class PrayerTimesTest {
 
     @Test
     fun istanbulTimesMatchAnIndependentSolarModel() {
-        val day = PrayerCalculator.compute(date, GeoPoint.Istanbul, istanbul, PrayerSettings())
+        val day = PrayerCalculator.compute(date, GeoPoint.Istanbul, PrayerSettings())
         val expected = mapOf(
             Prayer.Fajr to 5 * 60 + 22.3,
             Prayer.Sunrise to 6 * 60 + 54.4,
@@ -42,35 +42,45 @@ class PrayerTimesTest {
 
     @Test
     fun hanafiAsrComesLaterAndUmmAlQuraIshaFollowsMaghrib() {
-        val majority = PrayerCalculator.compute(date, GeoPoint.Istanbul, istanbul, PrayerSettings())
-        val hanafi = PrayerCalculator.compute(date, GeoPoint.Istanbul, istanbul, PrayerSettings(asr = AsrMethod.Hanafi))
+        val majority = PrayerCalculator.compute(date, GeoPoint.Istanbul, PrayerSettings())
+        val hanafi = PrayerCalculator.compute(date, GeoPoint.Istanbul, PrayerSettings(asr = AsrMethod.Hanafi))
         val gap = (hanafi[Prayer.Asr]!! - majority[Prayer.Asr]!!) / 60_000.0
         assertTrue("hanafi gap $gap", gap in 35.0..75.0)
-        val ummAlQura = PrayerCalculator.compute(date, GeoPoint.Istanbul, istanbul, PrayerSettings(twilight = TwilightMethod.UmmAlQura))
+        val ummAlQura = PrayerCalculator.compute(date, GeoPoint.Istanbul, PrayerSettings(twilight = TwilightMethod.UmmAlQura))
         assertEquals(90.0, (ummAlQura[Prayer.Isha]!! - ummAlQura[Prayer.Maghrib]!!) / 60_000.0, 0.01)
-        val ramadan = PrayerCalculator.compute(date, GeoPoint.Istanbul, istanbul, PrayerSettings(twilight = TwilightMethod.UmmAlQura), ramadan = true)
+        val ramadan = PrayerCalculator.compute(date, GeoPoint.Istanbul, PrayerSettings(twilight = TwilightMethod.UmmAlQura), ramadan = true)
         assertEquals(120.0, (ramadan[Prayer.Isha]!! - ramadan[Prayer.Maghrib]!!) / 60_000.0, 0.01)
     }
 
     @Test
     fun deepTwilightThatNeverHappensIsReportedAsMissing() {
         val north = GeoPoint(60.0, 10.75)
-        val day = PrayerCalculator.compute(LocalDate.of(2026, 6, 21), north, ZoneId.of("Europe/Oslo"), PrayerSettings())
+        val day = PrayerCalculator.compute(LocalDate.of(2026, 6, 21), north, PrayerSettings())
         assertNull(day[Prayer.Fajr])
         assertNull(day[Prayer.Isha])
         assertTrue(day[Prayer.Maghrib] != null)
     }
 
     @Test
+    fun timesStayInOrderWhateverTheDeviceTimeZone() {
+        listOf(GeoPoint(-33.87, 151.21, 0.0), GeoPoint(40.71, -74.01, 0.0), GeoPoint(21.42, 39.83, 0.0), GeoPoint.Istanbul).forEach { place ->
+            val day = PrayerCalculator.compute(date, place, PrayerSettings())
+            val times = day.times.map { requireNotNull(it.millis) { "${place.latitude} ${it.prayer}" } }
+            assertEquals(times.sorted(), times)
+            assertTrue(times.last() - times.first() < 24 * 3_600_000L)
+        }
+    }
+
+    @Test
     fun falseDawnSkipsMoonlitMorningsToTheNearestDarkOne() {
         val fullMoonMorning = LocalDate.of(2026, 9, 26)
-        val dark = PrayerCalculator.darkFalseDawn(fullMoonMorning, GeoPoint.Istanbul, istanbul)!!
+        val dark = PrayerCalculator.darkFalseDawn(fullMoonMorning, GeoPoint.Istanbul)!!
         assertTrue(dark.moonFree)
         assertTrue(dark.date.toString(), dark.date.isAfter(LocalDate.of(2026, 10, 3)) && dark.date.isBefore(LocalDate.of(2026, 10, 13)))
         assertTrue(PrayerCalculator.moonDark(dark.millis, GeoPoint.Istanbul))
-        val sameDay = PrayerCalculator.darkFalseDawn(dark.date, GeoPoint.Istanbul, istanbul)!!
+        val sameDay = PrayerCalculator.darkFalseDawn(dark.date, GeoPoint.Istanbul)!!
         assertEquals(dark.date, sameDay.date)
-        val moonlit = PrayerCalculator.sunAltitudeTime(fullMoonMorning, GeoPoint.Istanbul, istanbul, PrayerCalculator.FALSE_DAWN_ALTITUDE, rising = true)!!
+        val moonlit = PrayerCalculator.sunAltitudeTime(fullMoonMorning, GeoPoint.Istanbul, PrayerCalculator.FALSE_DAWN_ALTITUDE, rising = true)!!
         assertTrue(!PrayerCalculator.moonDark(moonlit, GeoPoint.Istanbul))
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -34,6 +35,8 @@ import xyz.wienerlabs.rasad.ui.components.RoundIconButton
 import xyz.wienerlabs.rasad.ui.hilal.HilalTab
 import xyz.wienerlabs.rasad.ui.theme.Palette
 import xyz.wienerlabs.rasad.ui.theme.RasadType
+
+private val CONTENT_MAX_WIDTH = 720.dp
 
 enum class CalendarTab(val title: String, val key: String) {
     Hilal("Hilal", "hilal"),
@@ -62,8 +65,8 @@ fun CalendarScreen(
 ) {
     BackHandler(onBack = onBack)
     var prayerDayOffset by rememberSaveable { mutableIntStateOf(0) }
-    Column(Modifier.fillMaxSize().background(Palette.Ink).statusBarsPadding()) {
-        Column(Modifier.padding(horizontal = 20.dp)) {
+    Column(Modifier.fillMaxSize().background(Palette.Ink).statusBarsPadding(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(Modifier.widthIn(max = CONTENT_MAX_WIDTH).padding(horizontal = 20.dp)) {
             Row(Modifier.fillMaxWidth().padding(top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                 RoundIconButton(RasadIcons.Back, "Geri", onBack)
                 Spacer(Modifier.width(14.dp))
@@ -89,12 +92,15 @@ fun CalendarScreen(
                     .verticalScroll(rememberScrollState())
                     .navigationBarsPadding()
                     .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 36.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                when (tab) {
-                    CalendarTab.Hilal -> HilalTab(millis, location, catalog, preferences.hijriOffset, initialEvening)
-                    CalendarTab.Prayer -> PrayerTab(millis, location, preferences, prayerDayOffset, { prayerDayOffset = it }, onShowInSky)
-                    CalendarTab.Days -> DaysTab(millis, preferences)
-                    CalendarTab.Events -> EventsTab(millis, location, onShowInSky)
+                Column(Modifier.widthIn(max = CONTENT_MAX_WIDTH)) {
+                    when (tab) {
+                        CalendarTab.Hilal -> HilalTab(millis, location, catalog, preferences.hijriOffset, initialEvening)
+                        CalendarTab.Prayer -> PrayerTab(millis, location, preferences, prayerDayOffset, { prayerDayOffset = it }, onShowInSky)
+                        CalendarTab.Days -> DaysTab(millis, preferences)
+                        CalendarTab.Events -> EventsTab(millis, location, onShowInSky)
+                    }
                 }
             }
         }

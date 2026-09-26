@@ -45,7 +45,7 @@ fun PrayerStrip(millis: Long, location: GeoPoint, preferences: IslamicPreference
     val settings = preferences.prayer
     val ramadan = HijriCalendar.of(date, preferences.hijriOffset).monthIndex == RAMADAN_INDEX
     val times by produceState<DayPrayerTimes?>(null, date, location, settings, ramadan) {
-        value = withContext(Dispatchers.Default) { runCatching { PrayerCalculator.compute(date, location, zone, settings, ramadan) }.getOrNull() }
+        value = withContext(Dispatchers.Default) { runCatching { PrayerCalculator.compute(date, location, settings, ramadan) }.getOrNull() }
     }
     val day = times ?: return
     val current = day.currentAtMinute(millis / 60_000L)

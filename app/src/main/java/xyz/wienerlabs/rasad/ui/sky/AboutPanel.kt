@@ -1,6 +1,7 @@
 package xyz.wienerlabs.rasad.ui.sky
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,12 +11,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import xyz.wienerlabs.rasad.ui.RasadIcons
 import xyz.wienerlabs.rasad.ui.components.Hairline
@@ -24,6 +27,8 @@ import xyz.wienerlabs.rasad.ui.components.RoundIconButton
 import xyz.wienerlabs.rasad.ui.components.SectionLabel
 import xyz.wienerlabs.rasad.ui.theme.Palette
 import xyz.wienerlabs.rasad.ui.theme.RasadType
+
+private const val PRIVACY_POLICY_URL = "https://wienerlabs.xyz/rasad/gizlilik"
 
 private data class Credit(val title: String, val detail: String)
 
@@ -45,6 +50,7 @@ private val credits = listOf(
 
 @Composable
 fun AboutPanel(onDismiss: () -> Unit, onOpenStarNote: () -> Unit, modifier: Modifier = Modifier) {
+    val uriHandler = LocalUriHandler.current
     Column(
         modifier
             .fillMaxSize()
@@ -59,26 +65,31 @@ fun AboutPanel(onDismiss: () -> Unit, onOpenStarNote: () -> Unit, modifier: Modi
             }
             RoundIconButton(RasadIcons.Close, "Kapat", onDismiss)
         }
-        Column(Modifier.verticalScroll(rememberScrollState()).padding(horizontal = 20.dp)) {
-            Text(
-                "Gökyüzü, hilal ve kıble hesapları tamamen cihazda yapılır ve internet gerektirmez. Yalnızca konumunun adını göstermek için Android'in adres servisi kullanılabilir.",
-                style = RasadType.body,
-                color = Palette.TextMuted,
-            )
-            Spacer(Modifier.height(14.dp))
-            Pill("Yıldızlar ve İslam", onClick = onOpenStarNote)
-            Spacer(Modifier.height(18.dp))
-            credits.forEachIndexed { index, credit ->
-                if (index > 0) Hairline()
-                Column(Modifier.padding(vertical = 14.dp)) {
-                    SectionLabel(credit.title)
-                    Spacer(Modifier.height(4.dp))
-                    Text(credit.detail, style = RasadType.body, color = Palette.Text)
+        Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(Modifier.widthIn(max = 720.dp)) {
+                Text(
+                    "Gökyüzü, hilal, kıble ve namaz vakti hesapları tamamen cihazda yapılır ve internet gerektirmez. Uygulamanın internet izni yoktur; hesap, reklam ve analitik yoktur. Yalnızca konumunun adını göstermek için Android'in adres servisi kullanılır ve ona konumun yaklaşık 2 km'ye yuvarlanarak verilir.",
+                    style = RasadType.body,
+                    color = Palette.TextMuted,
+                )
+                Spacer(Modifier.height(14.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Pill("Yıldızlar ve İslam", onClick = onOpenStarNote)
+                    Pill("Gizlilik politikası", onClick = { uriHandler.openUri(PRIVACY_POLICY_URL) })
                 }
+                Spacer(Modifier.height(18.dp))
+                credits.forEachIndexed { index, credit ->
+                    if (index > 0) Hairline()
+                    Column(Modifier.padding(vertical = 14.dp)) {
+                        SectionLabel(credit.title)
+                        Spacer(Modifier.height(4.dp))
+                        Text(credit.detail, style = RasadType.body, color = Palette.Text)
+                    }
+                }
+                Spacer(Modifier.height(24.dp))
+                Text("Wiener Labs", style = RasadType.label, color = Palette.TextFaint)
+                Spacer(Modifier.height(32.dp))
             }
-            Spacer(Modifier.height(24.dp))
-            Text("Wiener Labs", style = RasadType.label, color = Palette.TextFaint)
-            Spacer(Modifier.height(32.dp))
         }
     }
 }

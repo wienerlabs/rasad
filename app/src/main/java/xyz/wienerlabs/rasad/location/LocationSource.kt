@@ -16,6 +16,8 @@ import xyz.wienerlabs.rasad.astro.GeoPoint
 import xyz.wienerlabs.rasad.astro.TurkishLocale
 import kotlin.coroutines.resume
 
+private const val GEOCODE_GRID_DEGREES = 0.02
+
 class LocationSource(private val context: Context) {
     private val manager = context.getSystemService(LocationManager::class.java)
     private val preferences = context.getSharedPreferences("rasad", Context.MODE_PRIVATE)
@@ -81,7 +83,7 @@ class LocationSource(private val context: Context) {
         return withTimeoutOrNull(5_000L) {
             suspendCancellableCoroutine { continuation ->
                 runCatching {
-                    Geocoder(context, TurkishLocale).getFromLocation(point.latitude, point.longitude, 1, object : Geocoder.GeocodeListener {
+                    Geocoder(context, TurkishLocale).getFromLocation(coarse(point.latitude), coarse(point.longitude), 1, object : Geocoder.GeocodeListener {
                         override fun onGeocode(addresses: MutableList<android.location.Address>) {
                             val address = addresses.firstOrNull()
                             val name = address?.locality ?: address?.subAdminArea ?: address?.adminArea
@@ -96,6 +98,8 @@ class LocationSource(private val context: Context) {
             }
         }
     }
+
+    private fun coarse(degrees: Double): Double = Math.round(degrees / GEOCODE_GRID_DEGREES) * GEOCODE_GRID_DEGREES
 
     private fun Location.toGeoPoint() = GeoPoint(latitude, longitude, if (hasAltitude()) altitude else 0.0)
 }

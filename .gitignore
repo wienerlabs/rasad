@@ -7,3 +7,6 @@ local.properties
 .kotlin/
 tools/.cache/
 captures/
+keystore.properties
+*.jks
+*.keystore

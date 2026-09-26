@@ -112,6 +112,10 @@ The Islamic texts (`islam/IslamicTexts.kt`), their test fixture and `docs/islami
 python3 tools/build_islamic_texts.py
 ```
 
+## Google Play
+
+Release builds are signed with the Play upload key when `keystore.properties` (git-ignored) points to it; the password is read from the macOS Keychain or from `RASAD_UPLOAD_PASSWORD`. Without it they fall back to the debug key. The store listing in Turkish and English, the graphics, the Data safety and content rating answers and the submission steps are in [docs/play-store](docs/play-store/README.md); `python3 tools/build_play_assets.py` regenerates the icon, feature graphics and captioned screenshots from the raw captures.
+
 ## Deep links
 
 Useful for demos and for sharing a view:

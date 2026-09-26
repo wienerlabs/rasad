@@ -73,10 +73,10 @@ fun PrayerTab(
     val hijri = HijriCalendar.of(date, preferences.hijriOffset)
     val ramadan = hijri.monthIndex == RAMADAN_INDEX
     val times by produceState<DayPrayerTimes?>(null, date, location, settings, ramadan) {
-        value = withContext(Dispatchers.Default) { runCatching { PrayerCalculator.compute(date, location, zone, settings, ramadan) }.getOrNull() }
+        value = withContext(Dispatchers.Default) { runCatching { PrayerCalculator.compute(date, location, settings, ramadan) }.getOrNull() }
     }
     val falseDawn by produceState<FalseDawn?>(null, date, location) {
-        value = withContext(Dispatchers.Default) { runCatching { PrayerCalculator.darkFalseDawn(date, location, zone) }.getOrNull() }
+        value = withContext(Dispatchers.Default) { runCatching { PrayerCalculator.darkFalseDawn(date, location) }.getOrNull() }
     }
     val trueDawn = times?.get(Prayer.Fajr)?.plus(TRUE_DAWN_DELAY_MILLIS)
     Column {

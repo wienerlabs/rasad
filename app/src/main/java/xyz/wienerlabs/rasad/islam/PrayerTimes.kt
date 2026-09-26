@@ -14,9 +14,10 @@ import io.github.cosinekitty.astronomy.searchHourAngle
 import io.github.cosinekitty.astronomy.searchRiseSet
 import xyz.wienerlabs.rasad.astro.GeoPoint
 import java.time.LocalDate
-import java.time.ZoneId
+import java.time.ZoneOffset
 import kotlin.math.abs
 import kotlin.math.atan
+import kotlin.math.roundToInt
 import kotlin.math.tan
 
 enum class Prayer(val title: String) {
@@ -71,10 +72,13 @@ object PrayerCalculator {
     private const val DARK_SEARCH_DAYS = 30
     private const val MOON_SET_ALTITUDE = -1.0
     private const val MOON_FAINT_FRACTION = 0.12
+    private const val DEGREES_PER_HOUR = 15.0
+    private const val SECONDS_PER_HOUR = 3600.0
+    private const val MAX_OFFSET_SECONDS = 18 * 3600
 
-    fun compute(date: LocalDate, location: GeoPoint, zone: ZoneId, settings: PrayerSettings, ramadan: Boolean = false): DayPrayerTimes {
+    fun compute(date: LocalDate, location: GeoPoint, settings: PrayerSettings, ramadan: Boolean = false): DayPrayerTimes {
         val observer = location.toObserver()
-        val midnight = Time.fromMillisecondsSince1970(date.atStartOfDay(zone).toInstant().toEpochMilli())
+        val midnight = solarMidnight(date, location)
         val noon = searchHourAngle(Body.Sun, observer, 0.0, midnight).time
         val fajr = searchAltitude(Body.Sun, observer, Direction.Rise, midnight, 1.0, -settings.twilight.fajrAngle)
         val sunrise = searchRiseSet(Body.Sun, observer, Direction.Rise, midnight, 1.0)
@@ -98,18 +102,18 @@ object PrayerCalculator {
         )
     }
 
-    fun sunAltitudeTime(date: LocalDate, location: GeoPoint, zone: ZoneId, altitude: Double, rising: Boolean): Long? {
+    fun sunAltitudeTime(date: LocalDate, location: GeoPoint, altitude: Double, rising: Boolean): Long? {
         val observer = location.toObserver()
-        val midnight = Time.fromMillisecondsSince1970(date.atStartOfDay(zone).toInstant().toEpochMilli())
+        val midnight = solarMidnight(date, location)
         val start = if (rising) midnight else searchHourAngle(Body.Sun, observer, 0.0, midnight).time
         return searchAltitude(Body.Sun, observer, if (rising) Direction.Rise else Direction.Set, start, 1.0, altitude)?.toMillisecondsSince1970()
     }
 
-    fun darkFalseDawn(date: LocalDate, location: GeoPoint, zone: ZoneId): FalseDawn? {
+    fun darkFalseDawn(date: LocalDate, location: GeoPoint): FalseDawn? {
         var first: FalseDawn? = null
         for (offset in 0 until DARK_SEARCH_DAYS) {
             val day = date.plusDays(offset.toLong())
-            val millis = sunAltitudeTime(day, location, zone, FALSE_DAWN_ALTITUDE, rising = true) ?: continue
+            val millis = sunAltitudeTime(day, location, FALSE_DAWN_ALTITUDE, rising = true) ?: continue
             if (moonDark(millis, location)) return FalseDawn(millis, day, moonFree = true)
             if (first == null) first = FalseDawn(millis, day, moonFree = false)
         }
@@ -122,6 +126,11 @@ object PrayerCalculator {
         val position = equator(Body.Moon, time, observer, EquatorEpoch.OfDate, Aberration.Corrected)
         val altitude = horizon(time, observer, position.ra, position.dec, Refraction.None).altitude
         return altitude < MOON_SET_ALTITUDE || illumination(Body.Moon, time).phaseFraction < MOON_FAINT_FRACTION
+    }
+
+    private fun solarMidnight(date: LocalDate, location: GeoPoint): Time {
+        val offsetSeconds = (location.longitude / DEGREES_PER_HOUR * SECONDS_PER_HOUR).roundToInt().coerceIn(-MAX_OFFSET_SECONDS, MAX_OFFSET_SECONDS)
+        return Time.fromMillisecondsSince1970(date.atStartOfDay(ZoneOffset.ofTotalSeconds(offsetSeconds)).toInstant().toEpochMilli())
     }
 
     fun asrAltitude(latitude: Double, declination: Double, method: AsrMethod): Double =
